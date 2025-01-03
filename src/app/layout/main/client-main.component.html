@@ -1,0 +1,76 @@
+<header id="header-2" class="w-full block pt-0 transition-all duration-500">
+  <header-mobile />
+  <!-- MOBILE HEADER -->
+
+  <div
+    id="top-section"
+    class="py-3.75 border border-solid border-[#eee] hidden md:block"
+  >
+    <div class="container px-3.75 mx-auto">
+      <div class="flex items-center justify-between -mx-3.75">
+        <header-logo style="flex: 1" />
+        <header-info style="flex: 1" />
+        <!-- END WIDGETS -->
+      </div>
+    </div>
+  </div>
+  <!-- END HEADER WIDGETS -->
+  <div
+    id="menu"
+    class="fixed left-0 right-0 w-full z-5 h-0 md:h-17.5 bg-white transition-all duration-500"
+  >
+    <div class="container mx-auto px-3.75 relative">
+      <header-menu />
+
+      <!-- End Navigation Menu -->
+      <header-appointment />
+    </div>
+    <!-- End container -->
+  </div>
+  <!-- End navbar -->
+</header>
+
+<router-outlet />
+
+<div>
+  <footer class="bg-primary relative overflow-hidden">
+    <div class="">
+      <img
+        src="https://doccure.dreamstechnologies.com/react/template/assets/img/bg/hexagen-group-4.png"
+        alt="design-image"
+        class="left-0 bottom-0 absolute"
+      /><img
+        src="https://doccure.dreamstechnologies.com/react/template/assets/img/bg/hexagen-group-5.png"
+        alt="design-image"
+        class="right-0 bottom-0 absolute"
+      />
+    </div>
+    <div class="pt-7.5 md:py-15 bg-primary m-0">
+      <div class="container max-w-1320 w-full px-4 mx-auto">
+        <div class="">
+          <div class="flex flex-wrap md:mx-4 gap-6 md:gap-0">
+            <div class="w-full md:w-1/3 flex-auto md:px-4">
+              <footer-about />
+            </div>
+            <div class="w-full md:w-2/12 flex-auto md:px-4">
+              <footer-link />
+            </div>
+            <div class="w-full md:w-1/4 flex-auto md:px-4">
+              <footer-service />
+            </div>
+            <div class="w-full md:w-1/4 md:px-4 flex-auto">
+              <footer-contact />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border border-solid border-secondary bg-primary">
+      <div class="container max-w-1320 w-full px-4 mx-auto">
+        <footer-copyright />
+      </div>
+    </div>
+  </footer>
+</div>
+
+<scroll-up-button />

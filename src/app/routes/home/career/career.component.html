@@ -1,0 +1,93 @@
+<div class="pt-30 pb-17.5">
+  <div class="container max-w-1320 mx-auto px-4">
+    <div class="text-center">
+      <h2 class="text-28 md:text-36 font-medium mt-0 mb-2.5">Looking for Growth</h2>
+      <div
+        class="m-auto h-1.7 w-21.2 bg-[rgba(0,_202,_151,_0.137254902)] relative rounded-full before:content-[''] before:absolute before:-top-0.5 before:left-0 before:h-2.5 before:w-2.5 before:rounded-full before:bg-primary dot"
+      ></div>
+    </div>
+
+    <div class="flex flex-wrap pt-11.2">
+      <div class="w-full flex-auto">
+        <div
+          class="py-5 px-4 bg-white shadow-primary rounded-3 relative overflow-hidden transition-all duration-500 mb-7.5 items-center md:flex"
+          *ngFor="let career of careers"
+        >
+          <div [id]="career.id.toString()" class="mr-5 mb-5 md:mb-0">
+            <a href="job-details.html">
+              <img
+                src="../../../../assets/images/logo/logo-full.png"
+                alt="Images"
+                class="max-w-35 rounded-5"
+              />
+            </a>
+          </div>
+
+          <div class="content">
+            <ul class="m-0 p-0">
+              <li
+                class="bg-[#E5FAF5] py-1.5 px-4 text-12 mr-1.25 text-[#00CA99] inline-block mb-4"
+                *ngFor="let tag of career.tags"
+              >
+                {{ tag }}
+              </li>
+            </ul>
+
+            <h3 class="text-22 mb-2.5">
+              <a href="job-details.html">{{ career.title }}</a>
+            </h3>
+
+            <ul class="m-0 p-0">
+              <li class="text-4.2 mr-2.5 inline-block">
+                {{ career.company }}
+              </li>
+              <li class="text-15 text-[#696969] inline-block mb-3">
+                <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+                {{ career.timePosted }}
+              </li>
+            </ul>
+
+            <ul class="m-0 p-0">
+              <li class="mr-2.5 mb-2.5 inline-block">
+                <span nz-icon nzType="wallet" nzTheme="outline"></span>
+                Category : {{ career.category }}
+              </li>
+              <li class="mr-2.5 mb-2.5 inline-block">
+                <span nz-icon nzType="environment" nzTheme="outline"></span>
+                Location : {{ career.location }}
+              </li>
+              <li class="inline-block">
+                <span nz-icon nzType="money-collect" nzTheme="outline"></span>
+                Salary : {{ career.salary }}
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="md:absolute md:top-2full md:right-7.5 mb-4 mt-8 md:m-0 transition-all duration-500"
+          >
+            <a
+              href="candidates-dashboard-applied-job.html"
+              class="py-3 px-7.5 text-white text-center relative overflow-hidden capitalize bg-primary border-0 outline-none font-medium rounded-5"
+            >
+              Apply Now
+              <span nz-icon nzType="right" nzTheme="outline"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full flex-auto text-center">
+        <div class="mb-7.5">
+          <a
+            href="job-listing.html"
+            class="text-primary border-b border-solid border-primary font-medium"
+          >
+            Load More Job Opportunity
+            <span nz-icon nzType="caret-right" nzTheme="outline"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.css";
+@import './tailwind.base.css';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+.ant-table-pagination.ant-pagination {
+    margin-inline: 1rem !important;
+}
+
+.ant-table-header {
+    overflow: hidden !important;
+}
+
+.ant-table-body::-webkit-scrollbar {
+    display: none !important;
+}
+
+td.ant-table-cell {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ant-table-footer {
+    padding: 0 !important;
+}
+
+.default-label {
+    transform: translateY(-50%);
+}
+
+.empty .default-input:not(:focus)+.default-label, 
+.empty .default-select:not(:focus)+.default-label,
+.empty .default-textarea:not(:focus)+.default-label {
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(121, 121, 121);
+}
+
+.number:after {
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-style: normal; 
+}
+
+@media (max-width: 768px) {
+    [data-aos] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+}

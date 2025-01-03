@@ -1,0 +1,328 @@
+<div class="p-[25px]">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+      <div
+        class="flex items-center text-center border-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] flex-wrap rounded-t px-[5px]"
+      >
+        <div class="flex-[35%] h-[60px] flex items-center px-4">
+          <nz-input-group
+            nzSearch
+            nzAddOnBeforeIcon="search"
+            class="max-w-[300px]"
+          >
+            <input type="text" nz-input placeholder="Search..." />
+          </nz-input-group>
+        </div>
+        <div class="flex-[10%] h-[60px] table-cell float-right text-center">
+          <ul class="float-right mx-[15px] h-full flex items-center">
+            <li class="inline-block relative">
+              <div class="ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Filter"
+                >
+                  <span
+                    nz-icon
+                    nzType="filter"
+                    nzTheme="outline"
+                    nzTwotoneColor="#003161"
+                    class="!text-[20px]"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+            <li class="inline-block relative">
+              <div class="ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="!text-[20px]"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Add"
+                  (click)="showModal()"
+                >
+                  <span
+                    nz-icon
+                    nzType="plus-circle"
+                    nzTheme="outline"
+                    nzTwotoneColor="#CC2B52"
+                    class="!text-[20px]"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+            <li class="inline-block relative">
+              <div class="ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Reload"
+                >
+                  <span
+                    nz-icon
+                    nzType="reload"
+                    nzTheme="outline"
+                    nzTwotoneColor="#9B7EBD"
+                    class="!text-[20px]"
+                  ></span>
+                </button>
+              </div>
+            </li>
+            <li class="inline-block relative">
+              <div class="ml-[10px]" hidden="">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Delete"
+                >
+                  <span
+                    nz-icon
+                    nzType="delete"
+                    nzTheme="outline"
+                    class="!text-[20px]"
+                    nzTwotoneColor="#219B9D"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+            <li class="">
+              <div class="export-button ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Download"
+                >
+                  <span
+                    nz-icon
+                    nzType="cloud-download"
+                    nzTheme="outline"
+                    nzTwotoneColor="#EB8317"
+                    class="!text-[20px]"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="overflow-auto">
+        <ng-template #footer>
+          <hr />
+        </ng-template>
+        <div class="responsive_table">
+          <nz-table
+            #rowSelectionTable
+            [nzData]="listOfData"
+            [nzScroll]="{ y: '28.5vw' }"
+            class="border-[1px] border-solid border-t-0 rounded-b pl-[20px]"
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+            nzSize="small"
+            [nzFooter]="footer"
+          >
+            <thead>
+              <tr>
+                <th
+                  [(nzChecked)]="checked"
+                  [nzIndeterminate]="indeterminate"
+                  (nzCheckedChange)="onAllChecked($event)"
+                  class="!bg-white"
+                  nzWidth="5%"
+                ></th>
+                <th class="!bg-white" nzWidth="15%">Name</th>
+                <th class="!bg-white" nzWidth="10%">Doctor</th>
+                <th class="!bg-white" nzWidth="10%">Gender</th>
+                <th class="!bg-white" nzWidth="10%">Date</th>
+                <th class="!bg-white" nzWidth="10%">Time</th>
+                <th class="!bg-white" nzWidth="10%">Mobile</th>
+                <th class="!bg-white" nzWidth="10%">Email</th>
+                <th class="!bg-white" nzAlign="center" nzWidth="10%">
+                  Appointment Status
+                </th>
+                <th class="!bg-white" nzWidth="10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (data of rowSelectionTable.data; track data) {
+              <tr>
+                <td
+                  [nzChecked]="setOfCheckedId.has(data.id)"
+                  (nzCheckedChange)="onItemChecked(data.id, $event)"
+                ></td>
+                <td>
+                  <nz-avatar nzIcon="user" [nzSize]="28"></nz-avatar> &nbsp;
+                  {{ data.name }}
+                </td>
+                <td>Dr.Jay Soni</td>
+                <td>
+                  <nz-tag nzColor="#87d068">Male</nz-tag>
+                </td>
+                <td>11/14/2024</td>
+                <td>
+                  <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+                  09:45
+                </td>
+                <td>
+                  <span nz-icon nzType="phone" nzTheme="outline"></span>
+                  234567890
+                </td>
+                <td>
+                  <span nz-icon nzType="mail" nzTheme="outline"></span>
+                  alice.j&#64;email.com
+                </td>
+                <td>Scheduled</td>
+                <td>
+                  <div nz-flex [nzGap]="10">
+                    <button
+                      nz-button
+                      nzType="text"
+                      nzShape="circle"
+                      nz-tooltip
+                      nzTooltipTitle="Edit"
+                    >
+                      <span
+                        nz-icon
+                        nzType="form"
+                        nzTheme="outline"
+                        class="!text-edition !text-[20px]"
+                      ></span>
+                    </button>
+                    <button
+                      nz-button
+                      nzType="text"
+                      nzShape="circle"
+                      nz-tooltip
+                      nzTooltipTitle="Delete"
+                    >
+                      <span
+                        nz-icon
+                        nzType="delete"
+                        nzTheme="outline"
+                        class="!text-deletion !text-[20px]"
+                      ></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </nz-table>
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Create appointment"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  nzWidth="45vw"
+>
+  <ng-container *nzModalContent>
+    <div class="w-full">
+      <div class="bg-white shadow-sm">
+        <div class="leading-loose">
+          <form class="">
+            <div class="flex gap-4 items-center">
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+              >
+                <libra-select
+                  text="Patient"
+                  [args]="{ id: 'patient', name: 'patient' }"
+                />
+              </div>
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+              >
+                <libra-select
+                  text="Physician"
+                  [args]="{ id: 'physician', name: 'physician' }"
+                />
+              </div>
+            </div>
+            <div class="flex gap-4 items-center">
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+              >
+                <libra-select
+                  text="Nurse"
+                  [args]="{ id: 'nurse', name: 'nurse' }"
+                />
+              </div>
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+              >
+                <libra-input
+                  text="Examination Room"
+                  [args]="{ id: 'examinationRoom', name: 'examinationRoom' }"
+                />
+              </div>
+            </div>
+            <div class="flex gap-4 items-center">
+              <div
+                class="flatpickr relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+              >
+                <libra-date-picker
+                  text="Start Time"
+                  [args]="{ id: 'startTime', name: 'startTime' }"
+                />
+              </div>
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+              >
+                <libra-date-picker
+                  text="End Time"
+                  [args]="{ id: 'endTime', name: 'endTime' }"
+                />
+              </div>
+            </div>
+            <div class="flex gap-4 items-center">
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+              >
+                <libra-date-picker
+                  text="Reminder"
+                  [args]="{ id: 'reminder', name: 'reminder' }"
+                />
+              </div>
+              <div
+                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+              >
+                <libra-input
+                  text="Purpose"
+                  [args]="{ id: 'purpose, name: purpose', type: 'text' }"
+                />
+              </div>
+            </div>
+            <div
+              class="relative h-10 w-[calc(100%+0.5rem)] input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+            >
+              <libra-textarea
+                text="Notes"
+                [args]="{ id: 'notes', name: 'notes', rows: 8 }"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

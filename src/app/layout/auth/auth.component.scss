@@ -1,0 +1,37 @@
+:host ::ng-deep {
+    .main {
+      background: url('../../../assets/images/background/background.jpg');
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+    }
+
+    .card {
+      box-shadow: 0 0.125rem 1.25rem 0 rgba(0, 0, 0, 0.12);
+      background-clip: border-box;
+    }
+
+    .learn-btn {
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    }
+
+    .typewriter {
+      animation: blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: rgb(0, 0, 0); }
+    }
+}
+
+[data-theme='dark'] {
+  :host ::ng-deep {
+
+  }
+}
+
+[data-theme='compact'] {
+  :host ::ng-deep {
+
+  }
+}

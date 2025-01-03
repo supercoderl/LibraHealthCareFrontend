@@ -1,0 +1,105 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
+  @if (error) {
+  <nz-alert
+    [nzType]="'error'"
+    [nzMessage]="error"
+    [nzShowIcon]="true"
+    ngClass="mb-4"
+  />
+  }
+  <nz-form-item class="mb-[1rem]">
+    <nz-form-control [nzErrorTip]="mailErrorTip">
+      <label class="text-[1rem] text-[#1e2022]">Email</label>
+      <nz-input-group nzSize="large" nzPrefixIcon="user" class="mt-[0.5rem]">
+        <input nz-input formControlName="email" placeholder="Email" />
+      </nz-input-group>
+      <ng-template #mailErrorTip let-i>
+        @if(i.errors?.required) {
+        {{ "validation.email.required" | i18n }}
+        } @if(i.errors?.email) {
+        {{ "validation.email.wrong-format" | i18n }}
+        }
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="mb-[1rem]">
+    <nz-form-control [nzErrorTip]="'validation.username.required' | i18n">
+      <label class="text-[1rem] text-[#1e2022]">Username</label>
+      <nz-input-group nzSize="large" nzPrefixIcon="user" class="mt-[0.5rem]">
+        <input nz-input formControlName="username" placeholder="Username" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="mb-[1rem]">
+    <nz-form-control [nzErrorTip]="'validation.password.required' | i18n">
+      <label class="text-[1rem] text-[#1e2022]">Password</label>
+      <nz-input-group
+        nzSize="large"
+        nzPrefixIcon="lock"
+        class="mt-[0.5rem]"
+        nz-popover
+        nzPopoverPlacement="right"
+        nzPopoverTrigger="focus"
+        [(nzPopoverVisible)]="visible"
+        nzPopoverOverlayClassName="register-password-cdk"
+        [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
+        [nzPopoverContent]="pwdCdkTpl"
+      >
+        <input
+          nz-input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+      </nz-input-group>
+      <ng-template #pwdCdkTpl>
+        <div style="padding: 4px 0">
+          @switch (status) { @case('ok') {
+          <div class="success">
+            {{ "validation.password.strength.strong" | i18n }}
+          </div>
+          } @case('pass') {
+          <div class="warning">
+            {{ "validation.password.strength.medium" | i18n }}
+          </div>
+          } @case('pool') {
+          <div class="error">
+            {{ "validation.password.strength.short" | i18n }}
+          </div>
+          } }
+          <div class="progress-{{ status }}">
+            <nz-progress
+              [nzPercent]="progress"
+              [nzStatus]="passwordProgressMap[status]"
+              [nzStrokeWidth]="6"
+              [nzShowInfo]="false"
+            />
+          </div>
+          <p class="mt-sm">{{ "validation.password.strength.msg" | i18n }}</p>
+        </div>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <button
+      nz-button
+      type="submit"
+      nzType="primary"
+      nzSize="large"
+      [nzLoading]="loading"
+      nzBlock
+      ngClass="mt-4"
+    >
+      {{ "app.register.register" | i18n }}
+    </button>
+  </nz-form-item>
+</form>
+
+<p ngClass="text-center mb-0 text-[0.875rem] font-[400]">
+  Already have an account?
+  <a
+    ngClass="font-[600] text-[0.875rem] transition-all	duration-300 no-underline bg-transparent text-primary hover:text-secondary"
+    routerLink="/auth/login"
+    >{{ "app.login.login" | i18n }}</a
+  >
+</p>

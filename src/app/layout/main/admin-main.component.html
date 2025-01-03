@@ -1,0 +1,66 @@
+<header
+  class="flex flex-wrap items-stretch h-[55px] p-0 justify-start bg-white border-b-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] relative"
+>
+  <a
+    href="javascript:void(0)"
+    id="mainMenuOpen"
+    class="ml-[18px] text-[#8392a5] flex items-center md:hidden"
+    (click)="menuSrv.toogleOpenMenu()"
+  >
+    <span nz-icon nzType="menu" nzTheme="outline"></span>
+  </a>
+  <div class="flex items-center pl-[15px] mr-0 whitespace-nowrap">
+    <a
+      href="javascript:void(0)"
+      class="font-[700] text-[22px] tracking-[-1px] flex items-center relative text-[#031a61] mt-[-4px]"
+    >
+      Health
+      <span class="inline-block text-primary">&nbsp;Care</span>
+    </a>
+  </div>
+  <!-- navbar-brand -->
+  <div
+    id="navbarMenu"
+    [ngClass]="{
+      'translate-x-0': menuSrv.isMenuOpen(),
+      '-translate-x-[260px]': !menuSrv.isMenuOpen()
+    }"
+    class="w-[260px] fixed md:relative top-0 md:top-auto bottom-0 md:bottom-auto left-0 md:left-auto bg-white md:bg-transparent overflow-hidden md:overflow-visible md:flex justify-center flex-1 md:px-[30px] md:transform-none z-[45] transition-all duration-500"
+  >
+    <div
+      class="md:hidden h-[55px] pr-[15px] pl-[20px] flex items-center justify-between border-b-[1px] border-solid border-[rgba(72,_94,_144,_0.16)]"
+    >
+      <a
+        href="javascript:void(0)"
+        class="font-[700] text-[22px] tracking-[-1px] flex items-center relative text-[#031a61] mt-[-4px]"
+      >
+        Health
+        <span class="inline-block text-primary">&nbsp;Care</span>
+      </a>
+      <a id="mainMenuClose" href="javascript:void(0)" (click)="menuSrv.toogleOpenMenu()">
+        <span nz-icon nzType="close" nzTheme="outline"></span>
+      </a>
+    </div>
+    <!-- navbar-menu-header -->
+    <navbar-menu></navbar-menu>
+  </div>
+  <!-- navbar-menu-wrapper -->
+  <div class="px-4 ml-auto flex items-center justify-end">
+    <navbar-search />
+    <navbar-message />
+    <navbar-notification />
+    <navbar-profile />
+  </div>
+  <!-- navbar-right -->
+  <search-bar-admin />
+</header>
+
+<router-outlet />
+
+<div
+  class="{{
+    menuSrv.isMenuOpen() || menuSrv.isMenuActive('search')
+      ? 'opacity-1 visible left-[{{menuSrv.isMenuOpen() && `260px`}}]'
+      : 'opacity-0 invisible left-0'
+  }} fixed top-0 w-[100vw] h-screen bg-[rgba(15,_21,_32,_0.7)] z-[40] transition-all duration-500"
+></div>

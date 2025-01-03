@@ -1,0 +1,23 @@
+@import 'tailwindcss/base';
+@layer base {
+  :root {
+    --color-primary: 216 100 169;
+    --color-section-primary: 246 246 246;
+    --color-text: 33 33 33;
+    --color-success: 0 200 81;
+    --color-info: 51 181 229;
+    --color-warn: 255 187 51;
+    --color-error: 254 78 78;
+    --color-secondary: 122 168 116;
+    --color-tertiary: 250 64 50;
+  }
+
+  :root[class~="dark"] {
+    --color-primary: 247 147 34;
+    --color-text: 33 33 33;
+    --color-success: 0 200 81;
+    --color-info: 51 181 229;
+    --color-warn: 255 187 51;
+    --color-error: 254 78 78;
+  }
+}

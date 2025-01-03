@@ -1,0 +1,102 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
+  @if (error) {
+  <nz-alert
+    [nzType]="'error'"
+    [nzMessage]="error"
+    [nzShowIcon]="true"
+    ngClass="mb-4"
+  />
+  }
+  <nz-form-item class="mb-[1rem]">
+    <nz-form-control
+      nzErrorTip="Please enter email or username"
+    >
+      <label class="text-[1rem] text-[#1e2022]">Email or username</label>
+      <nz-input-group nzSize="large" nzPrefixIcon="user" class="mt-[0.5rem]">
+        <input
+          nz-input
+          formControlName="userName"
+          placeholder="Your email or username"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="mb-[1rem]">
+    <nz-form-control nzErrorTip="Please enter password">
+      <label class="text-[1rem] text-[#1e2022]">Password</label>
+      <nz-input-group nzSize="large" nzPrefixIcon="lock" class="mt-[0.5rem]">
+        <input
+          nz-input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-col [nzSpan]="12">
+      <label nz-checkbox formControlName="remember">{{
+        "app.login.remember-me" | i18n
+      }}</label>
+    </nz-col>
+    <nz-col [nzSpan]="12" ngClass="text-right">
+      <a ngClass="forgot" routerLink="/passport/register">{{
+        "app.login.forgot-password" | i18n
+      }}</a>
+    </nz-col>
+  </nz-form-item>
+  <nz-form-item>
+    <button
+      nz-button
+      type="submit"
+      nzType="primary"
+      nzSize="large"
+      [nzLoading]="loading"
+      nzBlock
+      ngClass="!flex items-center justify-center"
+    >
+      {{ "app.login.login" | i18n }}
+    </button>
+  </nz-form-item>
+</form>
+<div
+  class="divider relative my-[1.5rem] text-center mx-[3rem] before:content-[''] before:absolute before:top-1/2 before:block before:w-full before:h-0 before:bg-white before:border-t-[1px] before:border-solid before:border-[#eeeeff]"
+>
+  <span
+    class="relative inline-block font-[600] text-[0.875rem] text-[#97a4af] bg-white px-[0.9375rem]"
+    >OR</span
+  >
+</div>
+<div ngClass="grid grid-cols-2 gap-4 mb-[1.5rem]">
+  <div>
+    <a
+      href="javascript:void(0)"
+      nz-tooltip
+      nzTooltipTitle="Google login"
+      (click)="open('google')"
+      class="social-btn tracking-widest bg-[rgb(219_68_55)] text-white border-gray-400 block uppercase font-[600] text-[0.875rem] text-center p-[0.675rem] rounded-sm border-[1px] border-solid"
+    >
+      Google
+    </a>
+  </div>
+  <div>
+    <a
+      href="javascript:void(0)"
+      nz-tooltip
+      nzTooltipTitle="Facebook login"
+      (click)="open('facebook')"
+      class="social-btn tracking-widest text-white bg-[#3b5998] border-[#3b5998] block uppercase font-[600] text-[0.875rem] text-center p-[0.675rem] rounded-sm border-[1px] border-solid"
+      >Facebook</a
+    >
+  </div>
+</div>
+
+<p ngClass="text-center mb-0 text-[0.875rem] font-[400]">
+  Don’t have an account?
+  <a
+    ngClass="font-[600] text-[0.875rem] transition-all	duration-300 no-underline bg-transparent text-primary hover:text-secondary"
+    routerLink="/auth/register"
+    >{{ "app.register.register" | i18n }}</a
+  >
+</p>

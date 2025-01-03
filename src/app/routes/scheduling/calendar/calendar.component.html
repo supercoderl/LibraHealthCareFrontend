@@ -1,0 +1,39 @@
+<div class="md:top-[55px] fixed top-[55px] bottom-0 left-0 right-0">
+  <div
+    class="md:left-0 md:visible bg-white absolute top-0 bottom-0 left-[-100%] w-full md:w-[280px] border-r-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] invisible transition-all duration-300"
+  >
+    <calendar-search />
+    <!-- calendar-sidebar-header -->
+    <div
+      id="calendarSidebarBody"
+      class="absolute top-[55px] bottom-0 left-0 right-0 overflow-hidden"
+    >
+      <calendar-mini />
+      <!-- calendar-inline -->
+
+      <calendar-upcoming-event />
+    </div>
+    <!-- calendar-sidebar-body -->
+  </div>
+  <!-- calendar-sidebar -->
+
+  <div
+    class="md:left-[280px] bg-white absolute top-0 right-0 bottom-0 left-0 transition-all duration-300"
+  >
+    <div id="calendar" class="text-[1rem] text-left">
+      <calendar-header-content />
+
+      <!-- Body content -->
+      <div class="w-full overflow-hidden">
+        <div class="">
+          <div
+            class="overflow-auto h-[600px] pt-[20px] pb-[60px] md:py-[20px] pr-[20px]"
+          >
+            <calendar-table-event />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- calendar-content -->
+</div>

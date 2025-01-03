@@ -1,0 +1,15 @@
+.dot::before {
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-name: move-bg;
+}
+
+@keyframes move-bg {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(88px);
+    }
+}

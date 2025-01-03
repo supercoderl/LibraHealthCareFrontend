@@ -1,0 +1,37 @@
+:host {
+  .divider {
+    transform: translateY(calc(-50% + 1px));
+  }
+
+  .social-btn {
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out
+  }
+
+  .g-blue { 
+    color:#4285F4; 
+  }
+
+  .o-red { 
+    color:#DB4437; 
+  }
+
+  .o-yellow { 
+    color:#F4B400; 
+  }
+  
+  .l-green { 
+    color:#0F9D58; 
+  }
+}
+
+[data-theme='dark'] {
+  :host ::ng-deep {
+    .icon {
+      color: rgb(255 255 255 / 20%);
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
