@@ -1,6 +1,6 @@
 export interface Symtom {
-    id: number;
-    title: string;
+    symtomId: number;
+    name: string;
     description?: string | null;
-    page: number;
+    page?: number | null;
 }

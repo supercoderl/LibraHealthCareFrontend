@@ -3,6 +3,7 @@ import { SharedModule } from "../../../../shared";
 import { faChessRook, faCompass, faHospital, faSun } from "@fortawesome/free-regular-svg-icons";
 import { Department } from "../../../../types";
 import { DEPARTMENTS } from "../../../../constants";
+import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
     selector: 'department',
@@ -36,8 +37,8 @@ import { DEPARTMENTS } from "../../../../constants";
                                     data-aos="fade-right"
                                     [attr.data-aos-delay]="i * 50"
                                 >
-                                    <fa-icon class="text-42 mb-2.5 group-hover:!text-white" [icon]="department.icon"></fa-icon>
-                                    <p class="text-primary text-15 font-semibold uppercase m-0 group-hover:text-white">{{department.title}}</p>
+                                    <fa-icon class="text-42 mb-2.5 group-hover:!text-white" [icon]="department.icon || faStethoscope"></fa-icon>
+                                    <p class="text-primary text-15 font-semibold uppercase m-0 group-hover:text-white">{{department.departmentName}}</p>
                                 </a>
                             </div>
                             <div class="w-full md:w-8/12 relative px-4 rounded-5">
@@ -91,6 +92,7 @@ export class HomeDepartment {
     faChessRook = faChessRook;
     faSun = faSun;
     faCompass = faCompass;
+    faStethoscope = faStethoscope;
 
     departments: Department[] = DEPARTMENTS;
 }

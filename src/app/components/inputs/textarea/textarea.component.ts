@@ -1,12 +1,17 @@
 import { AfterViewInit, Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import { SharedModule } from '../../../shared';
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'libra-textarea',
   standalone: true,
-  imports: [],
+  imports: [
+    SharedModule
+  ],
   template: `
     <textarea
       class="default-textarea w-full border-gray-300 px-3 py-2 transition-all hover:border-gray-500 focus:border-green-500 rounded-md focus:ring-0 group focus:outline-0 border text-sm"
+      [formControlName]="args['formControlName']"
     ></textarea>
     <label
       for="{{args['id'] ?? ''}}"
@@ -14,7 +19,10 @@ import { AfterViewInit, Component, ElementRef, Input, Renderer2 } from '@angular
     >
       {{text}}
     </label>
-  `
+  `,
+  viewProviders: [
+    { provide: ControlContainer, useExisting: FormGroupDirective }
+  ]
 })
 export class DefaultTextareaComponent implements AfterViewInit {
   @Input() text: string = '';

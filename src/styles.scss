@@ -46,6 +46,10 @@ td.ant-table-cell {
     font-style: normal; 
 }
 
+.anticon-loading {
+    display: inline-flex !important;
+}
+
 @media (max-width: 768px) {
     [data-aos] {
       opacity: 1 !important;

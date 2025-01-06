@@ -25,11 +25,11 @@ import { SYMTOMS } from "../../../../constants";
             <ul class="p-0 m-0">
                 <li class="flex items-center relative" *ngFor="let symtom of symtoms">
                     <fieldset
-                        [id]="symtom.id.toString()"
+                        [id]="symtom.symtomId.toString()"
                         class="border-b border-solid border-border m-0 flex flex-wrap gap-6 items-start flex-1 justify-between px-0 md:px-3 p-3 hover:bg-border transition-all duration-300"
                     >
                         <div class="flex md:flex-col w-full md:w-auto items-start justify-between gap-2">
-                            <span class="text-[#1F262C] font-bold md:font-normal">{{symtom.title}}</span>
+                            <span class="text-[#1F262C] font-bold md:font-normal">{{symtom.name}}</span>
                             <button
                                 class="align-start whitespace-normal gap-1 bg-transparent items-center inline-flex relative"
                                 *ngIf="symtom.description"

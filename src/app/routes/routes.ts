@@ -4,6 +4,7 @@ import { authSimpleCanActivate, authSimpleCanActivateChild } from "@delon/auth";
 import { AdminMainLayoutComponent } from "../layout/main/admin-main.component";
 import { ClientMainComponent } from "../layout/main/client-main.component";
 import { homeRoutes } from "./home/routes";
+import { managementRoutes } from "./management/routes";
 
 export const routes: Routes = [
     {
@@ -11,18 +12,14 @@ export const routes: Routes = [
         component: ClientMainComponent,
         children: homeRoutes,
     },
-    // {
-    //     path: '',
-    //     component: AdminMainLayoutComponent,
-    //     // canActivate: [startPageGuard, authSimpleCanActivate],
-    //     // canActivateChild: [authSimpleCanActivateChild],
-    //     data: {},
-    //     children: [
-    //         { path: '', redirectTo: 'appointmnet', pathMatch: 'full' },
-    //         { path: 'scheduling', loadChildren: () => import('./scheduling/routes').then(m => m.routes) },
-    //         { path: 'appointmnet', loadChildren: () => import('./appointment/routes').then(m => m.routes) }
-    //     ]
-    // },
+    {
+        path: 'management',
+        component: AdminMainLayoutComponent,
+        canActivate: [startPageGuard, authSimpleCanActivate],
+        canActivateChild: [authSimpleCanActivateChild],
+        data: {},
+        children: managementRoutes
+    },
     {
         path: '',
         loadChildren: () => import('./auth/routes').then(m => m.routes),

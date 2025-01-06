@@ -1,0 +1,259 @@
+<div class="p-[25px]">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+      <h3 class="text-3xl mb-4">Role List</h3>
+      <div
+        class="flex items-center text-center border-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] flex-wrap rounded-t px-[5px]"
+      >
+        <div class="flex-[35%] h-[60px] flex items-center px-4">
+          <nz-input-group
+            nzSearch
+            nzAddOnBeforeIcon="search"
+            class="max-w-[300px]"
+          >
+            <input type="text" nz-input placeholder="Search..." />
+          </nz-input-group>
+        </div>
+        <div class="flex-[10%] h-[60px] table-cell float-right text-center">
+          <ul class="float-right mx-[15px] h-full flex items-center">
+            <li class="inline-block relative">
+              <div class="ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Filter"
+                >
+                  <span
+                    nz-icon
+                    nzType="filter"
+                    nzTheme="outline"
+                    nzTwotoneColor="#003161"
+                    class="!text-[20px]"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+            <li class="inline-block relative">
+              <div class="ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="!text-[20px]"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Add"
+                  (click)="showModal()"
+                >
+                  <span
+                    nz-icon
+                    nzType="plus-circle"
+                    nzTheme="outline"
+                    nzTwotoneColor="#CC2B52"
+                    class="!text-[20px]"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+            <li class="inline-block relative">
+              <div class="ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Reload"
+                  (click)="onGet()"
+                >
+                  <span
+                    nz-icon
+                    nzType="reload"
+                    nzTheme="outline"
+                    nzTwotoneColor="#9B7EBD"
+                    class="!text-[20px]"
+                  ></span>
+                </button>
+              </div>
+            </li>
+            <li class="inline-block relative">
+              <div class="ml-[10px]" hidden="">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Delete"
+                >
+                  <span
+                    nz-icon
+                    nzType="delete"
+                    nzTheme="outline"
+                    class="!text-[20px]"
+                    nzTwotoneColor="#219B9D"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+            <li class="">
+              <div class="export-button ml-[10px]">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzShape="circle"
+                  class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
+                  nz-tooltip
+                  nzTooltipTitle="Download"
+                >
+                  <span
+                    nz-icon
+                    nzType="cloud-download"
+                    nzTheme="outline"
+                    nzTwotoneColor="#EB8317"
+                    class="!text-[20px]"
+                  ></span></button
+                ><!---->
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="overflow-auto">
+        <ng-template #footer>
+          <hr />
+        </ng-template>
+        <div class="responsive_table">
+          <nz-table
+            #rowSelectionTable
+            [nzData]="roles"
+            [nzScroll]="{ y: '28.5vw' }"
+            class="border-[1px] border-solid border-t-0 rounded-b pl-[20px]"
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+            nzSize="small"
+            [nzLoading]="loading"
+            [nzFooter]="footer"
+          >
+            <thead>
+              <tr>
+                <th
+                  [(nzChecked)]="checked"
+                  [nzIndeterminate]="indeterminate"
+                  (nzCheckedChange)="onAllChecked($event)"
+                  class="!bg-white"
+                  nzWidth="5%"
+                ></th>
+                <th class="!bg-white" nzWidth="45%">Code</th>
+                <th class="!bg-white" nzWidth="40%">Name</th>
+                <th class="!bg-white" nzWidth="10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (role of roles; track role) {
+              <tr>
+                <td [nzChecked]="false"></td>
+                <td>
+                  {{ role.code }}
+                </td>
+                <td>
+                  {{ role.name }}
+                </td>
+                <td>
+                  <div nz-flex [nzGap]="10">
+                    <button
+                      nz-button
+                      nzType="text"
+                      nzShape="circle"
+                      nz-tooltip
+                      nzTooltipTitle="Edit"
+                    >
+                      <span
+                        nz-icon
+                        nzType="form"
+                        nzTheme="outline"
+                        class="!text-edition !text-[20px]"
+                      ></span>
+                    </button>
+                    <button
+                      nz-button
+                      nzType="text"
+                      nzShape="circle"
+                      nz-tooltip
+                      nzTooltipTitle="Delete"
+                    >
+                      <span
+                        nz-icon
+                        nzType="delete"
+                        nzTheme="outline"
+                        class="!text-deletion !text-[20px]"
+                      ></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </nz-table>
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Create role"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="loading"
+  nzWidth="45vw"
+>
+  <ng-container *nzModalContent>
+    @if (error) {
+    <nz-alert
+      [nzType]="'error'"
+      [nzMessage]="error"
+      [nzShowIcon]="true"
+      ngClass="mb-4"
+    />
+    }
+    <div class="w-full">
+      <div class="bg-white shadow-sm">
+        <div class="leading-loose">
+          <form nz-form [formGroup]="form">
+            <div
+              class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+            >
+              <libra-input
+                text="Code"
+                [args]="{
+                  id: 'code',
+                  name: 'code',
+                  type: 'number',
+                  formControlName: 'code'
+                }"
+              />
+            </div>
+            <div
+              class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+            >
+              <libra-input
+                text="Name"
+                [args]="{
+                  id: 'name',
+                  name: 'name',
+                  type: 'text',
+                  formControlName: 'name'
+                }"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

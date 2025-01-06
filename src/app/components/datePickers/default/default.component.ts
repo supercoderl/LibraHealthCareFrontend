@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SharedModule } from '../../../shared';
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'libra-date-picker',
@@ -12,6 +13,7 @@ import { SharedModule } from '../../../shared';
       class="default-input h-full w-full border-gray-300 px-2 transition-all hover:border-gray-500 focus:border-green-500 rounded-md focus:ring-0 group focus:outline-0 border text-sm"
       readonly
       (click)="toggleDatepicker($event)"
+      [formControlName]="args['formControlName']"
     />
     <label
       for="{{args['id'] ?? ''}}"
@@ -120,7 +122,10 @@ import { SharedModule } from '../../../shared';
     </div>
   </div>
     </div>
-  `
+  `,
+  viewProviders: [
+    { provide: ControlContainer, useExisting: FormGroupDirective }
+  ]
 })
 export class DefaultDatePickerComponent implements OnInit, AfterViewInit {
   @Input() text: string = '';
@@ -130,7 +135,7 @@ export class DefaultDatePickerComponent implements OnInit, AfterViewInit {
   constructor(private el: ElementRef, private renderer: Renderer2) {
     this.renderer.listen('window', 'click', (e: Event) => {
       const target = e.target as HTMLElement;
-      if(this.showDatepicker && !this.datepicker?.nativeElement.contains(target)) this.showDatepicker = false;
+      if (this.showDatepicker && !this.datepicker?.nativeElement.contains(target)) this.showDatepicker = false;
     });
   }
 
@@ -152,7 +157,6 @@ export class DefaultDatePickerComponent implements OnInit, AfterViewInit {
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   showDatepicker = false;
-  datepickerValue!: string;
   month!: number; // !: mean promis it will not be null, and it will definitely be assigned
   year!: number;
   no_of_days = [] as number[];
@@ -168,7 +172,25 @@ export class DefaultDatePickerComponent implements OnInit, AfterViewInit {
 
   getDateValue(date: any) {
     let selectedDate = new Date(this.year, this.month, date);
-    this.datepickerValue = selectedDate.toDateString();
+    this.updateFormControlValue(selectedDate.toDateString());
+    this.showDatepicker = false;
+  }
+
+  updateFormControlValue(selectedDate: string) {
+    const controlName = this.args['formControlName'];
+    const formGroup = this.args['formGroup'];
+
+    if (formGroup && controlName) {
+      const control = formGroup.controls[controlName];
+
+      if (control) {
+        control.setValue(selectedDate);
+      } else {
+        console.error(`Form control with name ${controlName} not found.`);
+      }
+    } else {
+      console.error('FormGroup or formControlName is undefined.');
+    }
   }
 
   getNoOfDays() {
@@ -194,7 +216,6 @@ export class DefaultDatePickerComponent implements OnInit, AfterViewInit {
     let today = new Date();
     this.month = today.getMonth();
     this.year = today.getFullYear();
-    this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
   }
 
   isToday(date: any) {

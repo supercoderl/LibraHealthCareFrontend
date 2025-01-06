@@ -78,8 +78,8 @@ export class LoginComponent implements OnDestroy {
           refresh: res?.data?.refreshToken
         });
         this.startupSrv.load().subscribe(() => {
-          let url = this.tokenService.referrer!.url || '/';
-          if(url.includes('/auth')) url = '/';
+          let url = this.tokenService.referrer!.url || '/management';
+          if(url.includes('/auth')) url = '/management';
           this.router.navigateByUrl(url);
         })
       },

@@ -3,26 +3,26 @@ import { Department } from "../types/department";
 
 export const DEPARTMENTS: Department[] = [
     {
-        id: 1,
-        title: 'Primary Care',
+        departmentId: 1,
+        departmentName: 'Primary Care',
         subtitle: 'Diagnostics and prevention',
         icon: faStethoscope
     },
     {
-        id: 2,
-        title: 'Neurology',
+        departmentId: 2,
+        departmentName: 'Neurology',
         subtitle: 'Nervous system disorders',
         icon: faHospital
     },
     {
-        id: 3,
-        title: 'Pediatrics',
+        departmentId: 3,
+        departmentName: 'Pediatrics',
         subtitle: 'Premium care for children',
         icon: faCapsules
     },
     {
-        id: 4,
-        title: 'Cardiology',
+        departmentId: 4,
+        departmentName: 'Cardiology',
         subtitle: 'Treating heart diseases',
         icon: faSyringe
     }
