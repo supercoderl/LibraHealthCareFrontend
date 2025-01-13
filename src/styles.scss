@@ -31,14 +31,15 @@ td.ant-table-cell {
 
 .default-label {
     transform: translateY(-50%);
+    top: 50%;
+    color: rgb(121, 121, 121);
 }
 
-.empty .default-input:not(:focus)+.default-label, 
-.empty .default-select:not(:focus)+.default-label,
-.empty .default-textarea:not(:focus)+.default-label {
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgb(121, 121, 121);
+.filled .default-label,
+.default-input:focus+.default-label,
+.default-select:focus+.default-label,
+.default-textarea:focus+.default-label {
+    top: 0;
 }
 
 .number:after {

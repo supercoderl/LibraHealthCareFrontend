@@ -46,7 +46,7 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Add"
-                  (click)="showModal()"
+                  (click)="showModal('Add')"
                 >
                   <span
                     nz-icon
@@ -185,6 +185,7 @@
                       nzShape="circle"
                       nz-tooltip
                       nzTooltipTitle="Edit"
+                      (click)="showModal('Edit', medication)"
                     >
                       <span
                         nz-icon
@@ -222,7 +223,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="Create medication"
+  [nzTitle]="modalTitle + ' Medication'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="loading"
@@ -244,6 +245,7 @@
             <div class="flex items-center gap-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.name?.trim()"
               >
                 <libra-input
                   text="Name"
@@ -257,6 +259,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.brand?.trim()"
               >
                 <libra-input
                   text="Brand"
@@ -273,6 +276,7 @@
             <div class="flex items-center gap-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value.type"
               >
                 <libra-select
                   text="Type"
@@ -286,6 +290,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.price !== 0"
               >
                 <libra-input
                   text="Price"
@@ -302,6 +307,7 @@
             <div class="flex items-center gap-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.unit?.trim()"
               >
                 <libra-input
                   text="Unit"
@@ -315,6 +321,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.stockQuantity !== 0"
               >
                 <libra-input
                   text="Stock Quantity"
@@ -331,6 +338,7 @@
             <div class="flex items-center gap-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.reorderLevel !== 0"
               >
                 <libra-input
                   text="Reorder Level"
@@ -345,6 +353,7 @@
 
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.supplierId !== 0"
               >
                 <libra-select
                   text="Supplier"
@@ -361,6 +370,7 @@
             <div class="flex items-center gap-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.manifacturer?.trim()"
               >
                 <libra-input
                   text="Manifacturer"
@@ -374,6 +384,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.expireDate?.trim()"
               >
                 <libra-date-picker
                   text="Expire Date"
@@ -390,6 +401,7 @@
             <div class="flex items-center gap-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.sideEffects?.trim()"
               >
                 <libra-input
                   text="Side Effects"
@@ -403,6 +415,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value"
               >
                 <libra-select
                   text="Is Prescription Required"
@@ -421,6 +434,7 @@
 
             <div
               class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.usageInstructions?.trim()"
             >
               <libra-textarea
                 text="Usage Instructions"
@@ -435,6 +449,7 @@
 
             <div
               class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.description?.trim()"
             >
               <libra-textarea
                 text="Description"

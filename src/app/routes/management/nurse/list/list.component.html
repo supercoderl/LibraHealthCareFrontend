@@ -46,7 +46,7 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Add"
-                  (click)="showModal()"
+                  (click)="showModal('Add')"
                 >
                   <span
                     nz-icon
@@ -169,7 +169,7 @@
                   {{ nurse.ssn }}
                 </td>
                 <td>
-                  {{ nurse.specialization }}
+                  {{ getLabel(nurse.specialization) }}
                 </td>
                 <td>
                   {{ nurse.mobile }}
@@ -185,6 +185,7 @@
                       nzShape="circle"
                       nz-tooltip
                       nzTooltipTitle="Edit"
+                      (click)="showModal('Edit', nurse)"
                     >
                       <span
                         nz-icon
@@ -222,7 +223,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="Create medication"
+  [nzTitle]="modalTitle + ' Nurse'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="loading"
@@ -241,18 +242,162 @@
       <div class="bg-white shadow-sm">
         <div class="leading-loose">
           <form nz-form [formGroup]="form">
-            <div
-              class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-            >
-              <libra-input
-                text="Name"
-                [args]="{
-                  id: 'departmentName',
-                  name: 'departmentName',
-                  type: 'text',
-                  formControlName: 'departmentName'
-                }"
-              />
+            <div class="flex items-center gap-4">
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.name?.trim()"
+              >
+                <libra-input
+                  text="Name"
+                  [args]="{
+                    id: 'name',
+                    name: 'name',
+                    type: 'text',
+                    formControlName: 'name'
+                  }"
+                />
+              </div>
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.position?.trim()"
+              >
+                <libra-input
+                  text="Position"
+                  [args]="{
+                    id: 'position',
+                    name: 'position',
+                    type: 'text',
+                    formControlName: 'position'
+                  }"
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value.registered"
+              >
+                <libra-select
+                  text="Registered"
+                  [args]="{
+                    id: 'registered',
+                    name: 'registered',
+                    formControlName: 'registered'
+                  }"
+                  [options]="[
+                    { value: 0, label: 'No' },
+                    { value: 1, label: 'Yes' }
+                  ]"
+                />
+              </div>
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.ssn != 0"
+              >
+                <libra-input
+                  text="Ssn"
+                  [args]="{
+                    id: 'ssn',
+                    name: 'ssn',
+                    type: 'number',
+                    formControlName: 'ssn'
+                  }"
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.specialization !== 0"
+              >
+                <libra-select
+                  text="Specialization"
+                  [args]="{
+                    id: 'specialization',
+                    name: 'specialization',
+                    formControlName: 'specialization'
+                  }"
+                  [options]="specializations"
+                />
+              </div>
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.mobile?.trim()"
+              >
+                <libra-input
+                  text="Mobile"
+                  [args]="{
+                    id: 'mobile',
+                    name: 'mobile',
+                    type: 'text',
+                    formControlName: 'mobile'
+                  }"
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.userId?.trim()"
+              >
+                <libra-select
+                  text="User"
+                  [args]="{
+                    id: 'userId',
+                    name: 'userId',
+                    formControlName: 'userId'
+                  }"
+                  [options]="users"
+                />
+              </div>
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.address?.trim()"
+              >
+                <libra-input
+                  text="Address"
+                  [args]="{
+                    id: 'address',
+                    name: 'address',
+                    type: 'text',
+                    formControlName: 'address'
+                  }"
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.hiringDate?.trim()"
+              >
+                <libra-date-picker
+                  text="Hiring Date"
+                  [args]="{
+                    id: 'hiringDate',
+                    name: 'hiringDate',
+                    formControlName: 'hiringDate',
+                    formGroup: form
+                  }"
+                />
+              </div>
+              <div
+                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.shiftSchedule?.trim()"
+              >
+                <libra-input
+                  text="Shift schedule"
+                  [args]="{
+                    id: 'shiftSchedule',
+                    name: 'shiftSchedule',
+                    type: 'text',
+                    formControlName: 'shiftSchedule'
+                  }"
+                />
+              </div>
             </div>
           </form>
         </div>

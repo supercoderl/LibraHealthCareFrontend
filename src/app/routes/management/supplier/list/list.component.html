@@ -46,7 +46,7 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Add"
-                  (click)="showModal()"
+                  (click)="showModal('Add')"
                 >
                   <span
                     nz-icon
@@ -185,6 +185,7 @@
                       nzShape="circle"
                       nz-tooltip
                       nzTooltipTitle="Edit"
+                      (click)="showModal('Edit', supplier)"
                     >
                       <span
                         nz-icon
@@ -222,7 +223,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="Create supplier"
+  [nzTitle]="modalTitle + ' Supplier'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="loading"
@@ -244,6 +245,7 @@
             <div class="flex items-center gap-x-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.name?.trim()"
               >
                 <libra-input
                   text="Name"
@@ -258,6 +260,7 @@
 
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.contactNumber?.trim()"
               >
                 <libra-input
                   text="Contact Number"
@@ -274,6 +277,7 @@
             <div class="flex items-center gap-x-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.email?.trim()"
               >
                 <libra-input
                   text="Email"
@@ -287,6 +291,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.address?.trim()"
               >
                 <libra-input
                   text="Address"
@@ -303,6 +308,7 @@
             <div class="flex items-center gap-x-4">
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.taxIdNumber?.trim()"
               >
                 <libra-input
                   text="Tax Number"
@@ -316,6 +322,7 @@
               </div>
               <div
                 class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+                [class.filled]="form.value && form.value.website?.trim()"
               >
                 <libra-input
                   text="Website"

@@ -23,6 +23,8 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   departments: Department[] = [];
+  departmentId: number = 0;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -62,8 +64,17 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', department?: Department | null): void {
+    console.log(department);
     this.isVisible = true;
+    this.modalTitle = type;
+    if(department)
+    {
+      this.departmentId = department.departmentId;
+      this.form.setValue({
+        departmentName: department.departmentName
+      });
+    }
   }
 
   onGet(): void {
@@ -90,9 +101,19 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Department', {
-      name: this.form.value.departmentName,
-    }, null, {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
+      name: this.form.value.departmentName
+    };
+
+    if (this.modalTitle === 'Edit') {
+      requestBody['departmentId'] = this.departmentId;
+    }
+
+    httpMethod('/api/v1/Department', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -103,6 +124,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -112,7 +134,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

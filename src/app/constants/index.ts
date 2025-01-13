@@ -9,3 +9,4 @@ export * from './category';
 export * from './post';
 export * from './tag';
 export * from './service';
+export * from './menu';

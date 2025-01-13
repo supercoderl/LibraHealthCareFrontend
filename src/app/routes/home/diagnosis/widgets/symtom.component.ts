@@ -97,7 +97,7 @@ import { SYMTOMS } from "../../../../constants";
                 name="next"
                 class="float-right w-25 bg-primary font-bold text-white border-none rounded-px cursor-pointer py-2.5 px-1.25 my-2.5 mx-auto transition-all duration-300 block"
                 value="Next"
-                (click)="onNextClick()"
+                (click)="stage === 3 ? onSubmitClick() : onNextClick()"
             />
         </fieldset>
     `,
@@ -119,6 +119,9 @@ export class DiagnosisSymtom {
 
     @Input()
     onPreviousClick!: () => void;
+
+    @Input()
+    onSubmitClick!: () => void;
 
     @Input() 
     currentStage!: number;

@@ -5,6 +5,7 @@ import { AdminMainLayoutComponent } from "../layout/main/admin-main.component";
 import { ClientMainComponent } from "../layout/main/client-main.component";
 import { homeRoutes } from "./home/routes";
 import { managementRoutes } from "./management/routes";
+import { dashboardRoutes } from "./dashboard/routes";
 
 export const routes: Routes = [
     {
@@ -19,6 +20,14 @@ export const routes: Routes = [
         canActivateChild: [authSimpleCanActivateChild],
         data: {},
         children: managementRoutes
+    },
+    {
+        path: 'dashboard',
+        component: AdminMainLayoutComponent,
+        canActivate: [startPageGuard, authSimpleCanActivate],
+        canActivateChild: [authSimpleCanActivateChild],
+        data: {},
+        children: dashboardRoutes
     },
     {
         path: '',

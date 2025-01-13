@@ -46,7 +46,7 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Add"
-                  (click)="showModal()"
+                  (click)="showModal('Add')"
                 >
                   <span
                     nz-icon
@@ -169,6 +169,7 @@
                       nzShape="circle"
                       nz-tooltip
                       nzTooltipTitle="Edit"
+                      (click)="showModal('Edit', block)"
                     >
                       <span
                         nz-icon
@@ -206,7 +207,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="Create block"
+  [nzTitle]="modalTitle + ' Block'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="loading"
@@ -227,6 +228,7 @@
           <form nz-form [formGroup]="form">
             <div
               class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.blockCode !== 0"
             >
               <libra-input
                 text="Block Code"
@@ -240,6 +242,7 @@
             </div>
             <div
               class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.blockFloor !== 0"
             >
               <libra-input
                 text="Block Floor"

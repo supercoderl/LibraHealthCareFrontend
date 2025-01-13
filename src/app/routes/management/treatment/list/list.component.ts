@@ -26,10 +26,12 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   treatments: Treatment[] = [];
+  treatmentId: number = 0;
   types = enumToList(TreatmentType);
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  modalTitle: 'Add' | 'Edit' = 'Add';
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
@@ -70,8 +72,18 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', treatment?: Treatment | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if(treatment)
+    {
+      this.treatmentId = treatment.treatmentId;
+      this.form.setValue({
+        name: treatment.name,
+        type: treatment.type,
+        description: treatment.description ?? ''
+      });
+    }
   }
 
   onGet(): void {
@@ -100,11 +112,21 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Treatment', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       name: this.form.value.name,
       type: this.form.value.type,
       description: this.form.value.description === '' ? null : this.form.value.description
-    }, null, {
+    };
+    
+    if (this.modalTitle === 'Edit') {
+      requestBody['treatmentId'] = this.treatmentId;
+    }
+
+    httpMethod('/api/v1/Treatment', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -115,6 +137,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -124,8 +147,8 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
+    this.form.reset();
   }
 
   ngOnInit(): void {

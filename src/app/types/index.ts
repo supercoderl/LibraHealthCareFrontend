@@ -14,3 +14,7 @@ export * from './patient';
 export * from './procedure';
 export * from './role';
 export * from './treatment';
+export * from './user';
+export * from './physician';
+export * from './appointment';
+export * from './menu';

@@ -23,8 +23,8 @@ import { SharedModule } from "../../../../shared";
                     <a href="#">Symtoms</a>
                 </li>
                 <li 
-                    class="relative before:inline-block before:content-[''] before:border-l-0.75 before:absolute before:-left-7 before:h-full before:w-full after:absolute after:top-0 after:-left-9.8 after:w-6.2 after:h-6.2 after:leading-6.5 after:border after:border-solid after:border-primary after:rounded-full after:bg-white after:block after:text-center after:mx-auto after:mb-2.5"
-                    [ngClass]="stage >= 4 ? 'before:border-primary after:bg-primary after:text-white' : stage >= 3 ? 'after:bg-primary after:text-white' : null"
+                    class="relative before:inline-block before:content-[''] before:border-l-0.75 before:absolute before:-left-7 before:h-full before:w-full after:absolute after:top-0 after:-left-9.8 after:w-6.2 after:h-6.2 after:leading-6.5 after:border after:border-solid after:border-primary after:rounded-full after:block after:text-center after:mx-auto after:mb-2.5"
+                    [ngClass]="stage >= 4 ? 'before:border-primary after:bg-primary after:text-white' : stage >= 3 ? 'after:bg-primary after:text-white' : 'after:bg-white'"
                 >
                     <a href="#">Result</a>
                 </li>

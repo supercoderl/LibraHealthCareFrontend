@@ -22,6 +22,8 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   roles: Role[] = [];
+  code: number = 1;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -60,8 +62,16 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', role?: Role | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if(role)
+    {
+      this.form.setValue({
+        code: role.code,
+        name: role.name
+      })
+    }
   }
 
   onGet(): void {
@@ -90,10 +100,16 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Role', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       code: this.form.value.code,
       name: this.form.value.name,
-    }, null, {
+    };
+    
+    httpMethod('/api/v1/Role', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -104,6 +120,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -113,7 +130,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

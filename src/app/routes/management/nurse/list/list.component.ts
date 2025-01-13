@@ -7,8 +7,13 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { OptionalService } from '../../../../services';
 import { Nurse } from '../../../../types/nurse';
+import { DefaultSelectComponent } from "../../../../components/selects/default/default.component";
+import { enumToList, getEnumKeyByValue } from '../../../../shared/utils';
+import { Specialization } from '../../../../enums';
+import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
+import { OptionalService } from '../../../../services';
+import { User } from '../../../../types';
 
 @Component({
   selector: 'app-list',
@@ -16,13 +21,19 @@ import { Nurse } from '../../../../types/nurse';
   imports: [
     SharedModule,
     DefaultInputComponent,
-],
+    DefaultSelectComponent,
+    DefaultDatePickerComponent
+  ],
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   nurses: Nurse[] = [];
+  nurseId: string = '';
+  users: { label: string, value: string }[] = [];
+  modalTitle: 'Add' | 'Edit' = 'Add';
+  specializations = enumToList(Specialization);
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -31,9 +42,24 @@ export class ListComponent implements OnInit {
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
 
+  constructor(private optionalService: OptionalService) { }
+
   form = inject(FormBuilder).nonNullable.group({
-    departmentName: ['', [Validators.required]]
+    name: ['', [Validators.required]],
+    position: ['', [Validators.required]],
+    registered: [0, [Validators.required]],
+    ssn: [0, [Validators.required]],
+    specialization: [0, [Validators.required]],
+    mobile: ['', [Validators.required]],
+    userId: ['', [Validators.required]],
+    address: ['', [Validators.required]],
+    hiringDate: [new Date().toDateString(), [Validators.required]],
+    shiftSchedule: ['', [Validators.required]]
   });
+
+  getLabel(value: number): string {
+    return getEnumKeyByValue(Specialization, value) ?? '';
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -60,8 +86,24 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', nurse?: Nurse | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if (nurse) {
+      this.nurseId = nurse.nurseId;
+      this.form.setValue({
+        name: nurse.name,
+        position: nurse.position,
+        registered: Number(nurse.registered),
+        ssn: nurse.ssn,
+        specialization: nurse.specialization,
+        mobile: nurse.mobile,
+        userId: nurse.userId,
+        address: nurse.address ?? '',
+        hiringDate: new Date().toDateString(),
+        shiftSchedule: nurse.shiftSchedule
+      })
+    }
   }
 
   onGet(): void {
@@ -81,16 +123,39 @@ export class ListComponent implements OnInit {
 
   handleOk(): void {
     this.error = '';
-    const { departmentName } = this.form.controls;
-    departmentName.markAsDirty();
-    departmentName.updateValueAndValidity();
-    if (departmentName.invalid) return;
+    const { name, position, mobile } = this.form.controls;
+    name.markAsDirty();
+    name.updateValueAndValidity();
+    position.markAsDirty();
+    position.updateValueAndValidity();
+    mobile.markAsDirty();
+    mobile.updateValueAndValidity();
+    if (name.invalid || position.invalid || mobile.invalid) return;
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Nurse', {
-      name: this.form.value.departmentName,
-    }, null, {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
+      name: this.form.value.name,
+      position: this.form.value.position,
+      registered: Boolean(this.form.value.registered),
+      ssn: this.form.value.ssn,
+      specialization: this.form.value.specialization,
+      mobile: this.form.value.mobile,
+      userId: this.form.value.userId,
+      address: this.form.value.address,
+      hiringDate: new Date(this.form.value.hiringDate!),
+      shiftSchedule: this.form.value.shiftSchedule
+    };
+
+    if (this.modalTitle === 'Edit') {
+      requestBody['nurseId'] = this.nurseId;
+    }
+
+    httpMethod('/api/v1/Nurse', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -101,6 +166,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -110,11 +176,18 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 
   ngOnInit(): void {
     this.onGet();
+
+    this.optionalService
+      .getData('/api/v1/User')
+      .subscribe((res: any) => {
+        if (res?.data?.items && res?.data?.items.length > 0)
+          this.users = res?.data?.items.map((e: User) => ({ value: e.userId, label: e.email }));
+      });
   }
 }

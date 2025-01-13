@@ -31,6 +31,8 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   medications: Medication[] = [];
+  medicationId: number = 0;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   suppliers: { value: number, label: string }[] = [];
   medicationTypes = enumToList(MedicationType);
   setOfCheckedId = new Set<number>();
@@ -57,7 +59,7 @@ export class ListComponent implements OnInit {
     expireDate: [(new Date()).toDateString(), [Validators.required]],
     sideEffects: [''],
     usageInstructions: [''],
-    isPrescriptionRequired: [false, [Validators.required]]
+    isPrescriptionRequired: [0, [Validators.required]]
   });
 
   updateCheckedSet(id: number, checked: boolean): void {
@@ -90,8 +92,29 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', medication?: Medication | null): void {
+    console.log(medication);
     this.isVisible = true;
+    this.modalTitle = type;
+    if(medication)
+    {
+      this.form.setValue({
+        name: medication.name,
+        description: medication.description ?? '',
+        brand: medication.brand,
+        type: medication.type,
+        unit: medication.unit,
+        price: medication.price,
+        stockQuantity: medication.stockQuantity,
+        reorderLevel: medication.reorderLevel,
+        supplierId: medication.supplierId,
+        manifacturer: medication.manifacturer,
+        expireDate: new Date().toDateString(),
+        sideEffects: medication.sideEffects ?? '',
+        usageInstructions: medication.usageInstructions ?? '',
+        isPrescriptionRequired: Number(medication.isPrescriptionRequired)
+      });
+    }
   }
 
   onGet(): void {
@@ -118,22 +141,32 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Medication', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       name: this.form.value.name,
-      brand: this.form.value.brand,
       description: this.form.value.description === '' ? null : this.form.value.description,
-      type: Number(this.form.value.type),
-      price: Number(this.form.value.price),
+      brand: this.form.value.brand,
+      type: this.form.value.type,
       unit: this.form.value.unit,
-      stockQuantity: Number(this.form.value.stockQuantity),
-      reorderLevel: Number(this.form.value.reorderLevel),
-      supplierId: Number(this.form.value.supplierId),
+      price: this.form.value.price,
+      stockQuantity: this.form.value.stockQuantity,
+      reorderLevel: this.form.value.reorderLevel,
+      supplierId: this.form.value.supplierId,
       manifacturer: this.form.value.manifacturer,
       expireDate: new Date(this.form.value.expireDate!),
-      sideEffects: this.form.value.sideEffects === '' ? null : this.form.value.sideEffects,
-      usageInstructions: this.form.value.usageInstructions === '' ? null : this.form.value.usageInstructions,
-      isPrescriptionRequired: Boolean(this.form.value.isPrescriptionRequired)
-    }, null, {
+      sideEffects: this.form.value.sideEffects,
+      usageInstructions: this.form.value.usageInstructions,
+      isPrescriptionRequired: this.form.value.isPrescriptionRequired
+    };
+    
+    if (this.modalTitle === 'Edit') {
+      requestBody['medicationId'] = this.medicationId;
+    }
+
+    httpMethod('/api/v1/Medication', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -144,6 +177,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -153,7 +187,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

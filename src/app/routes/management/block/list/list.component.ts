@@ -23,6 +23,8 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   blocks: Block[] = [];
+  blockId: number = 0;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -63,8 +65,17 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', block?: Block | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if(block)
+    {
+      this.blockId = block.blockId,
+      this.form.setValue({
+        blockCode: block.blockCode,
+        blockFloor: block.blockFloor
+      });
+    }
   }
 
   onGet(): void {
@@ -94,10 +105,20 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Block', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       blockCode: this.form.value.blockCode,
       blockFloor: this.form.value.blockFloor
-    }, null, {
+    };
+
+    if (this.modalTitle === 'Edit') {
+      requestBody['blockId'] = this.blockId;
+    }
+
+    httpMethod('/api/v1/Block', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -108,6 +129,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -117,7 +139,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

@@ -1,0 +1,744 @@
+<section class="block">
+  <div class="mx-auto pl-4">
+    <div class="flex flex-wrap">
+      <div class="w-full">
+        <div
+          class="relative w-full bg-white rouded-[0.3rem] h-[90vh] overflow-hidden min-h-[calc(100%_-_1rem)]"
+        >
+          <!-- chatlist -->
+          <div
+            class="outline-0 h-full overflow-hidden w-[300px] float-left py-4 border-r border-solid border-border"
+          >
+            <div class="h-full">
+              <div class="h-full outline-0">
+                <div class="chat-header">
+                  <div class="flex items-center justify-between pr-4">
+                    <input
+                      type="text"
+                      class="block w-[80%] py-[0.375rem] px-[0.75rem] leading-6 text-[#222] bg-white border border-solid border-[#ccc] appearance-none rounded-[0.25rem] transition-colors focus:outline-0 focus:shadow-[inherit]"
+                      id="inlineFormInputGroup"
+                      placeholder="Search"
+                      aria-label="search"
+                    />
+                    <a class="add" href="#">
+                      <img
+                        class="h-[36px]"
+                        src="https://mehedihtml.com/chatbox/assets/img/add.svg"
+                        alt="add"
+                      />
+                    </a>
+                  </div>
+                </div>
+
+                <div class="max-h-full overflow-y-auto">
+                  <!-- chat-list -->
+                  <div class="chat-lists">
+                    <div class="tab-content" id="myTabContent">
+                      <div
+                        class="md:hidden block absolute bottom-[3px] left-[34px] h-[12px] w-[12px] bg-[#00DB75] rounded-full border-2 border-solid border-white"
+                        id="Open"
+                        role="tabpanel"
+                        aria-labelledby="Open-tab"
+                      >
+                        <!-- chat-list -->
+                        <div class="chat-list">
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                              <span class="block absolute bottom-[3px] left-[34px] h-[12px] w-[12px] bg-[#00DB75] rounded-full border-2 border-solid border-white"></span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Mehedi Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Ryhan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Malek Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Sadik Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Bulu
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Maria SK
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Dipa Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Jhon Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Tumpa Moni
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Payel Akter
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Baby Akter
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Zuwel Rana
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Habib
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Jalal Ahmed
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Hasan Ali
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Mehedi Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- chat-list -->
+                      </div>
+                      <div
+                        class="mt-4"
+                      >
+                        <!-- chat-list -->
+                        <div class="chat-list">
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                              <span class="block absolute bottom-[3px] left-[34px] h-[12px] w-[12px] bg-[#00DB75] rounded-full border-2 border-solid border-white"></span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Mehedi Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Ryhan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Malek Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Sadik Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Bulu
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Maria SK
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Dipa Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Jhon Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Tumpa Moni
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Payel Akter
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Baby Akter
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Zuwel Rana
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Habib
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Jalal Ahmed
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Hasan Ali
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                          <a href="#" class="flex items-center mb-4 relative no-underline">
+                            <div class="flex-shrink-0">
+                              <img
+                                class="img-fluid"
+                                src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                                alt="user img"
+                              />
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3
+                                class="text-[#222] text-[16px] font-medium leading-6 capitalize mb-0"
+                              >
+                                Mehedi Hasan
+                              </h3>
+                              <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- chat-list -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- chat-list -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- chatlist -->
+
+          <!-- chatbox -->
+          <div class="chatbox">
+            <div class="h-full">
+              <div class="h-full outline-0">
+                <div class="p-4 pb-0">
+                  <div class="flex flex-wrap items-center justify-between pl-4 border-b border-solid border-border">
+                    <div>
+                      <div class="flex items-center mb-4 relative no-underline">
+                        <span class="chat-icon md:hidden"
+                          ><img
+                            class="img-fluid"
+                            src="https://mehedihtml.com/chatbox/assets/img/arroleftt.svg"
+                            alt="image title"
+                        /></span>
+                        <div class="flex-shrink-0">
+                          <img
+                            class="img-fluid"
+                            src="https://mehedihtml.com/chatbox/assets/img/user.png"
+                            alt="user img"
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h3
+                            class="text-[#222] text-[18px] font-semibold leading-6 mb-0"
+                          >
+                            Mehedi Hasan
+                          </h3>
+                          <p class="text-[#343434] leading-6 capitalize mb-0">front end developer</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <ul class="flex items-center justify-end">
+                        <li class="p-0 w-full dropdown">
+                          <a
+                            class="w-full text-[#180660] font-medium leading-6 capitalize mt-[5px] -mb-[1px] border border-solid border-transparent rounded-t dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            ><i class="fa fa-ellipsis-v" aria-hidden="true"></i
+                          ></a>
+                          <ul class="dropdown-menu hidden">
+                            <li>
+                              <a class="dropdown-item" href="#">Action</a>
+                            </li>
+                            <li>
+                              <a class="dropdown-item" href="#"
+                                >Another action</a
+                              >
+                            </li>
+                            <li>
+                              <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                              <a class="dropdown-item" href="#"
+                                >Something else here</a
+                              >
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-body">
+                  <div class="msg-body">
+                    <ul class="overflow-y-auto pl-4 pt-4 max-h-[72vh]">
+                      <li class="block w-full relative before:content-[''] before:block before:clear-both before:absolute before:-top-[6px] before:-left-[7px] before:w-0 before:h-0 before:border-x-3 before:border-b-4 before:border-[#f5f5f5] before:-rotate(37deg)">
+                        <p class="text-[#000] leading-6 p-4 bg-[#f5f5f5] inline-block rounded-b-[10px] rounded-tr-[10px]">Hey, Are you there?</p>
+                        <span class="block text-black text-12 leading-6">10:06 am</span>
+                      </li>
+                      <li class="block w-full relative before:content-[''] before:block before:clear-both before:absolute before:-top-[6px] before:-left-[7px] before:w-0 before:h-0 before:border-x-3 before:border-b-4 before:border-[#f5f5f5] before:-rotate(37deg)">
+                        <p class="text-[#000] leading-6 p-4 bg-[#f5f5f5] inline-block rounded-b-[10px] rounded-tr-[10px]">Hey, Are you there?</p>
+                        <span class="block text-black text-12 leading-6">10:16 am</span>
+                      </li>
+                      <li class="repaly block w-full text-right relative before:block before:clear-both before:content-[''] before:absolute before:bottom-[15px] before:-right-[7px] before:w-0 before:h-0 before:border-solid before:border-x-3 before:border-b-4 before:border-[#4b7bec] before:rotate(37deg)">
+                        <p class="text-white leading-6 p-4 bg-[#4b7bec] inline-block rounded-t-[10px] rounded-bl-[10px] mb-0">yes!</p>
+                        <span class="block text-black text-12 leading-6 mr-5">10:20 am</span>
+                      </li>
+                      <li class="block w-full relative before:content-[''] before:block before:clear-both before:absolute before:-top-[6px] before:-left-[7px] before:w-0 before:h-0 before:border-x-3 before:border-b-4 before:border-[#f5f5f5] before:-rotate(37deg)">
+                        <p class="text-[#000] leading-6 p-4 bg-[#f5f5f5] inline-block rounded-b-[10px] rounded-tr-[10px]">Hey, Are you there?</p>
+                        <span class="block text-black text-12 leading-6">10:26 am</span>
+                      </li>
+                      <li class="block w-full relative before:content-[''] before:block before:clear-both before:absolute before:-top-[6px] before:-left-[7px] before:w-0 before:h-0 before:border-x-3 before:border-b-4 before:border-[#f5f5f5] before:-rotate(37deg)">
+                        <p class="text-[#000] leading-6 p-4 bg-[#f5f5f5] inline-block rounded-b-[10px] rounded-tr-[10px]">Hey, Are you there?</p>
+                        <span class="block text-black text-12 leading-6">10:32 am</span>
+                      </li>
+                      <li class="repaly block w-full text-right relative before:block before:clear-both before:content-[''] before:absolute before:bottom-[15px] before:-right-[7px] before:w-0 before:h-0 before:border-solid before:border-x-3 before:border-b-4 before:border-[#4b7bec] before:rotate(37deg)">
+                        <p class="text-white leading-6 p-4 bg-[#4b7bec] inline-block rounded-t-[10px] rounded-bl-[10px] mb-0">How are you?</p>
+                        <span class="block text-black text-12 leading-6 mr-5">10:35 am</span>
+                      </li>
+                      <li>
+                        <div class="relative text-center">
+                          <h6 class="text-center font-normal leading-6 text-[#222] bg-white inline-block px-[5px] mb-0">Today</h6>
+                        </div>
+                      </li>
+
+                      <li class="repaly block w-full text-right relative before:block before:clear-both before:content-[''] before:absolute before:bottom-[15px] before:-right-[7px] before:w-0 before:h-0 before:border-solid before:border-x-3 before:border-b-4 before:border-[#4b7bec] before:rotate(37deg)">
+                        <p class="text-white leading-6 p-4 bg-[#4b7bec] inline-block rounded-t-[10px] rounded-bl-[10px] mb-0">yes, tell me</p>
+                        <span class="block text-black text-12 leading-6 mr-5">10:36 am</span>
+                      </li>
+                      <li class="repaly block w-full text-right relative before:block before:clear-both before:content-[''] before:absolute before:bottom-[15px] before:-right-[7px] before:w-0 before:h-0 before:border-solid before:border-x-3 before:border-b-4 before:border-[#4b7bec] before:rotate(37deg)">
+                        <p class="text-white leading-6 p-4 bg-[#4b7bec] inline-block rounded-t-[10px] rounded-bl-[10px] mb-0">yes... on it</p>
+                        <span class="block text-black text-12 leading-6 mr-5">junt now</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="send-box">
+                  <form class="flex items-center justify-between mb-4 px-4" action="">
+                    <input
+                      type="text"
+                      class="block w-[80%] py-[0.375rem] px-[0.75rem] leading-6 text-[#222] bg-white border border-solid border-[#ccc] appearance-none rounded-[0.25rem] transition-colors focus:outline-0 focus:shadow-[inherit]"
+                      aria-label="message…"
+                      placeholder="Write message…"
+                    />
+
+                    <button type="button" class="border-0 bg-[#3867d6] py-[0.375rem] px-[5px] text-white rounded-[0.25rem] w-[24%] ml-[1%] focus:outline-0">
+                      <i class="mr-[5px]" aria-hidden="true"></i> Send
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- chatbox -->
+      </div>
+    </div>
+  </div>
+</section>

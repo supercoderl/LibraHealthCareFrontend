@@ -22,6 +22,8 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   suppliers: Supplier[] = [];
+  supplierId: number = 0;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -64,8 +66,21 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', supplier?: Supplier | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if(supplier)
+    {
+      this.supplierId = supplier.supplierId;
+      this.form.setValue({
+        name: supplier.name,
+        contactNumber: supplier.contactNumber,
+        email: supplier.email,
+        address: supplier.address ?? '',
+        taxIdNumber: supplier.taxIdNumber ?? '',
+        website: supplier.website ?? ''
+      });
+    }
   }
 
   onGet(): void {
@@ -92,14 +107,24 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Supplier', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       name: this.form.value.name,
       contactNumber: this.form.value.contactNumber,
       email: this.form.value.email,
       address: this.form.value.address === '' ? null : this.form.value.address,
       taxIdNumber: this.form.value.taxIdNumber === '' ? null : this.form.value.taxIdNumber,
       website: this.form.value.website === '' ? null : this.form.value.website
-    }, null, {
+    };
+    
+    if (this.modalTitle === 'Edit') {
+      requestBody['supplierId'] = this.supplierId;
+    }
+
+    httpMethod('/api/v1/Supplier', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -120,7 +145,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

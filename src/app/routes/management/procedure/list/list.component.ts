@@ -15,13 +15,15 @@ import { Procedure } from '../../../../types/procedure';
   imports: [
     SharedModule,
     DefaultInputComponent,
-],
+  ],
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   procedures: Procedure[] = [];
+  code: number = 0;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -60,8 +62,16 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', procedure?: Procedure | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if (procedure) {
+      this.code = procedure.code;
+      this.form.setValue({
+        name: procedure.name,
+        cost: procedure.cost
+      })
+    }
   }
 
   onGet(): void {
@@ -90,10 +100,20 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Procedure', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       name: this.form.value.name,
       cost: this.form.value.cost
-    }, null, {
+    };
+
+    if (this.modalTitle === 'Edit') {
+      requestBody['code'] = this.code;
+    }
+
+    httpMethod('/api/v1/Procedure', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -104,6 +124,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -113,7 +134,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

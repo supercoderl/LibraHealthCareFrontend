@@ -23,6 +23,8 @@ export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   patients: Patient[] = [];
+  ssn: number = 0;
+  modalTitle: 'Add' | 'Edit' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
@@ -65,8 +67,19 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(): void {
+  showModal(type: 'Add' | 'Edit', patient?: Patient | null): void {
     this.isVisible = true;
+    this.modalTitle = type;
+    if(patient)
+    {
+      this.ssn = patient.ssn;
+      this.form.setValue({
+        name: patient.name,
+        address: patient.address ?? '',
+        mobile: patient.mobile,
+        pcp: patient.pcp ?? ''
+      })
+    }
   }
 
   onGet(): void {
@@ -95,12 +108,22 @@ export class ListComponent implements OnInit {
 
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/Patient', {
+
+    const httpMethod = (url: string, body: any, options: any) =>
+      this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
+
+    const requestBody: any = {
       name: this.form.value.name,
       address: this.form.value.address === '' ? null : this.form.value.address,
       mobile: this.form.value.mobile,
       pcp: this.form.value.pcp === '' ? null : this.form.value.pcp
-    }, null, {
+    };
+    
+    if (this.modalTitle === 'Edit') {
+      requestBody['ssn'] = this.ssn;
+    }
+
+    httpMethod('/api/v1/Patient', requestBody, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     }).pipe(finalize(() => {
       this.loading = false;
@@ -111,6 +134,7 @@ export class ListComponent implements OnInit {
         this.reuseTabService?.clear();
         this.onGet();
         this.isVisible = false;
+        this.form.reset();
       },
       error: err => {
         this.error = err?.error?.errors[0] ?? '';
@@ -120,7 +144,7 @@ export class ListComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    this.form.reset();
     this.isVisible = false;
   }
 

@@ -46,7 +46,7 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Add"
-                  (click)="showModal()"
+                  (click)="showModal('Add')"
                 >
                   <span
                     nz-icon
@@ -67,6 +67,7 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Reload"
+                  (click)="onGet()"
                 >
                   <span
                     nz-icon
@@ -144,48 +145,35 @@
                   class="!bg-white"
                   nzWidth="5%"
                 ></th>
-                <th class="!bg-white" nzWidth="15%">Name</th>
-                <th class="!bg-white" nzWidth="10%">Doctor</th>
-                <th class="!bg-white" nzWidth="10%">Gender</th>
-                <th class="!bg-white" nzWidth="10%">Date</th>
-                <th class="!bg-white" nzWidth="10%">Time</th>
-                <th class="!bg-white" nzWidth="10%">Mobile</th>
-                <th class="!bg-white" nzWidth="10%">Email</th>
-                <th class="!bg-white" nzAlign="center" nzWidth="10%">
-                  Appointment Status
-                </th>
+                <th class="!bg-white" nzWidth="20%">Patient</th>
+                <th class="!bg-white" nzWidth="20%">Nurse</th>
+                <th class="!bg-white" nzWidth="20%">Physician</th>
+                <th class="!bg-white" nzWidth="15%">Start Time</th>
+                <th class="!bg-white" nzWidth="15%">End Time</th>
                 <th class="!bg-white" nzWidth="10%">Action</th>
               </tr>
             </thead>
             <tbody>
-              @for (data of rowSelectionTable.data; track data) {
+              @for (appointment of appointments; track appointment) {
               <tr>
                 <td
-                  [nzChecked]="setOfCheckedId.has(data.id)"
-                  (nzCheckedChange)="onItemChecked(data.id, $event)"
+                  [nzChecked]="false"
                 ></td>
                 <td>
-                  <nz-avatar nzIcon="user" [nzSize]="28"></nz-avatar> &nbsp;
-                  {{ data.name }}
-                </td>
-                <td>Dr.Jay Soni</td>
-                <td>
-                  <nz-tag nzColor="#87d068">Male</nz-tag>
-                </td>
-                <td>11/14/2024</td>
-                <td>
-                  <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
-                  09:45
+                  {{ getPatientLabel(appointment.patientId) }}
                 </td>
                 <td>
-                  <span nz-icon nzType="phone" nzTheme="outline"></span>
-                  234567890
+                  {{ getNurseLabel(appointment.preNurseId) }}
                 </td>
                 <td>
-                  <span nz-icon nzType="mail" nzTheme="outline"></span>
-                  alice.j&#64;email.com
+                  {{ getPhysicianLabel(appointment.physicianId) }}
                 </td>
-                <td>Scheduled</td>
+                <td>
+                  {{ appointment.startTime }}
+                </td>
+                <td>
+                  {{ appointment.endTime }}
+                </td>
                 <td>
                   <div nz-flex [nzGap]="10">
                     <button
@@ -194,6 +182,7 @@
                       nzShape="circle"
                       nz-tooltip
                       nzTooltipTitle="Edit"
+                      (click)="showModal('Edit', appointment)"
                     >
                       <span
                         nz-icon
@@ -231,7 +220,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="Create appointment"
+  [nzTitle]="modalTitle + ' Appointment'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   nzWidth="45vw"
@@ -240,85 +229,138 @@
     <div class="w-full">
       <div class="bg-white shadow-sm">
         <div class="leading-loose">
-          <form class="">
+          <form class="" [formGroup]="form">
             <div class="flex gap-4 items-center">
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+                [class.filled]="form.value && form.value.patientId !== 0"
               >
                 <libra-select
                   text="Patient"
-                  [args]="{ id: 'patient', name: 'patient' }"
+                  [args]="{ 
+                    id: 'patientId', 
+                    name: 'patientId',
+                    formControlName: 'patientId' 
+                  }"
+                  [options]="patients"
                 />
               </div>
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+                [class.filled]="form.value && form.value.physicianId?.trim()"
               >
                 <libra-select
                   text="Physician"
-                  [args]="{ id: 'physician', name: 'physician' }"
+                  [args]="{ 
+                    id: 'physicianId', 
+                    name: 'physicianId',
+                    formControlName: 'physicianId'
+                  }"
+                  [options]="physicians"
                 />
               </div>
             </div>
             <div class="flex gap-4 items-center">
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+                [class.filled]="form.value && form.value.preNurseId?.trim()"
               >
                 <libra-select
                   text="Nurse"
-                  [args]="{ id: 'nurse', name: 'nurse' }"
+                  [args]="{ 
+                    id: 'preNurseId', 
+                    name: 'preNurseId',
+                    formControlName: 'preNurseId'
+                  }"
+                  [options]="nurses"
                 />
               </div>
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+                [class.filled]="form.value && form.value.examinationRoom?.trim()"
               >
                 <libra-input
                   text="Examination Room"
-                  [args]="{ id: 'examinationRoom', name: 'examinationRoom' }"
+                  [args]="{ 
+                    id: 'examinationRoom', 
+                    name: 'examinationRoom',
+                    formControlName: 'examinationRoom'
+                  }"
                 />
               </div>
             </div>
             <div class="flex gap-4 items-center">
               <div
                 class="flatpickr relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+                [class.filled]="form.value && form.value.startTime?.trim()"
               >
                 <libra-date-picker
                   text="Start Time"
-                  [args]="{ id: 'startTime', name: 'startTime' }"
+                  [args]="{ 
+                    id: 'startTime', 
+                    name: 'startTime',
+                    formControlName: 'startTime',
+                    formGroup: form
+                  }"
                 />
               </div>
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+                [class.filled]="form.value && form.value.endTime?.trim()"
               >
                 <libra-date-picker
                   text="End Time"
-                  [args]="{ id: 'endTime', name: 'endTime' }"
+                  [args]="{ 
+                    id: 'endTime', 
+                    name: 'endTime',
+                    formControlName: 'endTime',
+                    formGroup: form
+                  }"
                 />
               </div>
             </div>
             <div class="flex gap-4 items-center">
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
+                [class.filled]="form.value && form.value.reminder?.trim()"
               >
                 <libra-date-picker
                   text="Reminder"
-                  [args]="{ id: 'reminder', name: 'reminder' }"
+                  [args]="{ 
+                    id: 'reminder', 
+                    name: 'reminder',
+                    formControlName: 'reminder',
+                    formGroup: form
+                  }"
                 />
               </div>
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
+                [class.filled]="form.value && form.value.purpose?.trim()"
               >
                 <libra-input
                   text="Purpose"
-                  [args]="{ id: 'purpose, name: purpose', type: 'text' }"
+                  [args]="{ 
+                    id: 'purpose', 
+                    name: 'purpose', 
+                    type: 'text',
+                    formControlName: 'purpose'
+                  }"
                 />
               </div>
             </div>
             <div
               class="relative h-10 w-[calc(100%+0.5rem)] input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.notes?.trim()"
             >
               <libra-textarea
                 text="Notes"
-                [args]="{ id: 'notes', name: 'notes', rows: 8 }"
+                [args]="{ 
+                  id: 'notes', 
+                  name: 'notes', 
+                  rows: 6,
+                  formControlName: 'notes'
+                }"
               />
             </div>
           </form>
