@@ -1,7 +1,7 @@
 <div class="p-[25px]">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card">
-      <h3 class="text-3xl mb-4">Treatment List</h3>
+      <h3 class="text-3xl mb-4">Disease List</h3>
       <div
         class="flex items-center text-center border-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] flex-wrap rounded-t px-[5px]"
       >
@@ -129,7 +129,7 @@
         <div class="responsive_table">
           <nz-table
             #rowSelectionTable
-            [nzData]="treatments"
+            [nzData]="diseases"
             [nzScroll]="{ y: '28.5vw' }"
             class="border-[1px] border-solid border-t-0 rounded-b pl-[20px]"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
@@ -146,24 +146,24 @@
                   class="!bg-white"
                   nzWidth="5%"
                 ></th>
-                <th class="!bg-white" nzWidth="20%">Name</th>
-                <th class="!bg-white" nzWidth="20%">Type</th>
-                <th class="!bg-white" nzWidth="45%">Description</th>
+                <th class="!bg-white" nzWidth="25%">Name</th>
+                <th class="!bg-white" nzWidth="35%">Description</th>
+                <th class="!bg-white" nzWidth="25%">Treatment Plans</th>
                 <th class="!bg-white" nzWidth="10%">Action</th>
               </tr>
             </thead>
             <tbody>
-              @for (treatment of treatments; track treatment) {
+              @for (disease of diseases; track disease) {
               <tr>
                 <td [nzChecked]="false"></td>
                 <td>
-                  {{ treatment.name }}
+                  {{ disease.name }}
                 </td>
                 <td>
-                  {{ getLabel(treatment.type) }}
+                  {{ disease.description }}
                 </td>
                 <td>
-                  {{ treatment.description }}
+                  {{ disease.treatmentPlans }}
                 </td>
                 <td>
                   <div nz-flex [nzGap]="10">
@@ -173,7 +173,7 @@
                       nzShape="circle"
                       nz-tooltip
                       nzTooltipTitle="Edit"
-                      (click)="showModal('Edit', treatment)"
+                      (click)="showModal('Edit', disease)"
                     >
                       <span
                         nz-icon
@@ -211,7 +211,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  [nzTitle]="modalTitle + ' Treatment'"
+  [nzTitle]="modalTitle + ' Disease'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="loading"
@@ -230,47 +230,46 @@
       <div class="bg-white shadow-sm">
         <div class="leading-loose">
           <form nz-form [formGroup]="form">
-            <div class="flex items-center gap-4">
-              <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value && form.value.name?.trim()"
-              >
-                <libra-input
-                  text="Name"
-                  [args]="{
-                    id: 'name',
-                    name: 'name',
-                    type: 'text',
-                    formControlName: 'name'
-                  }"
-                />
-              </div>
-              <div
-                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-              >
-                <libra-select
-                  text="Type"
-                  [args]="{
-                    id: 'type',
-                    name: 'type',
-                    formControlName: 'type',
-                    formGroup: form
-                  }"
-                  [options]="types"
-                />
-              </div>
+            <div
+              class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.name?.trim()"
+            >
+              <libra-input
+                text="Name"
+                [args]="{
+                  id: 'name',
+                  name: 'name',
+                  type: 'text',
+                  formControlName: 'name'
+                }"
+              />
+            </div>
+            <div
+              class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
+              [class.filled]="form.value && form.value.treatmentPlans?.trim()"
+            >
+              <libra-input
+                text="Treatment Plans"
+                [args]="{
+                  id: 'treatmentPlans',
+                  name: 'treatmentPlans',
+                  type: 'text',
+                  formControlName: 'treatmentPlans'
+                }"
+              />
             </div>
             <div
               class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               [class.filled]="form.value && form.value.description?.trim()"
             >
-              <libra-input
+              <libra-textarea
                 text="Description"
                 [args]="{
                   id: 'description',
                   name: 'description',
                   type: 'text',
-                  formControlName: 'description'
+                  formControlName: 'description',
+                  rows: 4
                 }"
               />
             </div>

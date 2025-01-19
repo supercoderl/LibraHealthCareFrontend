@@ -16,7 +16,7 @@ function reAttachToken(injector: Injector, req: HttpRequest<any>): HttpRequest<a
 
     return req.clone({
         setHeaders: {
-            token: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
     });
 }

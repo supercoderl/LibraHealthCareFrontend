@@ -1,41 +1,54 @@
-<div class="mt-30 mx-auto mb-8.8 text-center">
-  <h1 class="m-0 p-0 text-28 md:text-36 text-[#333333] pb-1.25">
-    Make a diagnosis
-  </h1>
-  <div class="text-[#999999] mt-1.25 text-10">
-    Follow the instructions and fill in all information to conduct the survey
+<div *ngIf="!showModal; else loginAlert">
+  <div class="mt-30 mx-auto mb-8.8 text-center">
+    <h1 class="m-0 p-0 text-28 md:text-36 text-[#333333] pb-1.25">
+      Make a diagnosis
+    </h1>
+    <div class="text-[#999999] mt-1.25 text-10">
+      Follow the instructions and fill in all information to conduct the survey
+    </div>
   </div>
+
+  <form
+    class="h-800 w-full md:w-1000 my-12.5 mx-auto relative overflow-x-hidden flex"
+    [ngClass]="stage === 4 ? 'overflow-y-auto' : 'overflow-y-hidden'"
+    accept-charset="UTF-8"
+    enctype="multipart/form-data"
+    novalidate=""
+  >
+    <diagnosis-process [stage]="stage" [totalSymtomStage]="parts.length + 1" />
+
+    <div *ngIf="stage <= parts.length">
+      <ng-container *ngIf="loading; else showSymptoms">
+        <diagnosis-skeleton />
+      </ng-container>
+      <ng-template #showSymptoms>
+        <!-- ACQUISITION FIELD SET -->
+        <diagnosis-symtom
+          *ngFor="let part of parts; let num = index"
+          [questions]="part"
+          [stage]="stage"
+          [onPreviousClick]="onPreviousClick"
+          [onNextClick]="onNextClick"
+          [onSubmitClick]="onSubmit"
+          [onAnswerChange]="onAnswerChange"
+          [isSelected]="isSelected"
+          [currentStage]="num + 1"
+          [finalStage]="parts.length"
+        />
+      </ng-template>
+    </div>
+
+    <div *ngIf="stage > parts.length">
+      <ng-container *ngIf="loading; else showResult">
+        <diagnosis-skeleton />
+      </ng-container>
+      <ng-template #showResult>
+        <diagnosis-result [result]="result" [reset]="reset" />
+      </ng-template>
+    </div>
+  </form>
 </div>
 
-<form
-  class="h-800 w-full md:w-1000 my-12.5 mx-auto relative overflow-x-hidden flex"
-  [ngClass]="stage === 4 ? 'overflow-y-auto' : 'overflow-y-hidden'"
-  accept-charset="UTF-8"
-  enctype="multipart/form-data"
-  novalidate=""
->
-  <diagnosis-process [stage]="stage" />
-
-  <!-- USER INFORMATION FIELD SET -->
-  <diagnosis-information [stage]="stage" [onNextClick]="onNextClick" />
-
-  <!-- ACQUISITION FIELD SET -->
-  <diagnosis-symtom
-    *ngFor="let num of [2, 3]"
-    [stage]="stage"
-    [onPreviousClick]="onPreviousClick"
-    [onNextClick]="onNextClick"
-    [onSubmitClick]="onSubmit"
-    [currentStage]="num"
-  />
-
-  <div *ngIf="stage === 4">
-    <ng-container *ngIf="loading; else showResult">
-      <diagnosis-skeleton /> 
-    </ng-container>
-  </div>
-
-  <ng-template #showResult>
-    <diagnosis-result />
-  </ng-template>
-</form>
+<ng-template #loginAlert>
+  <login-alert />
+</ng-template>

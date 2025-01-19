@@ -104,6 +104,18 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 9,
+        title: 'Question',
+        children: [
+            {
+                title: 'List',
+                link: '/management/question/list',
+                icon: 'question-circle'
+            }
+        ],
+        part: 2
+    },
+    {
+        id: 10,
         title: 'Nurse',
         children: [
             {
@@ -115,7 +127,7 @@ export const ADMIN_MENUS: AdminMenu[] = [
         part: 3
     },
     {
-        id: 10,
+        id: 11,
         title: 'Patient',
         children: [
             {
@@ -127,7 +139,7 @@ export const ADMIN_MENUS: AdminMenu[] = [
         part: 3
     },
     {
-        id: 11,
+        id: 12,
         title: 'Role',
         children: [
             {
@@ -139,7 +151,7 @@ export const ADMIN_MENUS: AdminMenu[] = [
         part: 3
     },
     {
-        id: 12,
+        id: 13,
         title: 'User',
         children: [
             {
@@ -149,5 +161,46 @@ export const ADMIN_MENUS: AdminMenu[] = [
             }
         ],
         part: 3
-    }
+    },
+    {
+        id: 14,
+        title: 'Symtom',
+        children: [
+            {
+                title: 'List',
+                link: '/management/symtom/list',
+                icon: 'bug'
+            }
+        ],
+        part: 3
+    },
+    {
+        id: 15,
+        title: 'Disease',
+        children: [
+            {
+                title: 'List',
+                link: '/management/disease/list',
+                icon: 'crown'
+            },
+            {
+                title: 'Diagnoses',
+                link: '/management/disease/diagnoses',
+                icon: 'insert-row-below'
+            }
+        ],
+        part: 1
+    },
+    {
+        id: 16,
+        title: 'Room',
+        children: [
+            {
+                title: 'List',
+                link: '/management/room/list',
+                icon: 'gateway'
+            },
+        ],
+        part: 2
+    },
 ]

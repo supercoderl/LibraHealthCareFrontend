@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpResponseBase } from "@angular/common/http";
-import { Injector } from "@angular/core";
+import { inject, Injector } from "@angular/core";
 import { Router } from "@angular/router";
+import { ALAIN_I18N_TOKEN } from "@delon/theme";
 import { NzNotificationService } from "ng-zorro-antd/notification";
 
 export interface ReThrowHttpError {
@@ -36,7 +37,7 @@ export function toLogin(injector: Injector): void {
 }
 
 export function checkStatus(injector: Injector, ev: HttpResponseBase): void {
-    if((ev.status >= 200 && ev.status < 300 || ev.status === 401)) return;
+    if ((ev.status >= 200 && ev.status < 300 || ev.status === 401)) return;
 
     const errorText = CODES_MESSAGES[ev.status] || ev.statusText;
     injector.get(NzNotificationService).error(`Request error ${ev.status}: ${ev.url}`, errorText);

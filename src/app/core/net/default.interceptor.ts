@@ -5,6 +5,8 @@ import { checkStatus, ReThrowHttpError, toLogin } from "./helper";
 import { environment } from "../../../environments/environment";
 import { tryRefreshToken } from "./refresh-token";
 import { IGNORE_BASE_URL } from "@delon/theme";
+import { DA_SERVICE_TOKEN, isAnonymous, mergeConfig } from "@delon/auth";
+import { AlainConfigService } from "@delon/util";
 
 function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
     checkStatus(injector, ev);
@@ -37,20 +39,25 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
 
 export const defaultInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
     let url = req.url;
-    
-    if(!req.context.get(IGNORE_BASE_URL) && !url.startsWith('https://') && !url.startsWith('http://')) {
+    const options = mergeConfig(inject(AlainConfigService));
+    const token = inject(DA_SERVICE_TOKEN).get()?.token;
+
+    if (!req.context.get(IGNORE_BASE_URL) && !url.startsWith('https://') && !url.startsWith('http://')) {
         const { baseUrl } = environment.api;
         url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
     }
 
-    const newReq = req.clone({ url });
+    const newReq = req.clone({
+        url, setHeaders: !isAnonymous(req, options) ? {
+            Authorization: `Bearer ${token}`
+        } : {}
+    });
 
     const injector = inject(Injector);
 
     return next(newReq).pipe(
         mergeMap(ev => {
-            if(ev instanceof HttpResponseBase)
-            {
+            if (ev instanceof HttpResponseBase) {
                 return handleData(injector, ev, newReq, next);
             }
             return of(ev);

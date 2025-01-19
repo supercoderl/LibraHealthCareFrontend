@@ -6,6 +6,7 @@ import { VERSION as VERSION_ZORRO } from 'ng-zorro-antd/version';
 import { environment } from '../environments/environment';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import 'notyf/notyf.min.css';
 
 @Component({
   selector: 'app-root',

@@ -275,15 +275,15 @@
 
             <div class="flex items-center gap-4">
               <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value.type"
+                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               >
                 <libra-select
                   text="Type"
                   [args]="{
                     id: 'type',
                     name: 'type',
-                    formControlName: 'type'
+                    formControlName: 'type',
+                    formGroup: form
                   }"
                   [options]="medicationTypes"
                 />
@@ -352,15 +352,15 @@
               </div>
 
               <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value && form.value.supplierId !== 0"
+                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               >
                 <libra-select
                   text="Supplier"
                   [args]="{
                     id: 'supplierId',
                     name: 'supplierId',
-                    formControlName: 'supplierId'
+                    formControlName: 'supplierId',
+                    formGroup: form
                   }"
                   [options]="suppliers"
                 />
@@ -414,15 +414,15 @@
                 />
               </div>
               <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value"
+                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               >
                 <libra-select
                   text="Is Prescription Required"
                   [args]="{
                     id: 'isPrescriptionRequired',
                     name: 'isPrescriptionRequired',
-                    formControlName: 'isPrescriptionRequired'
+                    formControlName: 'isPrescriptionRequired',
+                    formGroup: form
                   }"
                   [options]="[
                     { value: 0, label: 'No' },

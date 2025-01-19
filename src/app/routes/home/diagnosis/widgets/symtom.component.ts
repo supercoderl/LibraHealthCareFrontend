@@ -1,7 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { SharedModule } from "../../../../shared";
-import { Symtom } from "../../../../types";
-import { SYMTOMS } from "../../../../constants";
+import { Question } from "../../../../types";
 
 @Component({
     selector: 'diagnosis-symtom',
@@ -23,16 +22,15 @@ import { SYMTOMS } from "../../../../constants";
 
             <!-- Begin Total Number of Donors in Year 1 Field -->
             <ul class="p-0 m-0">
-                <li class="flex items-center relative" *ngFor="let symtom of symtoms">
+                <li class="flex items-center relative" *ngFor="let question of questions">
                     <fieldset
-                        [id]="symtom.symtomId.toString()"
+                        [id]="question.questionId.toString()"
                         class="border-b border-solid border-border m-0 flex flex-wrap gap-6 items-start flex-1 justify-between px-0 md:px-3 p-3 hover:bg-border transition-all duration-300"
                     >
                         <div class="flex md:flex-col w-full md:w-auto items-start justify-between gap-2">
-                            <span class="text-[#1F262C] font-bold md:font-normal">{{symtom.name}}</span>
+                            <span class="text-[#1F262C] font-bold md:font-normal">{{question.question}}</span>
                             <button
                                 class="align-start whitespace-normal gap-1 bg-transparent items-center inline-flex relative"
-                                *ngIf="symtom.description"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -54,19 +52,24 @@ import { SYMTOMS } from "../../../../constants";
                                 <li class="flex items-center border-none relative" *ngFor="let num of [0, 1]">
                                     <label
                                         class="flex items-start gap-3 justify-start"
-                                        [for]="'result-' + num"
+                                        [for]="'result-' + question.questionId + '-' + num"
                                     >
                                         <input
-                                            [id]="'result-' + num"
+                                            [id]="'result-' + question.questionId + '-' + num"
                                             type="radio"
                                             class="overflow-hidden absolute w-px h-px whitespace-nowrap"
-                                            [name]="num"
+                                            [name]="'answer-' + question.questionId"
                                             [value]="num"
+                                            (change)="onAnswerChange(question.questionId, num, question.symtoms)"
                                         />
                                         <div
                                             class="cursor-pointer flex items-center bg-white border border-solid border-primary flex-0 m-0.5 relative w-5 h-5 rounded-full"
                                         >
                                             <div
+                                                [ngClass]="{
+                                                    'invisible': !isSelected(question.questionId, num),
+                                                    'visible': isSelected(question.questionId, num)
+                                                }"
                                                 class="bg-primary rounded-full invisible h-2.5 w-2.5 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                                             ></div>
                                         </div>
@@ -83,6 +86,7 @@ import { SYMTOMS } from "../../../../constants";
             <!-- End Calc of Total Number of Donors Fields -->
 
             <input
+                *ngIf="stage > 1"
                 type="button"
                 data-page="2"
                 name="previous"
@@ -97,7 +101,7 @@ import { SYMTOMS } from "../../../../constants";
                 name="next"
                 class="float-right w-25 bg-primary font-bold text-white border-none rounded-px cursor-pointer py-2.5 px-1.25 my-2.5 mx-auto transition-all duration-300 block"
                 value="Next"
-                (click)="stage === 3 ? onSubmitClick() : onNextClick()"
+                (click)="stage === finalStage ? onSubmitClick() : onNextClick()"
             />
         </fieldset>
     `,
@@ -109,7 +113,8 @@ import { SYMTOMS } from "../../../../constants";
 })
 
 export class DiagnosisSymtom {
-    symtoms: Symtom[] = SYMTOMS;
+    @Input()
+    questions!: Question[];
     
     @Input()
     stage!: number;
@@ -123,6 +128,15 @@ export class DiagnosisSymtom {
     @Input()
     onSubmitClick!: () => void;
 
+    @Input()
+    onAnswerChange!: (questionId: number, answer: number, symtoms: number[]) => void;
+
+    @Input()
+    isSelected!: (questionId: number, answer: number) => boolean;
+
     @Input() 
     currentStage!: number;
+
+    @Input()
+    finalStage!: number;
 }

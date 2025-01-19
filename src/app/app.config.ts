@@ -18,6 +18,7 @@ import { CELL_WIDGETS, SF_WIDGETS, ST_WIDGETS } from "./shared";
 import { provideSTWidgets } from "@delon/abc/st";
 import { provideSFConfig } from "@delon/form";
 import { routes } from "./routes/routes";
+import { provideToastr } from "ngx-toastr";
 
 const defaultLang: AlainProvideLang = {
   abbr: 'en-US',
@@ -61,7 +62,8 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideCellWidgets(...CELL_WIDGETS),
   provideSTWidgets(...ST_WIDGETS),
   provideSFConfig({ widgets: SF_WIDGETS }),
-  provideStartup()
+  provideStartup(),
+  provideToastr()
 ];
 
 

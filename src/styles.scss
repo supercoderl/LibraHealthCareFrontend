@@ -6,6 +6,8 @@
 @import './tailwind.base.css';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+// regular style toast
+@import 'ngx-toastr/toastr';
 
 .ant-table-pagination.ant-pagination {
     margin-inline: 1rem !important;

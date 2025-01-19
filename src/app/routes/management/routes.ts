@@ -80,11 +80,26 @@ export const managementRoutes: Routes = [
 
         path: 'physician',
         loadChildren: () => import('./physician/routes').then(m => m.routes),
-        data: { title: 'Physician'}
+        data: { title: 'Physician' }
     },
     {
         path: 'message',
         loadChildren: () => import('./message/routes').then(m => m.routes),
         data: { title: 'Message' }
+    },
+    {
+        path: 'question',
+        loadChildren: () => import('./question/routes').then(m => m.routes),
+        data: { title: 'Question' }
+    },
+    {
+        path: 'disease',
+        loadChildren: () => import('./disease/routes').then(m => m.routes),
+        data: { title: 'Disease' }
+    },
+    {
+        path: 'room',
+        loadChildren: () => import('./room/routes').then(m => m.routes),
+        data: { title: 'Room' }
     }
 ]

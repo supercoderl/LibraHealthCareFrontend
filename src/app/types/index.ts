@@ -18,3 +18,7 @@ export * from './user';
 export * from './physician';
 export * from './appointment';
 export * from './menu';
+export * from './question';
+export * from './disease';
+export * from './diagnosis';
+export * from './room';

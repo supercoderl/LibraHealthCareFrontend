@@ -156,9 +156,7 @@
             <tbody>
               @for (appointment of appointments; track appointment) {
               <tr>
-                <td
-                  [nzChecked]="false"
-                ></td>
+                <td [nzChecked]="false"></td>
                 <td>
                   {{ getPatientLabel(appointment.patientId) }}
                 </td>
@@ -232,29 +230,29 @@
           <form class="" [formGroup]="form">
             <div class="flex gap-4 items-center">
               <div
-                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
-                [class.filled]="form.value && form.value.patientId !== 0"
+                class="filled relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
               >
                 <libra-select
                   text="Patient"
-                  [args]="{ 
-                    id: 'patientId', 
+                  [args]="{
+                    id: 'patientId',
                     name: 'patientId',
-                    formControlName: 'patientId' 
+                    formControlName: 'patientId',
+                    formGroup: form
                   }"
                   [options]="patients"
                 />
               </div>
               <div
-                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
-                [class.filled]="form.value && form.value.physicianId?.trim()"
+                class="filled relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
               >
                 <libra-select
                   text="Physician"
-                  [args]="{ 
-                    id: 'physicianId', 
+                  [args]="{
+                    id: 'physicianId',
                     name: 'physicianId',
-                    formControlName: 'physicianId'
+                    formControlName: 'physicianId',
+                    formGroup: form
                   }"
                   [options]="physicians"
                 />
@@ -262,27 +260,29 @@
             </div>
             <div class="flex gap-4 items-center">
               <div
-                class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
-                [class.filled]="form.value && form.value.preNurseId?.trim()"
+                class="filled relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1"
               >
                 <libra-select
                   text="Nurse"
-                  [args]="{ 
-                    id: 'preNurseId', 
+                  [args]="{
+                    id: 'preNurseId',
                     name: 'preNurseId',
-                    formControlName: 'preNurseId'
+                    formControlName: 'preNurseId',
+                    formGroup: form
                   }"
                   [options]="nurses"
                 />
               </div>
               <div
                 class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1 sm:w-1/2"
-                [class.filled]="form.value && form.value.examinationRoom?.trim()"
+                [class.filled]="
+                  form.value && form.value.examinationRoom?.trim()
+                "
               >
                 <libra-input
                   text="Examination Room"
-                  [args]="{ 
-                    id: 'examinationRoom', 
+                  [args]="{
+                    id: 'examinationRoom',
                     name: 'examinationRoom',
                     formControlName: 'examinationRoom'
                   }"
@@ -296,8 +296,8 @@
               >
                 <libra-date-picker
                   text="Start Time"
-                  [args]="{ 
-                    id: 'startTime', 
+                  [args]="{
+                    id: 'startTime',
                     name: 'startTime',
                     formControlName: 'startTime',
                     formGroup: form
@@ -310,8 +310,8 @@
               >
                 <libra-date-picker
                   text="End Time"
-                  [args]="{ 
-                    id: 'endTime', 
+                  [args]="{
+                    id: 'endTime',
                     name: 'endTime',
                     formControlName: 'endTime',
                     formGroup: form
@@ -326,8 +326,8 @@
               >
                 <libra-date-picker
                   text="Reminder"
-                  [args]="{ 
-                    id: 'reminder', 
+                  [args]="{
+                    id: 'reminder',
                     name: 'reminder',
                     formControlName: 'reminder',
                     formGroup: form
@@ -340,9 +340,9 @@
               >
                 <libra-input
                   text="Purpose"
-                  [args]="{ 
-                    id: 'purpose', 
-                    name: 'purpose', 
+                  [args]="{
+                    id: 'purpose',
+                    name: 'purpose',
                     type: 'text',
                     formControlName: 'purpose'
                   }"
@@ -355,9 +355,9 @@
             >
               <libra-textarea
                 text="Notes"
-                [args]="{ 
-                  id: 'notes', 
-                  name: 'notes', 
+                [args]="{
+                  id: 'notes',
+                  name: 'notes',
                   rows: 6,
                   formControlName: 'notes'
                 }"

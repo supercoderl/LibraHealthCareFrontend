@@ -93,7 +93,6 @@ export class ListComponent implements OnInit {
   isVisible = false;
 
   showModal(type: 'Add' | 'Edit', medication?: Medication | null): void {
-    console.log(medication);
     this.isVisible = true;
     this.modalTitle = type;
     if(medication)

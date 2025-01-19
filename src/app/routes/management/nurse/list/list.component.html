@@ -275,15 +275,15 @@
 
             <div class="flex items-center gap-4">
               <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value.registered"
+                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               >
                 <libra-select
                   text="Registered"
                   [args]="{
                     id: 'registered',
                     name: 'registered',
-                    formControlName: 'registered'
+                    formControlName: 'registered',
+                    formGroup: form
                   }"
                   [options]="[
                     { value: 0, label: 'No' },
@@ -309,15 +309,15 @@
 
             <div class="flex items-center gap-4">
               <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value && form.value.specialization !== 0"
+                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               >
                 <libra-select
                   text="Specialization"
                   [args]="{
                     id: 'specialization',
                     name: 'specialization',
-                    formControlName: 'specialization'
+                    formControlName: 'specialization',
+                    formGroup: form
                   }"
                   [options]="specializations"
                 />
@@ -340,15 +340,15 @@
 
             <div class="flex items-center gap-4">
               <div
-                class="w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
-                [class.filled]="form.value && form.value.userId?.trim()"
+                class="filled w-full relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:-mx-1 sm:pl-1"
               >
                 <libra-select
                   text="User"
                   [args]="{
                     id: 'userId',
                     name: 'userId',
-                    formControlName: 'userId'
+                    formControlName: 'userId',
+                    formGroup: form
                   }"
                   [options]="users"
                 />
