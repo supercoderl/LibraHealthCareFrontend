@@ -7,6 +7,7 @@ import { Notyf } from 'notyf';
 export class NotyfService {
     private notyf = new Notyf({
         position: { x: 'right', y: 'top' },
+        duration: 3000
     });
 
     success(message: string) {

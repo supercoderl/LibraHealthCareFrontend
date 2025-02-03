@@ -1,12 +1,13 @@
-import { Component, ElementRef, inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, NavigationError, RouteConfigLoadStart, Router, RouterOutlet } from '@angular/router';
 import { stepPreloader, TitleService } from '@delon/theme';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { VERSION as VERSION_ZORRO } from 'ng-zorro-antd/version'; 
+import { VERSION as VERSION_ZORRO } from 'ng-zorro-antd/version';
 import { environment } from '../environments/environment';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'notyf/notyf.min.css';
+import { DA_SERVICE_TOKEN } from '@delon/auth';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly titleSrv = inject(TitleService);
   private readonly modalSrv = inject(NzModalService);
+  private readonly tokenService = inject(DA_SERVICE_TOKEN);
 
   private donePreloader = stepPreloader();
 
@@ -30,11 +32,11 @@ export class AppComponent implements OnInit {
     let configLoad = false;
 
     this.router.events.subscribe(ev => {
-      if(ev instanceof RouteConfigLoadStart) {
+      if (ev instanceof RouteConfigLoadStart) {
         configLoad = true;
       }
 
-      if(configLoad && ev instanceof NavigationError) {
+      if (configLoad && ev instanceof NavigationError) {
         this.modalSrv.confirm({
           nzTitle: 'Remind',
           nzContent: environment.production ? 'The app may have released a new version, please click refresh to take effect.' : `Unable to load route: ${ev.url}`,
@@ -45,7 +47,7 @@ export class AppComponent implements OnInit {
         });
       }
 
-      if(ev instanceof NavigationEnd) {
+      if (ev instanceof NavigationEnd) {
         this.donePreloader();
         this.titleSrv.setTitle();
         this.modalSrv.closeAll();

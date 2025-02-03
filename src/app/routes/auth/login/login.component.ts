@@ -75,7 +75,9 @@ export class LoginComponent implements OnDestroy {
         //Set user Token information
         this.tokenService.set({
           token: res?.data?.accessToken,
-          refresh: res?.data?.refreshToken
+          refresh: res?.data?.refreshToken,
+          expired: res?.data?.expiredTime,
+          userId: res?.data?.userId
         });
         this.startupSrv.load().subscribe(() => {
           let url = this.tokenService.referrer!.url || '/management';

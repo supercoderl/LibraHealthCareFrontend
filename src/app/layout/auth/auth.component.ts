@@ -109,8 +109,6 @@ export class AuthComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.tokenService.clear();
-
     const sentence = "Achieve your best health and embrace the journey.";
     this.value$ = TypeWriterService.loopEffect(sentence);
   }

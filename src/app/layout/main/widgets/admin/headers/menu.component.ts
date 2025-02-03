@@ -111,7 +111,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
             >
               <ng-container *ngFor="let item of filterByPart(part)">
                 <li
-                  class="text-[10px] font-[600] tracking-wider text-[#8392a5] uppercase block mb-[10px] mt-[15px] md:mt-0"
+                  class="text-[10px] font-semibold tracking-wider text-tertiary uppercase block mb-[10px] mt-[15px] md:mt-0"
                 >
                   {{ item.title }}
                 </li>
@@ -121,7 +121,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
                 >
                   <a
                     [routerLink]="child.link"
-                    class="text-[#1b2e4b] whitespace-nowrap text-[13px] flex items-center transition-all duration-300"
+                    class="text-gray-500 whitespace-nowrap text-[13px] flex items-center transition-all duration-300"
                     ><span
                       nz-icon
                       [nzType]="child.icon"

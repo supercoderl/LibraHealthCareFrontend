@@ -38,6 +38,21 @@ export const ADMIN_MENUS: AdminMenu[] = [
                 title: 'List',
                 link: '/management/physician/list',
                 icon: 'fork'
+            },
+            {
+                title: 'Affiliations',
+                link: '/management/physician/affiliations',
+                icon: 'link'
+            },
+            {
+                title: 'Trainings',
+                link: '/management/physician/trainings',
+                icon: 'key'
+            },
+            {
+                title: 'Experiences',
+                link: '/management/physician/experiences',
+                icon: 'medicine-box'
             }
         ],
         part: 1
@@ -74,6 +89,11 @@ export const ADMIN_MENUS: AdminMenu[] = [
                 title: 'List',
                 link: '/management/medication/list',
                 icon: 'thunderbolt'
+            },
+            {
+                title: 'Prescriptions',
+                link: '/management/medication/prescriptions',
+                icon: 'exception'
             }
         ],
         part: 2
@@ -122,6 +142,11 @@ export const ADMIN_MENUS: AdminMenu[] = [
                 title: 'List',
                 link: '/management/nurse/list',
                 icon: 'experiment'
+            },
+            {
+                title: 'On Calls',
+                link: '/management/nurse/onCalls',
+                icon: 'phone'
             }
         ],
         part: 3
@@ -134,6 +159,11 @@ export const ADMIN_MENUS: AdminMenu[] = [
                 title: 'List',
                 link: '/management/patient/list',
                 icon: 'fire'
+            },
+            {
+                title: 'Medical Records',
+                link: '/management/patient/medicalRecords',
+                icon: 'reconciliation'
             }
         ],
         part: 3
@@ -199,6 +229,11 @@ export const ADMIN_MENUS: AdminMenu[] = [
                 title: 'List',
                 link: '/management/room/list',
                 icon: 'gateway'
+            },
+            {
+                title: 'Stays',
+                link: '/management/room/stays',
+                icon: 'customer-service'
             },
         ],
         part: 2

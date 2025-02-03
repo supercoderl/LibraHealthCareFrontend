@@ -12,6 +12,7 @@ import { ContactClientFooter } from "./widgets/client/footers/contact.component"
 import { CopyrightClientFooter } from "./widgets/client/footers/copyright.component";
 import { AboutClientFooter } from "./widgets/client/footers/about.component";
 import { ScrollUpButton } from "../../components/buttons/scroll-up.component";
+import { ChatButton } from "../../components/buttons/chat.component";
 
 @Component({
     selector: 'layout-client-main',
@@ -28,7 +29,8 @@ import { ScrollUpButton } from "../../components/buttons/scroll-up.component";
         ServiceClientFooter,
         ContactClientFooter,
         CopyrightClientFooter,
-        ScrollUpButton
+        ScrollUpButton,
+        ChatButton
     ],
     templateUrl: './client-main.component.html',
     providers: [MenuService]

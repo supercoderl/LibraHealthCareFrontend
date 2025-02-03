@@ -67,23 +67,30 @@ export function tryRefreshToken(injector: Injector, ev: HttpResponseBase, req: H
 
 function buildAuthRequest(injector: Injector) {
     const tokenSrv = injector.get(DA_SERVICE_TOKEN);
-    tokenSrv.refresh
-        .pipe(
-            filter(() => !refreshToking),
-            switchMap(res => {
-                console.log(res);
-                refreshToking = true;
-                return refreshTokenRequest(injector);
-            })
-        )
-        .subscribe({
-            next: res => {
-                res.expired = +new Date() + 1000 * 60 * 5;
-                refreshToking = false;
-                tokenSrv.set(res);
-            },
-            error: () => toLogin(injector)
-        });
+    const expired = tokenSrv.get()?.expired ?? 0; // Giả sử expired là timestamp (milliseconds)
+    const twoDaysInMs = 2 * 24 * 60 * 60 * 1000; // 2 ngày tính bằng milliseconds
+
+    if ((Date.now() - expired) >= twoDaysInMs) {
+        tokenSrv.clear();
+    }
+    else {
+        tokenSrv.refresh
+            .pipe(
+                filter(() => !refreshToking),
+                switchMap(() => {
+                    refreshToking = true;
+                    return refreshTokenRequest(injector);
+                })
+            )
+            .subscribe({
+                next: res => {
+                    res.expired = +new Date() + 1000 * 60 * 5;
+                    refreshToking = false;
+                    tokenSrv.set(res);
+                },
+                error: () => toLogin(injector)
+            });
+    }
 }
 
 export function provideBindAuthRefresh(): Provider[] {

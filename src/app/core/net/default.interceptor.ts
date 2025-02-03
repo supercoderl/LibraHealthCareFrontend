@@ -1,12 +1,13 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpResponseBase } from "@angular/common/http";
 import { inject, Injector } from "@angular/core";
-import { mergeMap, Observable, of, throwError } from "rxjs";
+import { catchError, mergeMap, Observable, of, throwError } from "rxjs";
 import { checkStatus, ReThrowHttpError, toLogin } from "./helper";
 import { environment } from "../../../environments/environment";
 import { tryRefreshToken } from "./refresh-token";
 import { IGNORE_BASE_URL } from "@delon/theme";
 import { DA_SERVICE_TOKEN, isAnonymous, mergeConfig } from "@delon/auth";
 import { AlainConfigService } from "@delon/util";
+import { NotyfService } from "../../services";
 
 function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
     checkStatus(injector, ev);
@@ -23,6 +24,7 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
         case 403:
         case 404:
         case 500:
+            console.log('ee');
             break;
         default:
             if (ev instanceof HttpErrorResponse) {
@@ -41,6 +43,7 @@ export const defaultInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, nex
     let url = req.url;
     const options = mergeConfig(inject(AlainConfigService));
     const token = inject(DA_SERVICE_TOKEN).get()?.token;
+    const notyfService = inject(NotyfService);
 
     if (!req.context.get(IGNORE_BASE_URL) && !url.startsWith('https://') && !url.startsWith('http://')) {
         const { baseUrl } = environment.api;
@@ -56,6 +59,13 @@ export const defaultInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, nex
     const injector = inject(Injector);
 
     return next(newReq).pipe(
+        catchError(err => {
+            if (err.status === 0) {
+                setTimeout(() => notyfService.error('🚨 The server is currently stopped. Please wait until we finish opening!'), 600);
+            }
+    
+            return throwError(() => err);
+        }),
         mergeMap(ev => {
             if (ev instanceof HttpResponseBase) {
                 return handleData(injector, ev, newReq, next);

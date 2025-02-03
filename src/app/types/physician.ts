@@ -6,4 +6,7 @@ export interface Physician {
     userId: string;
     hiringDate: Date;
     ssn: number;
+    departmentId: number;
+    departmentName: string;
+    primaryAffiliation: boolean;
 }

@@ -1,8 +1,7 @@
-import { HttpHeaders, HttpResponseBase } from "@angular/common/http";
-import { inject, Injector } from "@angular/core";
+import { HttpResponseBase } from "@angular/common/http";
+import { Injector } from "@angular/core";
 import { Router } from "@angular/router";
-import { ALAIN_I18N_TOKEN } from "@delon/theme";
-import { NzNotificationService } from "ng-zorro-antd/notification";
+import { NotyfService } from "../../services";
 
 export interface ReThrowHttpError {
     body: any;
@@ -32,7 +31,7 @@ export function goTo(injector: Injector, url: string): void {
 }
 
 export function toLogin(injector: Injector): void {
-    injector.get(NzNotificationService).error(`Your login has expired. Please sign in again.`, ``);
+    injector.get(NotyfService).error(`Your login has expired. Please sign in again.`);
     goTo(injector, '/login');
 }
 
@@ -40,5 +39,5 @@ export function checkStatus(injector: Injector, ev: HttpResponseBase): void {
     if ((ev.status >= 200 && ev.status < 300 || ev.status === 401)) return;
 
     const errorText = CODES_MESSAGES[ev.status] || ev.statusText;
-    injector.get(NzNotificationService).error(`Request error ${ev.status}: ${ev.url}`, errorText);
+    injector.get(NotyfService).error(`Request error ${ev.status}: ${ev.url}. Detail: ${errorText}`);
 }
