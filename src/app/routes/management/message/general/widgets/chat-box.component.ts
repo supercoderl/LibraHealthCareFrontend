@@ -79,11 +79,16 @@ import { NzModalService } from "ng-zorro-antd/modal";
                             <ul nz-menu>
                               <li 
                                 nz-menu-item
-                                (click)="showConfirm()"
+                                (click)="showConfirm(true)"
                               >
                                 Leave the chat
                               </li>
-                              <li nz-menu-item>Clear message</li>
+                              <li 
+                                nz-menu-item
+                                (click)="showConfirm(false)"
+                              >
+                                Clear message
+                              </li>
                             </ul>
                           </nz-dropdown-menu>
                         </li>
@@ -185,6 +190,7 @@ import { NzModalService } from "ng-zorro-antd/modal";
 export class ChatBoxComponent implements OnInit {
   @Input() chat: Chat | null = null;
   @Input() resetChat!: () => void;
+  @Input() onReload!: () => void;
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   messages: Message[] = [];
@@ -210,11 +216,11 @@ export class ChatBoxComponent implements OnInit {
     return message.messageId; // Dùng ID để xác định phần tử duy nhất
   }
 
-  showConfirm(): void {
+  showConfirm(isLeaving: boolean): void {
     this.modal.confirm({
-      nzTitle: 'Do you want to leave the chat?',
+      nzTitle: `Do you want to ${isLeaving ? 'leave' : 'close'} the chat?`,
       nzContent: undefined,
-      nzOnOk: () => this.leave()
+      nzOnOk: () => isLeaving ? this.leave() : this.close()
     });
   }
 
@@ -241,6 +247,17 @@ export class ChatBoxComponent implements OnInit {
       setTimeout(() => this.scrollToBottom(), 100);
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async close(): Promise<void> {
+    try {
+      await this.signalRService.close().then(() => {
+        this.resetChat();
+        this.onReload();
+      });
+    } catch (err) {
+      console.log(err)
     }
   }
 

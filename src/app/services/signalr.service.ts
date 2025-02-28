@@ -58,6 +58,10 @@ export class SignalrService {
     return this.invokeWithErrorHandling("Leave", isPhysician);
   }
 
+  async close(): Promise<void> {
+    return this.invokeWithErrorHandling("Close");
+  }
+
   async sendMessage(message: string, isSystem: boolean): Promise<void> {
     return this.invokeWithErrorHandling("SendMessage", message, isSystem);
   }

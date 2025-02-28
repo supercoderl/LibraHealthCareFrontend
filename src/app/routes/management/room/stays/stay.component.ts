@@ -6,12 +6,14 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { combineLatest, delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { OptionalService } from '../../../../services';
+import { OptionalService, SearchService } from '../../../../services';
 import { DefaultSelectComponent } from '../../../../components/selects/default/default.component';
 import { Stay } from '../../../../types/stay';
-import { Patient, Room } from '../../../../types';
+import { Params, Patient, Room } from '../../../../types';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
 import { DefaultTextareaComponent } from '../../../../components/inputs/textarea/textarea.component';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-stay',
@@ -20,7 +22,8 @@ import { DefaultTextareaComponent } from '../../../../components/inputs/textarea
     SharedModule,
     DefaultSelectComponent,
     DefaultDatePickerComponent,
-    DefaultTextareaComponent
+    DefaultTextareaComponent,
+    FilterComponent
   ],
   templateUrl: './stay.component.html',
 })
@@ -35,10 +38,17 @@ export class StayComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -94,7 +104,7 @@ export class StayComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Stay')
+    this.http.get('/api/v1/Stay', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -104,8 +114,19 @@ export class StayComponent implements OnInit {
       )
       .subscribe(res => {
         this.stays = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -174,6 +195,12 @@ export class StayComponent implements OnInit {
           label: e.roomType,
         }));
       }
+    });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
     });
   }
 }

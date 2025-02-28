@@ -11,7 +11,7 @@
             nzAddOnBeforeIcon="search"
             class="max-w-[300px]"
           >
-            <input type="text" nz-input placeholder="Search..." />
+            <input type="text" (input)="onInput($event)" nz-input placeholder="Search..." />
           </nz-input-group>
         </div>
         <div class="flex-[10%] h-[60px] table-cell float-right text-center">
@@ -42,20 +42,26 @@
                   nz-button
                   nzType="text"
                   nzShape="circle"
-                  class="!text-[20px]"
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
-                  nzTooltipTitle="Add"
-                  (click)="showModal('Add')"
+                  nzTooltipTitle="Filter"
+                  nz-dropdown
+                  nzTrigger="click"
+                  [nzDropdownMenu]="filterDropdown"
                 >
                   <span
                     nz-icon
-                    nzType="plus-circle"
+                    nzType="filter"
                     nzTheme="outline"
-                    nzTwotoneColor="#CC2B52"
+                    nzTwotoneColor="#003161"
                     class="!text-[20px]"
-                  ></span></button
-                ><!---->
+                  ></span>
+                </button>
+                <nz-dropdown-menu #filterDropdown>
+                  <filter-component 
+                    [selectedStatus]="params.status"
+                  />
+                </nz-dropdown-menu>
               </div>
             </li>
             <li class="inline-block relative">
@@ -108,6 +114,9 @@
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
                   nzTooltipTitle="Download"
+                  nz-dropdown 
+                  nzTrigger="click" 
+                  [nzDropdownMenu]="menu"
                 >
                   <span
                     nz-icon
@@ -115,8 +124,20 @@
                     nzTheme="outline"
                     nzTwotoneColor="#EB8317"
                     class="!text-[20px]"
-                  ></span></button
-                ><!---->
+                  ></span>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item>
+                        <span nz-icon nzType="file-excel" nzTheme="outline"></span>
+                        Download excel file (.xlsx)
+                      </li>
+                      <li nz-menu-item>
+                        <span nz-icon nzType="file-pdf" nzTheme="outline"></span>
+                        Download pdf file (.pdf)
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </button>
               </div>
             </li>
           </ul>
@@ -136,6 +157,13 @@
             nzSize="small"
             [nzLoading]="loading"
             [nzFooter]="footer"
+            [nzTotal]="totalCount"
+            [nzPageIndex]="params.pageIndex"
+            [nzPageSize]="params.pageSize"
+            [nzShowTotal]="totalTemplate"
+            [nzFrontPagination]="false"
+            (nzPageIndexChange)="handleChangePage($event)"
+            [nzBordered]="true"
           >
             <thead>
               <tr>
@@ -214,6 +242,7 @@
               }
             </tbody>
           </nz-table>
+          <ng-template #totalTemplate let-total>Total {{ totalCount }} items</ng-template>
           <!---->
         </div>
       </div>

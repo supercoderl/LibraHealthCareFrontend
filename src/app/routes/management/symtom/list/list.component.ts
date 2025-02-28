@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../shared';
 import { DefaultInputComponent } from '../../../../components/inputs/default/default.component';
 import { DefaultTextareaComponent } from "../../../../components/inputs/textarea/textarea.component";
@@ -8,7 +8,10 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Symtom } from '../../../../types';
+import { Params, Symtom } from '../../../../types';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
+import { SearchService } from '../../../../services';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +19,8 @@ import { Symtom } from '../../../../types';
   imports: [
     SharedModule,
     DefaultInputComponent,
-    DefaultTextareaComponent
+    DefaultTextareaComponent,
+    FilterComponent
   ],
   templateUrl: './list.component.html',
 })
@@ -29,10 +33,17 @@ export class ListComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   form = inject(FormBuilder).nonNullable.group({
     name: ['', [Validators.required]],
@@ -67,8 +78,7 @@ export class ListComponent implements OnInit {
   showModal(type: 'Add' | 'Edit', symtom?: Symtom | null): void {
     this.isVisible = true;
     this.modalTitle = type;
-    if(symtom)
-    {
+    if (symtom) {
       this.symtomId = symtom.symtomId;
       this.form.setValue({
         name: symtom.name,
@@ -79,7 +89,7 @@ export class ListComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Symtom')
+    this.http.get('/api/v1/Symtom', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -89,8 +99,19 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.symtoms = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
 
   handleOk(): void {
     this.error = '';
@@ -109,7 +130,7 @@ export class ListComponent implements OnInit {
       name: this.form.value.name,
       description: this.form.value.description === '' ? null : this.form.value.description
     };
-    
+
     if (this.modalTitle === 'Edit') {
       requestBody['symtomId'] = this.symtomId;
     }
@@ -141,5 +162,11 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGet();
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

@@ -7,9 +7,11 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Question, Symtom } from '../../../../types';
+import { Params, Question, Symtom } from '../../../../types';
 import { DefaultSelectComponent } from '../../../../components/selects/default/default.component';
-import { OptionalService } from '../../../../services';
+import { OptionalService, SearchService } from '../../../../services';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +19,8 @@ import { OptionalService } from '../../../../services';
   imports: [
     SharedModule,
     DefaultInputComponent,
-    DefaultSelectComponent
+    DefaultSelectComponent,
+    FilterComponent
   ],
   templateUrl: './list.component.html',
 })
@@ -31,10 +34,17 @@ export class ListComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -90,7 +100,7 @@ export class ListComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/DiagnosticQuestion')
+    this.http.get('/api/v1/DiagnosticQuestion', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -100,8 +110,19 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.questions = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -159,5 +180,11 @@ export class ListComponent implements OnInit {
         if (res?.data?.items && res?.data?.items.length > 0)
           this.symtoms = res?.data?.items.map((e: Symtom) => ({ value: e.symtomId, label: e.name }));
       });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

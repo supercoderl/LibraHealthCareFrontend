@@ -11,6 +11,7 @@ import { SHARED_DELON_MODULE } from './shared-delon.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 const THIRDMODULES: Array<Type<any>> = [];
 
@@ -34,6 +35,7 @@ const DIRECTIVES: Array<Type<any>> = [];
     FontAwesomeModule,
     CarouselModule,
     NgApexchartsModule,
+    ColorPickerModule,
     ...SHARED_ZORRO_MODULES,
     ...SHARED_DELON_MODULE,
     ...THIRDMODULES
@@ -50,6 +52,7 @@ const DIRECTIVES: Array<Type<any>> = [];
     FontAwesomeModule,
     CarouselModule,
     NgApexchartsModule,
+    ColorPickerModule,
     ...SHARED_ZORRO_MODULES,
     ...SHARED_DELON_MODULE,
     ...THIRDMODULES,

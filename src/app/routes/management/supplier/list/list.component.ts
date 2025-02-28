@@ -7,14 +7,18 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Supplier } from '../../../../types';
+import { Params, Supplier } from '../../../../types';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
+import { SearchService } from '../../../../services';
 
 @Component({
   selector: 'app-list',
   standalone: true,
   imports: [
     SharedModule,
-    DefaultInputComponent
+    DefaultInputComponent,
+    FilterComponent
   ],
   templateUrl: './list.component.html',
 })
@@ -27,10 +31,17 @@ export class ListComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   form = inject(FormBuilder).nonNullable.group({
     name: ['', [Validators.required]],
@@ -69,8 +80,7 @@ export class ListComponent implements OnInit {
   showModal(type: 'Add' | 'Edit', supplier?: Supplier | null): void {
     this.isVisible = true;
     this.modalTitle = type;
-    if(supplier)
-    {
+    if (supplier) {
       this.supplierId = supplier.supplierId;
       this.form.setValue({
         name: supplier.name,
@@ -85,7 +95,7 @@ export class ListComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Supplier')
+    this.http.get('/api/v1/Supplier', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -95,8 +105,19 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.suppliers = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -119,7 +140,7 @@ export class ListComponent implements OnInit {
       taxIdNumber: this.form.value.taxIdNumber === '' ? null : this.form.value.taxIdNumber,
       website: this.form.value.website === '' ? null : this.form.value.website
     };
-    
+
     if (this.modalTitle === 'Edit') {
       requestBody['supplierId'] = this.supplierId;
     }
@@ -151,5 +172,11 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGet();
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

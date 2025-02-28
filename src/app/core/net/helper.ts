@@ -32,7 +32,7 @@ export function goTo(injector: Injector, url: string): void {
 
 export function toLogin(injector: Injector): void {
     injector.get(NotyfService).error(`Your login has expired. Please sign in again.`);
-    goTo(injector, '/login');
+    goTo(injector, '/auth/login');
 }
 
 export function checkStatus(injector: Injector, ev: HttpResponseBase): void {

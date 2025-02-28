@@ -6,12 +6,13 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { combineLatest, delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Appointment, Medication, Patient, Physician, Prescription } from '../../../../types';
-import { MedicationType } from '../../../../enums';
-import { OptionalService } from '../../../../services';
+import { Appointment, Medication, Params, Patient, Physician, Prescription } from '../../../../types';
+import { ActionStatus, MedicationType } from '../../../../enums';
+import { OptionalService, SearchService } from '../../../../services';
 import { DefaultSelectComponent } from "../../../../components/selects/default/default.component";
 import { enumToList } from '../../../../shared/utils';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-prescription',
@@ -21,7 +22,8 @@ import { DefaultDatePickerComponent } from '../../../../components/datePickers/d
     DefaultInputComponent,
     DefaultTextareaComponent,
     DefaultSelectComponent,
-    DefaultDatePickerComponent
+    DefaultDatePickerComponent,
+    FilterComponent
   ],
   templateUrl: './prescription.component.html',
 })
@@ -39,10 +41,17 @@ export class PrescriptionComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -103,7 +112,7 @@ export class PrescriptionComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Prescription')
+    this.http.get('/api/v1/Prescription', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -113,8 +122,19 @@ export class PrescriptionComponent implements OnInit {
       )
       .subscribe(res => {
         this.prescriptions = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -212,6 +232,12 @@ export class PrescriptionComponent implements OnInit {
           label: e.examinationRoom,
         }));
       }
+    });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
     });
   }
 }

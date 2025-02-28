@@ -19,6 +19,10 @@ import { provideSTWidgets } from "@delon/abc/st";
 import { provideSFConfig } from "@delon/form";
 import { routes } from "./routes/routes";
 import { provideToastr } from "ngx-toastr";
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { profileReducer } from "./reducers";
+import { ProfileEffects } from "./core/effect";
 
 const defaultLang: AlainProvideLang = {
   abbr: 'en-US',
@@ -29,17 +33,17 @@ const defaultLang: AlainProvideLang = {
 };
 
 const alainConfig: AlainConfig = {
-  st: { modal: { size: 'md' }},
+  st: { modal: { size: 'md' } },
   pageHeader: { homeI18n: 'home' },
   lodop: {
     license: 'A59B099A586B3851E0F0D7FDBF37B603',
     licenseA: 'C94CEE276DB2187AE6B65D56B3FC2848'
   },
-  auth: { 
+  auth: {
     ignores: [
       /^\/api\/v1\/App/
     ],
-    login_url: '/auth/login' 
+    login_url: '/auth/login'
   }
 };
 
@@ -50,27 +54,29 @@ const routerFeatures: RouterFeatures[] = [
   withInMemoryScrolling({ scrollPositionRestoration: 'top' })
 ];
 
-if(environment.useHash) routerFeatures.push(withHashLocation());
+if (environment.useHash) routerFeatures.push(withHashLocation());
 
 const providers: Array<Provider | EnvironmentProviders> = [
   provideHttpClient(withInterceptors([authSimpleInterceptor, defaultInterceptor])),
   provideAnimations(),
   provideRouter(routes, ...routerFeatures),
-  provideAlain({ config: alainConfig, defaultLang, i18nClass: I18NService, icons: [...ICONS_AUTO, ...ICONS]}),
+  provideAlain({ config: alainConfig, defaultLang, i18nClass: I18NService, icons: [...ICONS_AUTO, ...ICONS] }),
   provideNzConfig(ngZorroConfig),
   provideAuth(),
   provideCellWidgets(...CELL_WIDGETS),
   provideSTWidgets(...ST_WIDGETS),
   provideSFConfig({ widgets: SF_WIDGETS }),
   provideStartup(),
-  provideToastr()
+  provideToastr(),
+  provideStore({ profile: profileReducer }),
+  provideEffects(ProfileEffects)
 ];
 
 
-if(environment.api?.refreshTokenEnabled && environment.api.refreshTokenType === 'auth-refresh') {
+if (environment.api?.refreshTokenEnabled && environment.api.refreshTokenType === 'auth-refresh') {
   providers.push(provideBindAuthRefresh());
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: providers
+  providers: providers,
 };

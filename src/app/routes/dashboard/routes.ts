@@ -20,5 +20,10 @@ export const dashboardRoutes: Routes = [
         path: 'doctor',
         loadComponent: () => import('./doctor-dashboard/doctor-dashboard.component').then(c => c.DoctorDashboardComponent),
         data: { title: 'Doctor Dashboard' }
+    },
+    {
+        path: 'profile',
+        loadComponent: () => import('./profile/profile.component').then(c => c.ProfileComponent),
+        data: { title: 'Profile' }
     }
 ]

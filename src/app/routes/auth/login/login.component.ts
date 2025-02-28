@@ -1,15 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
 import { SharedModule } from '../../../shared';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { _HttpClient, I18nPipe, SettingsService } from '@delon/theme';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, SocialOpenType, SocialService } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { StartupService } from '../../../core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 import { finalize } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { HttpContext } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { ProfileState } from '../../../reducers';
+import { ProfileActions } from '../../../core/action';
+import { RouterService } from '../../../shared/utils/router';
 
 @Component({
   selector: 'auth-login',
@@ -25,14 +28,13 @@ import { HttpContext } from '@angular/common/http';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnDestroy {
-  private readonly router = inject(Router);
-  private readonly settingsService = inject(SettingsService);
   private readonly socialService = inject(SocialService);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
   private readonly tokenService = inject(DA_SERVICE_TOKEN);
   private readonly startupSrv = inject(StartupService);
   private readonly http = inject(_HttpClient);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly routerService = inject(RouterService);
 
   form = inject(FormBuilder).nonNullable.group({
     userName: ['', [Validators.required]],
@@ -79,10 +81,11 @@ export class LoginComponent implements OnDestroy {
           expired: res?.data?.expiredTime,
           userId: res?.data?.userId
         });
+
+        this.store.dispatch(ProfileActions.loadProfile());
+
         this.startupSrv.load().subscribe(() => {
-          let url = this.tokenService.referrer!.url || '/management';
-          if(url.includes('/auth')) url = '/management';
-          this.router.navigateByUrl(url);
+          this.routerService.redirectUser(res?.data?.roles ?? []);
         })
       },
       error: err => {
@@ -114,6 +117,8 @@ export class LoginComponent implements OnDestroy {
       this.socialService.login(url, '/', { type: 'href' });
     }
   }
+
+  constructor(private store: Store<{ profile: ProfileState }>) { }
 
   ngOnDestroy(): void {
     if (this.interval$) {

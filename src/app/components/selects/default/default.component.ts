@@ -67,7 +67,6 @@ export class DefaultSelectComponent implements AfterViewInit {
     if (this.isMultiple) {
       // If multiple
       const selectedValues = selectedValue || [];
-      console.log(selectedValues);
       const selectedLabels = this.options
         .filter((option) => selectedValues.map(String).includes(option.value.toString()))
         .map((option) => option.label);

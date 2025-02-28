@@ -1,36 +1,52 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../shared';
-import { DefaultInputComponent } from '../../../../components/inputs/default/default.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { HttpContext } from '@angular/common/http';
-import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Role } from '../../../../types';
+import { Params, Permission, Role } from '../../../../types';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
+import { NotyfService, OptionalService, SearchService } from '../../../../services';
+import { EditRoleComponent } from "./widgets/edit.component";
+import { DecentralizeRoleComponent } from "./widgets/decentralize.component";
 
 @Component({
   selector: 'app-list',
   standalone: true,
   imports: [
     SharedModule,
-    DefaultInputComponent,
-],
+    FilterComponent,
+    EditRoleComponent,
+    DecentralizeRoleComponent
+  ],
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
   checked = false;
   indeterminate = false;
   roles: Role[] = [];
-  code: number = 1;
-  modalTitle: 'Add' | 'Edit' = 'Add';
+  role: Role | null = null;
+  permissions: Permission[] = [];
+  selectedPermissions: number[] = [];
+  roleId: number = 1;
+  modalTitle: 'Add' | 'Edit' | 'Decentralize' = 'Add';
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
+  private readonly notyfService = inject(NotyfService);
+  private readonly optionalService = inject(OptionalService);
 
   form = inject(FormBuilder).nonNullable.group({
     code: [1, [Validators.required]],
@@ -62,11 +78,11 @@ export class ListComponent implements OnInit {
 
   isVisible = false;
 
-  showModal(type: 'Add' | 'Edit', role?: Role | null): void {
+  showModal(type: 'Add' | 'Edit' | 'Decentralize', role?: Role | null): void {
     this.isVisible = true;
     this.modalTitle = type;
-    if(role)
-    {
+    if (role) {
+      this.role = role;
       this.form.setValue({
         code: role.code,
         name: role.name
@@ -76,7 +92,7 @@ export class ListComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Role')
+    this.http.get('/api/v1/Role', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -86,32 +102,54 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.roles = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
 
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
+
+  onSelectedPermissionsChange(arr: number[]): void {
+    this.selectedPermissions = [...arr];
+  }
+
   handleOk(): void {
     this.error = '';
-    const { code, name } = this.form.controls;
-    code.markAsDirty();
-    code.updateValueAndValidity();
-    name.markAsDirty();
-    name.updateValueAndValidity();
-    if (code.invalid || name.invalid) return;
+    if (this.modalTitle !== 'Decentralize') {
+      const { code, name } = this.form.controls;
+      code.markAsDirty();
+      code.updateValueAndValidity();
+      name.markAsDirty();
+      name.updateValueAndValidity();
+      if (code.invalid || name.invalid) return;
+    }
 
     this.loading = true;
     this.cdr.detectChanges();
 
-    const httpMethod = (url: string, body: any, options: any) =>
+    const httpMethod = (url: string, body: any, options?: any) =>
       this.modalTitle === 'Edit' ? this.http.put(url, body, options) : this.http.post(url, body, options);
 
-    const requestBody: any = {
+    var requestBody: any = {
       code: this.form.value.code,
       name: this.form.value.name,
     };
-    
-    httpMethod('/api/v1/Role', requestBody, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-    }).pipe(finalize(() => {
+
+    if (this.modalTitle === 'Decentralize') {
+      requestBody = {
+        roleId: this.form.value.code,
+        permissionIds: this.selectedPermissions
+      };
+    }
+
+    httpMethod(this.modalTitle !== 'Decentralize' ? '/api/v1/Role' : '/api/v1/Permission/attach', requestBody).pipe(finalize(() => {
       this.loading = false;
       this.cdr.detectChanges();
     })).subscribe({
@@ -136,5 +174,18 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGet();
+
+    this.optionalService
+      .getData('/api/v1/Permission')
+      .subscribe((res: any) => {
+        if (res?.data?.items && res?.data?.items.length > 0)
+          this.permissions = res?.data?.items;
+      });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

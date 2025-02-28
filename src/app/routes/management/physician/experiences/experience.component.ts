@@ -1,29 +1,29 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../shared';
-import { DefaultInputComponent } from '../../../../components/inputs/default/default.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpContext } from '@angular/common/http';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { combineLatest, delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Experience, Patient, Physician, Procedure, User } from '../../../../types';
+import { Experience, Params, Patient, Physician, Procedure, User } from '../../../../types';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
 import { DefaultSelectComponent } from '../../../../components/selects/default/default.component';
-import { OptionalService } from '../../../../services';
+import { OptionalService, SearchService } from '../../../../services';
 import { enumToList, getEnumKeyByValue } from '../../../../shared/utils';
-import { ExperienceStatus } from '../../../../enums';
+import { ActionStatus, ExperienceStatus } from '../../../../enums';
 import { Nurse } from '../../../../types/nurse';
 import { Stay } from '../../../../types/stay';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
   imports: [
     SharedModule,
-    DefaultInputComponent,
     DefaultDatePickerComponent,
-    DefaultSelectComponent
+    DefaultSelectComponent,
+    FilterComponent
   ],
   templateUrl: './experience.component.html',
 })
@@ -42,10 +42,17 @@ export class ExperienceComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -111,7 +118,7 @@ export class ExperienceComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Experience')
+    this.http.get('/api/v1/Experience', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -121,8 +128,19 @@ export class ExperienceComponent implements OnInit {
       )
       .subscribe(res => {
         this.experiences = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -222,6 +240,12 @@ export class ExperienceComponent implements OnInit {
           label: e.name,
         }));
       }
+    });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
     });
   }
 }

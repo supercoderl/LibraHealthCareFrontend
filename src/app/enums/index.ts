@@ -6,3 +6,4 @@ export * from './stay';
 export * from './training';
 export * from './experience';
 export * from './user';
+export * from './param';

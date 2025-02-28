@@ -101,9 +101,7 @@ export class DiagnosisComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/DiagnosticQuestion', null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-    })
+    this.http.get('/api/v1/DiagnosticQuestion', { pageSize: 50 })
       .pipe(
         delay(600),
         finalize(() => {

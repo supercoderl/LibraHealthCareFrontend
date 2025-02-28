@@ -7,8 +7,10 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Block } from '../../../../types';
-import { OptionalService } from '../../../../services';
+import { Block, Params } from '../../../../types';
+import { OptionalService, SearchService } from '../../../../services';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +18,8 @@ import { OptionalService } from '../../../../services';
   imports: [
     SharedModule,
     DefaultInputComponent,
-],
+    FilterComponent
+  ],
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
@@ -28,10 +31,17 @@ export class ListComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -68,19 +78,18 @@ export class ListComponent implements OnInit {
   showModal(type: 'Add' | 'Edit', block?: Block | null): void {
     this.isVisible = true;
     this.modalTitle = type;
-    if(block)
-    {
+    if (block) {
       this.blockId = block.blockId,
-      this.form.setValue({
-        blockCode: block.blockCode,
-        blockFloor: block.blockFloor
-      });
+        this.form.setValue({
+          blockCode: block.blockCode,
+          blockFloor: block.blockFloor
+        });
     }
   }
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Block')
+    this.http.get('/api/v1/Block', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -90,8 +99,19 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.blocks = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
 
   handleOk(): void {
     this.error = '';
@@ -145,5 +165,11 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onGet();
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

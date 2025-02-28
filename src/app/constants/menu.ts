@@ -176,6 +176,11 @@ export const ADMIN_MENUS: AdminMenu[] = [
                 title: 'List',
                 link: '/management/role/list',
                 icon: 'holder'
+            },
+            {
+                title: 'Permissions',
+                link: '/management/role/permissions',
+                icon: 'solution'
             }
         ],
         part: 3

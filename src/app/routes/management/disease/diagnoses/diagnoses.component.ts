@@ -4,14 +4,18 @@ import { HttpContext } from '@angular/common/http';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { _HttpClient } from '@delon/theme';
-import { Diagnosis } from '../../../../types';
+import { Diagnosis, Params } from '../../../../types';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
+import { SearchService } from '../../../../services';
 
 @Component({
   selector: 'app-diagnoses',
   standalone: true,
   imports: [
     SharedModule,
-],
+    FilterComponent
+  ],
   templateUrl: './diagnoses.component.html',
 })
 export class DiagnosesComponent implements OnInit {
@@ -20,9 +24,16 @@ export class DiagnosesComponent implements OnInit {
   diagnoses: Diagnosis[] = [];
   setOfCheckedId = new Set<number>();
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
+  private searchService = inject(SearchService);
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -49,9 +60,7 @@ export class DiagnosesComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Diagnosis', null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)      
-    })
+    this.http.get('/api/v1/Diagnosis', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -61,10 +70,27 @@ export class DiagnosesComponent implements OnInit {
       )
       .subscribe(res => {
         this.diagnoses = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
 
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
+
   ngOnInit(): void {
     this.onGet();
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

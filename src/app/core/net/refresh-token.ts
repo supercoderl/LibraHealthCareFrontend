@@ -24,7 +24,7 @@ function reAttachToken(injector: Injector, req: HttpRequest<any>): HttpRequest<a
 function refreshTokenRequest(injector: Injector): Observable<any> {
     const model = injector.get(DA_SERVICE_TOKEN).get();
     return injector.get(HttpClient).post(`/api/v1/User/logout-or-refresh`, {
-        refreshToken: model?.['refresh_token'] || '',
+        refreshToken: model?.['refresh'] || '',
         action: 'refresh'
     });
 }
@@ -70,7 +70,7 @@ function buildAuthRequest(injector: Injector) {
     const expired = tokenSrv.get()?.expired ?? 0; // Giả sử expired là timestamp (milliseconds)
     const twoDaysInMs = 2 * 24 * 60 * 60 * 1000; // 2 ngày tính bằng milliseconds
 
-    if ((Date.now() - expired) >= twoDaysInMs) {
+    if (expired && (Date.now() - expired) >= twoDaysInMs) {
         tokenSrv.clear();
     }
     else {
@@ -86,7 +86,12 @@ function buildAuthRequest(injector: Injector) {
                 next: res => {
                     res.expired = +new Date() + 1000 * 60 * 5;
                     refreshToking = false;
-                    tokenSrv.set(res);
+                    tokenSrv.set({
+                        token: res?.data?.accessToken,
+                        refresh: res?.data?.refreshToken,
+                        expired: res?.data?.expiredTime,
+                        userId: res?.data?.userId
+                    });
                 },
                 error: () => toLogin(injector)
             });

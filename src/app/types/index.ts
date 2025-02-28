@@ -30,3 +30,5 @@ export * from './training';
 export * from './experience';      
 export * from './chat';
 export * from './message';
+export * from './params';
+export * from './permission';

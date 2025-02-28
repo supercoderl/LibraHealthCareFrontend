@@ -7,13 +7,14 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { combineLatest, delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Physician, Training, Treatment, User } from '../../../../types';
+import { Params, Physician, Training, Treatment, User } from '../../../../types';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
 import { DefaultSelectComponent } from '../../../../components/selects/default/default.component';
-import { OptionalService } from '../../../../services';
+import { OptionalService, SearchService } from '../../../../services';
 import { enumToList } from '../../../../shared/utils';
-import { TrainingStatus } from '../../../../enums';
+import { ActionStatus, TrainingStatus } from '../../../../enums';
 import { DefaultTextareaComponent } from '../../../../components/inputs/textarea/textarea.component';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-training',
@@ -23,7 +24,8 @@ import { DefaultTextareaComponent } from '../../../../components/inputs/textarea
     DefaultInputComponent,
     DefaultDatePickerComponent,
     DefaultTextareaComponent,
-    DefaultSelectComponent
+    DefaultSelectComponent,
+    FilterComponent
   ],
   templateUrl: './training.component.html',
 })
@@ -39,10 +41,17 @@ export class TrainingComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -114,8 +123,19 @@ export class TrainingComponent implements OnInit {
       )
       .subscribe(res => {
         this.trainings = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -195,6 +215,12 @@ export class TrainingComponent implements OnInit {
           label: e.name,
         }));
       }
+    });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
     });
   }
 }

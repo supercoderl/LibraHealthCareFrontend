@@ -1,10 +1,15 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { SharedModule } from "../../../../../shared";
 import { MenuService } from "../../../../../shared/utils/menu";
+import { Store } from "@ngrx/store";
+import { ProfileState } from "../../../../../reducers";
+import { ProfileActions } from "../../../../../core/action";
+import { map, startWith } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
-    selector: 'navbar-profile',
-    template: `
+  selector: 'navbar-profile',
+  template: `
     <div class="dropdown dropdown-profile ml-4">
       <a
         href="javascript:void(0)"
@@ -15,7 +20,7 @@ import { MenuService } from "../../../../../shared/utils/menu";
       >
         <div class="w-[28px] h-[28px] relative">
           <img
-            src="https://themepixels.me/demo/dashforge2/assets/img/img1.png"
+            [src]="(profile$ | async)?.avatar"
             class="w-full h-full object-cover rounded-full"
             alt=""
           />
@@ -27,26 +32,20 @@ import { MenuService } from "../../../../../shared/utils/menu";
       >
         <div class="mb-[15px] w-[64px] h-[64px] relative">
           <img
-            src="https://themepixels.me/demo/dashforge2/assets/img/img1.png"
+            [src]="(profile$ | async)?.avatar"
             class="w-full h-full rounded-full object-cover"
             alt=""
           />
         </div>
-        <h6 class="mb-[5px] font-semibold">Katherine Pechon</h6>
-        <p class="mb-[25px] text-[12px] text-[#8392a5]">Administrator</p>
+        <h6 class="mb-[5px] font-semibold">{{(profile$ | async)?.userName}}</h6>
+        <p class="mb-[25px] text-[12px] text-[#8392a5]">{{ (profile$ | async)?.email }}</p>
 
         <a
-          href=""
+          routerLink="/dashboard/profile"
           class="p-0 flex items-center text-[#1b2e4b] rounded-[0.25rem] transition-all duration-300 w-full whitespace-nowrap bg-transparent border-0"
         >
           <span nz-icon nzType="edit" nzTheme="outline" class="mr-3"></span>
           Edit Profile</a
-        >
-        <a
-          href="page-profile-view.html"
-          class="p-0 mt-[10px] flex items-center text-[#1b2e4b] rounded-[0.25rem] transition-all duration-300 w-full whitespace-nowrap bg-transparent border-0"
-          ><span nz-icon nzType="user" nzTheme="outline" class="mr-3"></span>
-          View Profile</a
         >
         <div
           class="my-[15px] h-0 overflow-hidden opacity-1 border-t-[1px] border-solid border-[rgba(0,_0,_0,_0.175)]"
@@ -69,7 +68,7 @@ import { MenuService } from "../../../../../shared/utils/menu";
           Account Settings
         </a>
         <a
-          href="page-signin.html"
+          (click)="handleLogout()"
           class="p-0 mt-[10px] flex items-center text-[#1b2e4b] rounded-[0.25rem] transition-all duration-300 w-full whitespace-nowrap bg-transparent border-0"
           ><span nz-icon nzType="logout" nzTheme="outline" class="mr-3"></span>
           Sign Out
@@ -78,10 +77,29 @@ import { MenuService } from "../../../../../shared/utils/menu";
       <!-- dropdown-menu -->
     </div>
     `,
-    standalone: true,
-    imports: [SharedModule]
+  standalone: true,
+  imports: [SharedModule]
 })
 
-export class NavbarProfile {
-    constructor(public menuSrv: MenuService) {}
+export class NavbarProfile implements OnInit {
+  profile$ = this.store.select((state) => state.profile.profile).pipe(
+    map(profile => profile ?? { userName: 'Guest', email: 'guest@example.com', avatar: 'https://static-resource.np.community.playstation.net/avatar_m/WWS_J/J0001_m.png' }),
+    startWith({ userName: 'Guest', email: 'guest@example.com', avatar: 'https://static-resource.np.community.playstation.net/avatar_m/WWS_J/J0001_m.png' }) // Initial value
+  );
+
+  handleLogout(): void {
+    this.store.dispatch(ProfileActions.clearProfile());
+    this.router.navigateByUrl('/auth/login');
+  }
+
+  constructor(public menuSrv: MenuService, private store: Store<{ profile: ProfileState }>, private router: Router) { }
+
+  ngOnInit(): void {
+    const storedProfile = localStorage.getItem('profile');
+    if (storedProfile) {
+      this.store.dispatch(ProfileActions.loadProfileSuccess({ profile: JSON.parse(storedProfile) }));
+    } else {
+      this.store.dispatch(ProfileActions.loadProfile());
+    }
+  }
 }

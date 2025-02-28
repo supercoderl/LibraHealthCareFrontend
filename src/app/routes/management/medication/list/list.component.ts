@@ -8,12 +8,13 @@ import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { delay, finalize } from 'rxjs';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { _HttpClient } from '@delon/theme';
-import { Medication, Supplier } from '../../../../types';
-import { MedicationType } from '../../../../enums';
-import { OptionalService } from '../../../../services';
+import { Medication, Params, Supplier } from '../../../../types';
+import { ActionStatus, MedicationType } from '../../../../enums';
+import { OptionalService, SearchService } from '../../../../services';
 import { DefaultSelectComponent } from "../../../../components/selects/default/default.component";
 import { enumToList } from '../../../../shared/utils';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-list',
@@ -23,8 +24,9 @@ import { DefaultDatePickerComponent } from '../../../../components/datePickers/d
     DefaultInputComponent,
     DefaultTextareaComponent,
     DefaultSelectComponent,
-    DefaultDatePickerComponent
-],
+    DefaultDatePickerComponent,
+    FilterComponent
+  ],
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
@@ -38,10 +40,17 @@ export class ListComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -85,7 +94,7 @@ export class ListComponent implements OnInit {
 
   refreshCheckedStatus(): void { }
 
-  getLabel(supplierId: number): string { 
+  getLabel(supplierId: number): string {
     const supplier = this.suppliers.find(e => e.value === supplierId);
     return supplier ? supplier.label : '';
   }
@@ -95,8 +104,7 @@ export class ListComponent implements OnInit {
   showModal(type: 'Add' | 'Edit', medication?: Medication | null): void {
     this.isVisible = true;
     this.modalTitle = type;
-    if(medication)
-    {
+    if (medication) {
       this.form.setValue({
         name: medication.name,
         description: medication.description ?? '',
@@ -118,7 +126,7 @@ export class ListComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Medication')
+    this.http.get('/api/v1/Medication', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -128,8 +136,19 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.medications = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -160,7 +179,7 @@ export class ListComponent implements OnInit {
       usageInstructions: this.form.value.usageInstructions,
       isPrescriptionRequired: this.form.value.isPrescriptionRequired
     };
-    
+
     if (this.modalTitle === 'Edit') {
       requestBody['medicationId'] = this.medicationId;
     }
@@ -196,8 +215,14 @@ export class ListComponent implements OnInit {
     this.optionalService
       .getData('/api/v1/Supplier')
       .subscribe((res: any) => {
-        if(res?.data?.items && res?.data?.items.length > 0)
+        if (res?.data?.items && res?.data?.items.length > 0)
           this.suppliers = res?.data?.items.map((e: Supplier) => ({ value: e.supplierId, label: e.name }));
       });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
+    });
   }
 }

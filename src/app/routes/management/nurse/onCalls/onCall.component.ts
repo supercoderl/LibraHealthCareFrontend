@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../shared';
-import { DefaultInputComponent } from '../../../../components/inputs/default/default.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpContext } from '@angular/common/http';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
@@ -10,19 +9,20 @@ import { _HttpClient } from '@delon/theme';
 import { Nurse } from '../../../../types/nurse';
 import { DefaultSelectComponent } from "../../../../components/selects/default/default.component";
 import { enumToList, getEnumKeyByValue } from '../../../../shared/utils';
-import { Specialization } from '../../../../enums';
+import { ActionStatus, Specialization } from '../../../../enums';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
-import { OptionalService } from '../../../../services';
-import { Block, OnCall } from '../../../../types';
+import { OptionalService, SearchService } from '../../../../services';
+import { Block, OnCall, Params } from '../../../../types';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-onCall',
   standalone: true,
   imports: [
     SharedModule,
-    DefaultInputComponent,
     DefaultSelectComponent,
-    DefaultDatePickerComponent
+    DefaultDatePickerComponent,
+    FilterComponent
   ],
   templateUrl: './onCall.component.html',
 })
@@ -38,10 +38,17 @@ export class OnCallComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -93,7 +100,7 @@ export class OnCallComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/OnCall')
+    this.http.get('/api/v1/OnCall', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -103,8 +110,19 @@ export class OnCallComponent implements OnInit {
       )
       .subscribe(res => {
         this.onCalls = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
 
   handleOk(): void {
     this.error = '';
@@ -172,6 +190,12 @@ export class OnCallComponent implements OnInit {
           label: e.blockCode,
         }));
       }
+    });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
     });
   }
 }

@@ -21,11 +21,11 @@ import { SharedModule } from "../../../../shared";
                 </li>
                 <li class="my-4 text-16">
                     <span nz-icon nzType="phone" nzTheme="outline"></span>
-                    <span class="mx-5">(+84) 349 337 045</span>
+                    <span class="mx-5">+1 928 777 065</span>
                 </li>
                 <li class="my-4 text-16">
                     <span nz-icon nzType="mail" nzTheme="outline"></span>
-                    <span class="mx-5">minh.quang1720&#64;gmail.com</span>
+                    <span class="mx-5">healthcare&#64;libra.com</span>
                 </li>
             </ul>
           </div>

@@ -29,7 +29,7 @@ import { SharedModule } from "../../../../../shared";
               <h6 class="mb-0 text-footer leading-3.5">
                 Looking for Consultation
               </h6>
-              <p class="text-white font-semibold mb-0">+84 349337045</p>
+              <p class="text-white font-semibold mb-0">+1 928 777 065</p>
             </div>
           </div>
           <div
@@ -46,7 +46,7 @@ import { SharedModule } from "../../../../../shared";
                 Email Address
               </h6>
               <p class="text-white font-semibold mb-0">
-                minh.quang1720&#64;gmail.com
+                healthcare&#64;libra.com
               </p>
             </div>
           </div>

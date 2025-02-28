@@ -60,10 +60,18 @@ export const defaultInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, nex
 
     return next(newReq).pipe(
         catchError(err => {
-            if (err.status === 0) {
-                setTimeout(() => notyfService.error('🚨 The server is currently stopped. Please wait until we finish opening!'), 600);
+            switch (err.status) {
+                case 0:
+                    setTimeout(() => notyfService.error('🚨 The server is currently stopped. Please wait until we finish opening!'), 600);
+                    break;
+                case 403:
+                    setTimeout(() => notyfService.error(err?.error?.message ?? 'You have not permission to perform this action'), 600);
+                    break;
+                case 404:
+                    break;
+                case 500:
+                    break;
             }
-    
             return throwError(() => err);
         }),
         mergeMap(ev => {

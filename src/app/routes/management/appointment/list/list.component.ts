@@ -4,15 +4,17 @@ import { DefaultInputComponent } from '../../../../components/inputs/default/def
 import { DefaultSelectComponent } from '../../../../components/selects/default/default.component';
 import { DefaultDatePickerComponent } from '../../../../components/datePickers/default/default.component';
 import { DefaultTextareaComponent } from '../../../../components/inputs/textarea/textarea.component';
-import { Appointment, Patient, Physician } from '../../../../types';
+import { Appointment, Params, Patient, Physician } from '../../../../types';
 import { HttpContext } from '@angular/common/http';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { OptionalService } from '../../../../services';
+import { OptionalService, SearchService } from '../../../../services';
 import { FormBuilder, Validators } from '@angular/forms';
 import { combineLatest, delay, finalize } from 'rxjs';
 import { Nurse } from '../../../../types/nurse';
+import { ActionStatus } from '../../../../enums';
+import { FilterComponent } from '../../../../components/filters/filter.component';
 
 @Component({
   selector: 'app-list-appointment',
@@ -22,7 +24,8 @@ import { Nurse } from '../../../../types/nurse';
     DefaultInputComponent,
     DefaultSelectComponent,
     DefaultDatePickerComponent,
-    DefaultTextareaComponent
+    DefaultTextareaComponent,
+    FilterComponent
   ],
   templateUrl: './list.component.html'
 })
@@ -40,10 +43,17 @@ export class ListComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   error = '';
   loading = false;
+  totalCount: number = 0;
+  params: Params = {
+    pageIndex: 1,
+    pageSize: 10,
+    status: ActionStatus.NotDeleted
+  };
 
   private cdr = inject(ChangeDetectorRef);
   private http = inject(_HttpClient);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
+  private searchService = inject(SearchService);
 
   constructor(private optionalService: OptionalService) { }
 
@@ -60,17 +70,17 @@ export class ListComponent implements OnInit {
     reminder: [new Date().toDateString(), [Validators.required]]
   });
 
-  getPatientLabel(patientId: number): string { 
+  getPatientLabel(patientId: number): string {
     const patient = this.patients.find(e => e.value === patientId);
     return patient ? patient.label : '';
   }
 
-  getPhysicianLabel(physicianId: string): string { 
+  getPhysicianLabel(physicianId: string): string {
     const physician = this.physicians.find(e => e.value === physicianId);
     return physician ? physician.label : '';
   }
 
-  getNurseLabel(nurseId: string): string { 
+  getNurseLabel(nurseId: string): string {
     const nurse = this.nurses.find(e => e.value === nurseId);
     return nurse ? nurse.label : '';
   }
@@ -127,7 +137,7 @@ export class ListComponent implements OnInit {
 
   onGet(): void {
     this.loading = true;
-    this.http.get('/api/v1/Appointment')
+    this.http.get('/api/v1/Appointment', this.params)
       .pipe(
         delay(600),
         finalize(() => {
@@ -137,8 +147,19 @@ export class ListComponent implements OnInit {
       )
       .subscribe(res => {
         this.appointments = res?.data?.items ?? [];
+        this.totalCount = res?.data?.count ?? 0;
       });
   };
+
+  onInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.search(value);
+  }
+
+  handleChangePage(pageIndex: number): void {
+    this.params.pageIndex = pageIndex;
+    this.onGet();
+  }
 
   handleOk(): void {
     this.error = '';
@@ -233,6 +254,12 @@ export class ListComponent implements OnInit {
           label: e.name,
         }));
       }
+    });
+
+    // Set up a callback to update the parameters and call OnGet()
+    this.searchService.setOnSearch((query) => {
+      this.params.searchTerm = query; // Update params.searchTerm
+      this.onGet(); // Call API after update params
     });
   }
 }

@@ -18,6 +18,7 @@ module.exports = {
         transparent: "transparent",
         edition: '#2E5077',
         deletion: '#F72C5B',
+        assignment: '#B771E5',
         border: 'rgba(0, 0, 0, 0.05)',
         green: '#00ca1f',
         footer: '#F3F4F6',

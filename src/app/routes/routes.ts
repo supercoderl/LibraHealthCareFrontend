@@ -38,6 +38,10 @@ export const routes: Routes = [
         loadChildren: () => import('./exception/routes').then(m => m.routes)
     },
     {
+        path: 'require',
+        loadChildren: () => import('./require/routes').then(m => m.routes)
+    },
+    {
         path: '**',
         redirectTo: 'exception/404'
     }
