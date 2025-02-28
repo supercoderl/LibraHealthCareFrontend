@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, NavigationError, RouteConfigLoadStart, Router, RouterOutlet } from '@angular/router';
 import { stepPreloader, TitleService } from '@delon/theme';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -8,6 +8,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'notyf/notyf.min.css';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit {
 
   private donePreloader = stepPreloader();
 
-  constructor(el: ElementRef, renderer: Renderer2) {
+  constructor(el: ElementRef, renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: object) {
     renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full)
   }
 
@@ -54,12 +55,14 @@ export class AppComponent implements OnInit {
       }
     });
 
-    AOS.init({
-      disable: 'mobile',
-      duration: 700,
-      easing: 'ease-in-out-quart',
-      once: true,
-    });
-    AOS.refresh();
+    if (isPlatformBrowser(this.platformId)) {
+      AOS.init({
+        disable: 'mobile',
+        duration: 700,
+        easing: 'ease-in-out-quart',
+        once: true,
+      });
+      AOS.refresh();
+    }
   }
 }
