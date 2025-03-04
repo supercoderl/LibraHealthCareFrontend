@@ -152,8 +152,8 @@ export class ListComponent implements OnInit {
       password: 'Password123!',
       isActive: Boolean(this.form.value.isActive),
       isEmailConfirmed: false,
-      avatar64: this.form.value.avatar,
-      backgroundStringOr64: null
+      avatar: this.form.value.avatar,
+      background: null
     };
 
     if (this.modalTitle === 'Edit') {

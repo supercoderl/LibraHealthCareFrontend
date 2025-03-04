@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SharedModule } from '../../../shared';
 import { map, startWith } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -8,7 +8,6 @@ import { InformationProfileComponent } from "./widgets/information.component";
 import { ActivityComponent } from "./widgets/activity.component";
 import { MemberComponent } from "./widgets/member.component";
 import { AboutComponent } from './widgets/about.component';
-import { User } from '../../../types';
 
 @Component({
   selector: 'app-profile',
@@ -19,18 +18,22 @@ import { User } from '../../../types';
     ActivityComponent,
     AboutComponent,
     MemberComponent
-],
+  ],
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
-  selectedBackground: string = '#000000';
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   isColorPickerVisible: boolean = false;
   isEditing: boolean = false;
+  editedProfile: any = {};
 
+  loading$ = this.store.select((state) => state.profile.loading);
   profile$ = this.store.select((state) => state.profile.profile).pipe(
     map(profile => {
       if (!profile) {
         return {
+          userId: '0000-0000-0000-0000-0000',
+          isActive: true,
           userName: 'Guest',
           email: 'guest@example.com',
           avatar: 'https://static-resource.np.community.playstation.net/avatar_m/WWS_J/J0001_m.png',
@@ -46,6 +49,8 @@ export class ProfileComponent implements OnInit {
       }
 
       return {
+        userId: profile.userId,
+        isActive: profile.isActive,
         userName: profile.userName,
         email: profile.email,
         avatar: profile.avatar,
@@ -60,6 +65,8 @@ export class ProfileComponent implements OnInit {
       }
     }),
     startWith({
+      userId: '0000-0000-0000-0000-0000',
+      isActive: true,
       userName: 'Guest',
       email: 'guest@example.com',
       avatar: 'https://static-resource.np.community.playstation.net/avatar_m/WWS_J/J0001_m.png',
@@ -79,7 +86,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onColorChange(color: string) {
-    this.selectedBackground = color;
+    this.editedProfile.background = color;
     this.isColorPickerVisible = false; // Ẩn bảng chọn màu sau khi chọn
   }
 
@@ -88,11 +95,29 @@ export class ProfileComponent implements OnInit {
   }
 
   handleSave() {
-    this.isEditing = false;
+    this.store.dispatch(ProfileActions.updateProfile({ profile: this.editedProfile }));
   }
 
   reload(): void {
     this.store.dispatch(ProfileActions.loadProfile());
+  }
+
+  handleClick(): void {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file); // Convert file to base64
+
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        this.editedProfile.background = base64String;
+      };
+    }
   }
 
   constructor(private store: Store<{ profile: ProfileState }>) { }
@@ -104,5 +129,15 @@ export class ProfileComponent implements OnInit {
     } else {
       this.store.dispatch(ProfileActions.loadProfile());
     }
+
+    this.profile$.subscribe(profile => {
+      this.editedProfile = { ...profile };
+    });
+
+    this.loading$.subscribe(loading => {
+      if (!loading) {
+        this.isEditing = false;
+      }
+    });
   }
 }

@@ -10,26 +10,62 @@
               <div class="md:w-2/3 flex-auto">
                 <p class="font-medium">Welcome back</p>
                 <div class="font-medium text-[#2196f3] text-25 mb-2">
-                  DR. Sarah Smith!
+                  {{
+                    loading
+                      ? "Loading..."
+                      : "DR. " + (data?.physicianName || "") + "!"
+                  }}
                 </div>
-                <p class="font-medium mb-6">Gynecologist, MBBS,MD</p>
+                <p class="font-medium mb-6">
+                  {{ loading ? "Loading..." : data?.position }}
+                </p>
                 <div class="flex justify-center flex-wrap gap-x-4">
                   <div class="mb-5 md:flex-auto">
                     <div class="bg-[#dfdcf6] rounded-[10px] p-4 w-full">
                       <span class="font-medium">Appointments</span>
-                      <h5 class="mb-0 text-primary">12+</h5>
+                      <div>
+                        <h5 *ngIf="!loading" class="mb-0 text-primary">
+                          {{ data?.appointmentsCountInWeek || 0 }}
+                        </h5>
+                        <span
+                          *ngIf="loading"
+                          nz-icon
+                          nzType="loading"
+                          nzTheme="outline"
+                        ></span>
+                      </div>
                     </div>
                   </div>
                   <div class="mb-5 md:flex-auto">
                     <div class="bg-[#ffd4d1] rounded-[10px] p-4 w-full">
-                      <span class="font-medium">Surgeries</span>
-                      <h5 class="mb-0 text-danger">3+</h5>
+                      <span class="font-medium">Patients Today</span>
+                      <div>
+                        <h5 *ngIf="!loading" class="mb-0 text-danger">
+                          {{ data?.patientsCountToday || 0 }}
+                        </h5>
+                        <span
+                          *ngIf="loading"
+                          nz-icon
+                          nzType="loading"
+                          nzTheme="outline"
+                        ></span>
+                      </div>
                     </div>
                   </div>
                   <div class="mb-5 md:flex-auto">
                     <div class="bg-[#cdffcf] rounded-[10px] p-4 w-full">
-                      <span class="font-medium">Room Visit</span>
-                      <h5 class="mb-0 text-success">12+</h5>
+                      <span class="font-medium">Prescibed Medications</span>
+                      <div>
+                        <h5 *ngIf="!loading" class="mb-0 text-success">
+                          {{ data?.prescribedMedicationsCount || 0 }}
+                        </h5>
+                        <span
+                          *ngIf="loading"
+                          nz-icon
+                          nzType="loading"
+                          nzTheme="outline"
+                        ></span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -61,7 +97,10 @@
     <div class="flex space-x-4 mb-4">
       <div class="md:w-2/3">
         <nz-card nzTitle="Appointments">
-          <appointment />
+          <appointment
+            [loading]="loading"
+            [appointments]="data?.appointments || []"
+          />
         </nz-card>
       </div>
       <div class="md:w-1/3">

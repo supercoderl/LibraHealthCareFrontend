@@ -197,7 +197,7 @@
                   {{ physician.mobile }}
                 </td>
                 <td>
-                  {{ physician.hiringDate }}
+                  {{ physician.hiringDate | date : "yyyy-MM-dd" : "UTC+0" }}
                 </td>
                 <td>
                   <div nz-flex [nzGap]="10">

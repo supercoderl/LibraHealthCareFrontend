@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { NotyfService } from './notif.service';
 import { Message, User } from '../types';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Message, User } from '../types';
 export class SignalrService {
   private hubConnection!: signalR.HubConnection;
   private lastError: string | null = null;
-  baseURL: string = 'https://localhost:7261/tracker';
+  baseURL: string = `${environment.api.baseUrl}/tracker`;
 
   constructor(private notyfService: NotyfService) { }
 

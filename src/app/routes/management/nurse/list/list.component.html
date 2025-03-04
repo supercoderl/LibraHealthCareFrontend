@@ -205,7 +205,7 @@
                   {{ nurse.mobile }}
                 </td>
                 <td>
-                  {{ nurse.hiringDate }}
+                  {{ nurse.hiringDate | date : "yyyy-MM-dd" : "UTC+0" }}
                 </td>
                 <td>
                   <div nz-flex [nzGap]="10">

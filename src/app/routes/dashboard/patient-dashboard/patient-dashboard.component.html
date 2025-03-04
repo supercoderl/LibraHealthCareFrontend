@@ -17,7 +17,7 @@
               <div class="mb-5 md:w-2/3 md:flex-auto">
                 <p class="font-medium text-16 mb-2">Welcome back</p>
                 <div class="text-[#2196f3] font-medium text-25 mb-2">
-                  Cara Stevens!
+                  {{ loading ? "Loading..." : data?.patientName }}
                 </div>
                 <p class="text-16">
                   We would like to take this opportunity to welcome you to our
@@ -39,19 +39,38 @@
         >
           <div class="clearfix">
             <div class="text-35 m-5 float-left">
-              <img src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/blood-pressure.png" alt="" />
+              <img
+                src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/blood-pressure.png"
+                alt=""
+              />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Blood Pressure</p></div>
+              <div><p class="font-medium float-right">Medications</p></div>
               <div class="text-[#4caf50]">
-                <p class="font-semibold text-18 mb-0 float-right">110/70</p>
+                <p
+                  *ngIf="!loading"
+                  class="font-semibold text-18 mb-0 float-right"
+                >
+                  Are taking {{ data?.usingMedicationsCount || 0 }} medication
+                </p>
+                <span
+                  *ngIf="loading"
+                  nz-icon
+                  nzType="loading"
+                  nzTheme="outline"
+                ></span>
               </div>
             </div>
           </div>
           <div class="ml-6 mb-5">
             <p class="text-12 mb-0 flex">
-                <span nz-icon nzType="rise" nzTheme="outline" class="!text-[#4caf50]"></span> &nbsp; 10%
-                Higher Then Last Month
+              <span
+                nz-icon
+                nzType="rise"
+                nzTheme="outline"
+                class="!text-[#4caf50]"
+              ></span>
+              &nbsp; 10% Higher Then Last Month
             </p>
           </div>
         </div>
@@ -62,19 +81,38 @@
         >
           <div class="clearfix">
             <div class="text-35 m-5 float-left">
-              <img src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/heart-rate.png" alt="" />
+              <img
+                src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/heart-rate.png"
+                alt=""
+              />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Blood Pressure</p></div>
+              <div><p class="font-medium float-right">Heart Beat</p></div>
               <div class="text-[#4caf50]">
-                <p class="font-semibold text-18 mb-0 float-right">650</p>
+                <p
+                  *ngIf="!loading"
+                  class="font-semibold text-18 mb-0 float-right"
+                >
+                  {{ data?.beatsPerMinute || 0 }} per minute
+                </p>
+                <span
+                  *ngIf="loading"
+                  nz-icon
+                  nzType="loading"
+                  nzTheme="outline"
+                ></span>
               </div>
             </div>
           </div>
           <div class="ml-6 mb-5">
             <p class="text-12 mb-0 flex">
-                <span nz-icon nzType="fall" nzTheme="outline" class="!text-[#fd7e14]"></span> &nbsp; 07%
-                Less Then Last Month
+              <span
+                nz-icon
+                nzType="fall"
+                nzTheme="outline"
+                class="!text-[#fd7e14]"
+              ></span>
+              &nbsp; 07% Less Then Last Month
             </p>
           </div>
         </div>
@@ -85,19 +123,40 @@
         >
           <div class="clearfix">
             <div class="text-35 m-5 float-left">
-              <img src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/glucose.png" alt="" />
+              <img
+                src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/glucose.png"
+                alt=""
+              />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Glucose Level</p></div>
+              <div>
+                <p class="font-medium float-right">Next Appointments</p>
+              </div>
               <div class="text-[#4caf50]">
-                <p class="font-semibold text-18 mb-0 float-right">88-75</p>
+                <p
+                  *ngIf="!loading"
+                  class="font-semibold text-18 mb-0 float-right"
+                >
+                  {{ data?.nextAppointmentsCount || 0 }} will happen
+                </p>
+                <span
+                  *ngIf="loading"
+                  nz-icon
+                  nzType="loading"
+                  nzTheme="outline"
+                ></span>
               </div>
             </div>
           </div>
           <div class="ml-6 mb-5">
             <p class="text-12 mb-0 flex">
-                <span nz-icon nzType="rise" nzTheme="outline" class="!text-[#4caf50]"></span> &nbsp; 12%
-                Higher Then Last Month
+              <span
+                nz-icon
+                nzType="rise"
+                nzTheme="outline"
+                class="!text-[#4caf50]"
+              ></span>
+              &nbsp; 12% Higher Then Last Month
             </p>
           </div>
         </div>
@@ -108,19 +167,38 @@
         >
           <div class="clearfix">
             <div class="text-35 m-5 float-left">
-              <img src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/blood-count.png" alt="" />
+              <img
+                src="https://www.einfosoft.com/templates/admin/cliniva/source/light/assets/images/pages/blood-count.png"
+                alt=""
+              />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Blood Count</p></div>
+              <div><p class="font-medium float-right">Current Visit</p></div>
               <div class="text-[#4caf50]">
-                <p class="font-semibold text-18 mb-0 float-right">9,456/mL</p>
+                <p
+                  *ngIf="!loading"
+                  class="font-semibold text-18 mb-0 float-right"
+                >
+                  {{ data?.currentVisitCount || 0 }} times
+                </p>
+                <span
+                  *ngIf="loading"
+                  nz-icon
+                  nzType="loading"
+                  nzTheme="outline"
+                ></span>
               </div>
             </div>
           </div>
           <div class="ml-6 mb-5">
             <p class="text-12 mb-0 flex">
-                <span nz-icon nzType="fall" nzTheme="outline" class="!text-[#fd7e14]"></span> &nbsp; 22%
-                Less Then Last Month
+              <span
+                nz-icon
+                nzType="fall"
+                nzTheme="outline"
+                class="!text-[#fd7e14]"
+              ></span>
+              &nbsp; 22% Less Then Last Month
             </p>
           </div>
         </div>
@@ -134,7 +212,10 @@
         <performace-heart-rate />
       </div>
       <div class="md:flex-auto">
-        <medication-table />
+        <medication-table
+          [loading]="loading"
+          [medicalRecords]="data?.medicalRecords || []"
+        />
       </div>
     </div>
     <div class="flex flex-wrap gap-x-4">

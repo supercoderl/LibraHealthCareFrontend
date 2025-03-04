@@ -1,12 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { SharedModule } from "../../../../shared";
-
-interface ItemData {
-    id: number;
-    name: string;
-    age: number;
-    address: string;
-}
+import { Appointment } from "../../../../types";
 
 @Component({
     selector: 'appointment',
@@ -17,23 +11,24 @@ interface ItemData {
     template: `
     <nz-table
       #rowSelectionTable
-      [nzData]="listOfData"
+      [nzData]="appointments"
       [nzShowPagination]="false"
       [nzScroll]="{ y: '400px' }"
+      [nzLoading]="loading"
     >
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Address</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Examination Room</th>
         </tr>
       </thead>
       <tbody>
         @for (data of rowSelectionTable.data; track data) {
           <tr>
-            <td>{{ data.name }}</td>
-            <td>{{ data.age }}</td>
-            <td>{{ data.address }}</td>
+            <td>{{ data.startTime | date : "yyyy-MM-dd" : "UTC+0" }}</td>
+            <td>{{ data.endTime | date : "yyyy-MM-dd" : "UTC+0" }}</td>
+            <td>{{ data.examinationRoom }}</td>
           </tr>
         }
       </tbody>
@@ -41,16 +36,7 @@ interface ItemData {
     `
 })
 
-export class Appointment implements OnInit {
-    listOfCurrentPageData: readonly ItemData[] = [];
-    listOfData: readonly ItemData[] = [];
-
-    ngOnInit(): void {
-        this.listOfData = new Array(200).fill(0).map((_, index) => ({
-            id: index,
-            name: `Edward King ${index}`,
-            age: 32,
-            address: `London, Park Lane no. ${index}`
-        }));
-    }
+export class AppointmentComponent {
+    @Input() loading!: boolean;
+    @Input() appointments!: Appointment[]
 }

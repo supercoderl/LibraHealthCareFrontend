@@ -29,7 +29,7 @@ import { SharedModule } from "../../../../shared";
                 </li>
                 <li class="flex border-b py-2">
                     <span class="font-bold w-24">Hiring Date:</span>
-                    <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.hiringDate }}</span>
+                    <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.hiringDate | date : "yyyy-MM-dd" : "UTC+0" }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter date" class="peer block w-full outline-none bg-transparent" type="text">
                         <span class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 peer-focus:w-full"></span>
@@ -149,6 +149,8 @@ import { SharedModule } from "../../../../shared";
 
 export class InformationProfileComponent {
     @Input() profile!: {
+        userId: string;
+        isActive: boolean;
         userName: string;
         email: string;
         avatar: string;

@@ -206,7 +206,7 @@
                   <nz-tag [nzColor]="user.isEmailConfirmed ? '#F14A00' : '#2A004E'">{{ user.isEmailConfirmed ? 'Verified' : 'Unverified' }}</nz-tag>
                 </td>
                 <td>
-                  {{ user.lastLoggedIn }}
+                  {{ user.lastLoggedIn | date : "yyyy-MM-dd" : "UTC+0" }}
                 </td>
                 <td>
                   <div nz-flex [nzGap]="10">

@@ -1,11 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { SharedModule } from "../../../../shared";
-
-interface ItemData {
-    id: number;
-    name: string;
-    age: number;
-}
+import { MedicalRecord } from "../../../../types";
 
 @Component({
     selector: 'medication-table',
@@ -17,21 +12,22 @@ interface ItemData {
         <nz-card nzTitle="Medications">
             <nz-table
                 #rowSelectionTable
-                [nzData]="listOfData"
+                [nzData]="medicalRecords"
                 [nzShowPagination]="false"
                 [nzScroll]="{ x: 'fit-content', y: '310.25px' }"
+                [nzLoading]="loading"
             >
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Age</th>
+                        <th>Heart Beat</th>
+                        <th>Condition</th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (data of rowSelectionTable.data; track data) {
                     <tr>
-                        <td>{{ data.name }}</td>
-                        <td>{{ data.age }}</td>
+                        <td>{{ data.heartBeat }}</td>
+                        <td>{{ data.condition }}</td>
                     </tr>
                     }
                 </tbody>
@@ -40,15 +36,7 @@ interface ItemData {
     `
 })
 
-export class MedicationTable implements OnInit {
-    listOfCurrentPageData: readonly ItemData[] = [];
-    listOfData: readonly ItemData[] = [];
-
-    ngOnInit(): void {
-        this.listOfData = new Array(200).fill(0).map((_, index) => ({
-            id: index,
-            name: `Edward King ${index}`,
-            age: 32,
-        }));
-    }
+export class MedicationTable {
+    @Input() loading!: boolean;
+    @Input() medicalRecords!: MedicalRecord[];
 }

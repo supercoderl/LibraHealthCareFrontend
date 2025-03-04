@@ -197,10 +197,10 @@
                   {{ getPhysicianLabel(appointment.physicianId) }}
                 </td>
                 <td>
-                  {{ appointment.startTime }}
+                  {{ appointment.startTime | date : "yyyy-MM-dd" : "UTC+0" }}
                 </td>
                 <td>
-                  {{ appointment.endTime }}
+                  {{ appointment.endTime | date : "yyyy-MM-dd" : "UTC+0" }}
                 </td>
                 <td>
                   <div nz-flex [nzGap]="10">
