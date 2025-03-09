@@ -19,17 +19,17 @@ import { Router } from "@angular/router";
                 class="w-16"
             >
             <p class="py-5 mt-4 text-center leading-5">
-                <span class="text-[48px]">Authentication Required</span>
+                <span class="text-[48px]">{{ "app.component.authentication-required" | i18n }}</span>
             </p>
             <div 
                 class="py-3 px-4 mb-5 inline-block bg-primary text-16 leading-4 m-0 rounded-sm cursor-pointer"
                 (click)="toLogin()"
             >
-                <span class="text-white">Go to login</span>
+                <span class="text-white">{{ "app.component.go-to-login" | i18n }}</span>
             </div>
             <p class="text-center">
                 <span class="text-16 text-gray-500">
-                    You must log in or register first to use this function.
+                    {{ "app.component.auth-alert" | i18n }}
                 </span>
             </p>
         </div>

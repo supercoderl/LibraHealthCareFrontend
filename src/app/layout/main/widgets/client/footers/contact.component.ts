@@ -12,7 +12,7 @@ import { SharedModule } from "../../../../../shared";
         <h2
           class="pb-4 relative text-white mb-4 text-20 font-bold capitalize before:content-[''] before:absolute before:bottom-0 before:left-0 before:bg-white before:w-7.8 before:h-0.5"
         >
-          Contact Us
+          {{ "app.footer.contact-us" | i18n }}
         </h2>
         <div class="text-white text-15">
           <div
@@ -27,7 +27,7 @@ import { SharedModule } from "../../../../../shared";
             </span>
             <div class="addr-info">
               <h6 class="mb-0 text-footer leading-3.5">
-                Looking for Consultation
+                {{ "app.footer.looking" | i18n }}
               </h6>
               <p class="text-white font-semibold mb-0">+1 928 777 065</p>
             </div>
@@ -43,7 +43,7 @@ import { SharedModule } from "../../../../../shared";
             ></span>
             <div class="addr-info">
               <h6 class="mb-0 text-footer leading-3.5">
-                Email Address
+                {{ "app.footer.email-address" | i18n }}
               </h6>
               <p class="text-white font-semibold mb-0">
                 healthcare&#64;libra.com
@@ -59,7 +59,7 @@ import { SharedModule } from "../../../../../shared";
             ></span>
             <div class="addr-info">
               <h6 class="mb-0 text-footer leading-3.5">
-                Address
+                {{ "app.footer.address" | i18n }}
               </h6>
               <p class="text-white font-semibold mb-0">
                 District 12, HCMC, Viet Nam

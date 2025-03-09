@@ -21,7 +21,7 @@ type ChartOptions = {
         SharedModule
     ],
     template: `
-        <nz-card nzTitle="Performance Heart Rate">
+        <nz-card [nzTitle]="'app.dashboard.performance-heart-rate' | i18n">
             <div id="chart" class="overflow-hidden">
                 <apx-chart
                     [series]="chartOptions.series"

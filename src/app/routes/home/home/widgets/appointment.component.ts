@@ -27,11 +27,11 @@ import { AnimationLoader, AnimationOptions, LottieComponent, provideLottieOption
                                     <div class="w-full md:w-47/200 relative flex" data-aos="fade-right">
                                         <div class="p-6 flex relative w-full flex-wrap content-start">
                                             <div class="w-420 max-w-420 mb-0">
-                                                <h2 class="text-center md:text-left text-white text-24 md:text-40 m-0 leading-14">Book your appointment online</h2>		
+                                                <h2 class="text-center md:text-left text-white text-24 md:text-40 m-0 leading-14">{{ "app.home.booking.title" | i18n }}</h2>		
                                             </div>
                                             <div class="w-420 max-w-420">
                                                 <div class="mt-7.5">
-                                                    <p class="text-center md:text-left text-white m-0 p-0 text-13 md:text-16">Our simple to use, online appointment process makes it easy for you to book for any one of our services and doctors. </p>		
+                                                    <p class="text-center md:text-left text-white m-0 p-0 text-13 md:text-16">{{ "app.home.about.description" | i18n }}</p>		
                                                 </div>
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@ import { AnimationLoader, AnimationOptions, LottieComponent, provideLottieOption
                                                                 <div class="flex flex-wrap -mx-2.5 justify-center md:justify-start">
                                                                     <div class="px-2.5 w-full md:w-auto">
                                                                         <div class="m-0 p-0">
-                                                                            <button class="w-full md:w-auto mt-8 bg-none py-3 px-10 border-2 border-solid border-white relative text-center overflow-hidden inline-block transition-all duration-300 rounded-40 bg-transparent text-white hover:bg-primary hover:border-primary">Make an Appointment</button>
+                                                                            <button class="w-full md:w-auto mt-8 bg-none py-3 px-10 border-2 border-solid border-white relative text-center overflow-hidden inline-block transition-all duration-300 rounded-40 bg-transparent text-white hover:bg-primary hover:border-primary">{{ "app.home.booking.makeAppointment" | i18n }}</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

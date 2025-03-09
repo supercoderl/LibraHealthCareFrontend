@@ -15,16 +15,14 @@
                 />
               </div>
               <div class="mb-5 md:w-2/3 md:flex-auto">
-                <p class="font-medium text-16 mb-2">Welcome back</p>
+                <p class="font-medium text-16 mb-2">
+                  {{ "app.welcome" | i18n }}
+                </p>
                 <div class="text-[#2196f3] font-medium text-25 mb-2">
-                  {{ loading ? "Loading..." : data?.patientName }}
+                  {{ loading ? ("app.loading" | i18n) : data?.patientName }}
                 </div>
                 <p class="text-16">
-                  We would like to take this opportunity to welcome you to our
-                  practice and to thank you for choosing our physicians to
-                  participate in your healthcare. We look forward to providing
-                  you with personalized, comprehensive health care focusing on
-                  wellness and prevention.
+                  {{ "app.dashboard.patient-description" | i18n }}
                 </p>
               </div>
             </div>
@@ -45,13 +43,20 @@
               />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Medications</p></div>
+              <div>
+                <p class="font-medium float-right">
+                  {{ "app.medications" | i18n }}
+                </p>
+              </div>
               <div class="text-[#4caf50]">
                 <p
                   *ngIf="!loading"
                   class="font-semibold text-18 mb-0 float-right"
                 >
-                  Are taking {{ data?.usingMedicationsCount || 0 }} medication
+                  {{
+                    "app.dashboard.taking-medications"
+                      | i18n : { count: data?.usingMedicationsCount || 0 }
+                  }}
                 </p>
                 <span
                   *ngIf="loading"
@@ -87,13 +92,20 @@
               />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Heart Beat</p></div>
+              <div>
+                <p class="font-medium float-right">
+                  {{ "app.management.heartBeat" | i18n }}
+                </p>
+              </div>
               <div class="text-[#4caf50]">
                 <p
                   *ngIf="!loading"
                   class="font-semibold text-18 mb-0 float-right"
                 >
-                  {{ data?.beatsPerMinute || 0 }} per minute
+                  {{
+                    "app.dashboard.beats-per-minute"
+                      | i18n : { beats: data?.beatsPerMinute || 0 }
+                  }}
                 </p>
                 <span
                   *ngIf="loading"
@@ -130,14 +142,19 @@
             </div>
             <div class="float-right my-4 mr-4">
               <div>
-                <p class="font-medium float-right">Next Appointments</p>
+                <p class="font-medium float-right">
+                  {{ "app.dashboard.next-appointments" | i18n }}
+                </p>
               </div>
               <div class="text-[#4caf50]">
                 <p
                   *ngIf="!loading"
                   class="font-semibold text-18 mb-0 float-right"
                 >
-                  {{ data?.nextAppointmentsCount || 0 }} will happen
+                  {{
+                    "app.dashboard.next-appointments-count"
+                      | i18n : { count: data?.nextAppointmentsCount || 0 }
+                  }}
                 </p>
                 <span
                   *ngIf="loading"
@@ -173,13 +190,17 @@
               />
             </div>
             <div class="float-right my-4 mr-4">
-              <div><p class="font-medium float-right">Current Visit</p></div>
+              <div>
+                <p class="font-medium float-right">
+                  {{ "app.dashboard.current-visit" | i18n }}
+                </p>
+              </div>
               <div class="text-[#4caf50]">
                 <p
                   *ngIf="!loading"
                   class="font-semibold text-18 mb-0 float-right"
                 >
-                  {{ data?.currentVisitCount || 0 }} times
+                  {{ "app.dashboard.visit-count" | i18n: { count: data?.currentVisitCount || 0 } }}
                 </p>
                 <span
                   *ngIf="loading"
@@ -225,10 +246,10 @@
         >
           <div class="text-[#555] p-4">
             <nz-tabset>
-              <nz-tab nzTitle="Upcomming Appointment">
+              <nz-tab [nzTitle]="'app.dashboard.upcoming-appointments' | i18n">
                 <upcomming-appointment-table />
               </nz-tab>
-              <nz-tab nzTitle="Past Appointment">
+              <nz-tab [nzTitle]="'app.dashboard.past-appointments' | i18n">
                 <past-appointment-table />
               </nz-tab>
             </nz-tabset>

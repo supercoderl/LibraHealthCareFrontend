@@ -18,7 +18,7 @@ import { MenuService } from "../../../../../shared/utils/menu";
       <input
         type="search"
         class="p-0 font-[500] text-[#001737] border-0 bg-transparent block w-full outline-none"
-        placeholder="Type and hit enter to search..."
+        [placeholder]="'search.placeholder' | i18n"
       />
       <a
         id="navbarSearchClose"
@@ -32,7 +32,7 @@ import { MenuService } from "../../../../../shared/utils/menu";
     <div class="px-4 pt-4 pb-[20px] bg-white text-[13px]">
       <label
         class="text-[10px] uppercase font-[500] text-[#8392a5] mb-[10px] flex items-center"
-        >Recent Searches</label
+        >{{ "app.search.recent" | i18n }}</label
       >
       <ul class="flex flex-col mb-0 pl-0">
         <li>
@@ -48,7 +48,7 @@ import { MenuService } from "../../../../../shared/utils/menu";
 
       <label
         class="text-[10px] uppercase font-[500] text-[#8392a5] mb-[10px] flex items-center"
-        >Search Suggestions</label
+        >{{ "app.search.suggest" | i18n }}</label
       >
 
       <ul class="flex flex-col mb-0 pl-0">

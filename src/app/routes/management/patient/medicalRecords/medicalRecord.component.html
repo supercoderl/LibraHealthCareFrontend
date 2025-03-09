@@ -1,7 +1,7 @@
 <div class="p-[25px]">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="card">
-      <h3 class="text-3xl mb-4">Medical Record List</h3>
+      <h3 class="text-3xl mb-4">{{ "app.medical-records" | i18n }}</h3>
       <div
         class="flex items-center text-center border-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] flex-wrap rounded-t px-[5px]"
       >
@@ -11,7 +11,7 @@
             nzAddOnBeforeIcon="search"
             class="max-w-[300px]"
           >
-            <input type="text" (input)="onInput($event)" nz-input placeholder="Search..." />
+            <input type="text" (input)="onInput($event)" nz-input [placeholder]="'app.search' | i18n" />
           </nz-input-group>
         </div>
         <div class="flex-[10%] h-[60px] table-cell float-right text-center">
@@ -24,7 +24,7 @@
                   nzShape="circle"
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
-                  nzTooltipTitle="Filter"
+                  [nzTooltipTitle]="'operation.filter' | i18n"
                   nz-dropdown
                   nzTrigger="click"
                   [nzDropdownMenu]="filterDropdown"
@@ -53,7 +53,7 @@
                   class="!text-[20px]"
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
-                  nzTooltipTitle="Add"
+                  [nzTooltipTitle]="'operation.add' | i18n"
                   (click)="showModal('Add')"
                 >
                   <span
@@ -74,7 +74,7 @@
                   nzShape="circle"
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
-                  nzTooltipTitle="Reload"
+                  [nzTooltipTitle]="'operation.reload' | i18n"
                   (click)="onGet()"
                 >
                   <span
@@ -95,7 +95,7 @@
                   nzShape="circle"
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
-                  nzTooltipTitle="Delete"
+                  [nzTooltipTitle]="'operation.delete' | i18n"
                 >
                   <span
                     nz-icon
@@ -115,7 +115,7 @@
                   nzShape="circle"
                   class="inline-block relative bg-[rgba(0,_0,_0,_0)] z-0 visible rounded-full"
                   nz-tooltip
-                  nzTooltipTitle="Download"
+                  [nzTooltipTitle]="'operation.download' | i18n"
                   nz-dropdown 
                   nzTrigger="click" 
                   [nzDropdownMenu]="menu"
@@ -176,10 +176,10 @@
                   class="!bg-white"
                   nzWidth="5%"
                 ></th>
-                <th class="!bg-white" nzWidth="25%">Patient</th>
-                <th class="!bg-white" nzWidth="25%">Record Date</th>
-                <th class="!bg-white" nzWidth="35%">Condition</th>
-                <th class="!bg-white" nzWidth="10%">Action</th>
+                <th class="!bg-white" nzWidth="25%">{{ "app.management.patient" | i18n }}</th>
+                <th class="!bg-white" nzWidth="25%">{{ "app.management.record-date" | i18n }}</th>
+                <th class="!bg-white" nzWidth="35%">{{ "app.management.condition" | i18n }}</th>
+                <th class="!bg-white" nzWidth="10%">{{ "app.management.action" | i18n }}</th>
               </tr>
             </thead>
             <tbody>
@@ -202,7 +202,7 @@
                       nzType="text"
                       nzShape="circle"
                       nz-tooltip
-                      nzTooltipTitle="Edit"
+                      [nzTooltipTitle]="'operation.edit' | i18n"
                       (click)="showModal('Edit', medicalRecord)"
                     >
                       <span
@@ -217,7 +217,7 @@
                       nzType="text"
                       nzShape="circle"
                       nz-tooltip
-                      nzTooltipTitle="Delete"
+                      [nzTooltipTitle]="'operation.delete' | i18n"
                     >
                       <span
                         nz-icon
@@ -232,7 +232,7 @@
               }
             </tbody>
           </nz-table>
-          <ng-template #totalTemplate let-total>Total {{ totalCount }} items</ng-template>
+          <ng-template #totalTemplate let-total>{{ "app.management.total-item" | i18n: { count: totalCount } }}</ng-template>
           <!---->
         </div>
       </div>

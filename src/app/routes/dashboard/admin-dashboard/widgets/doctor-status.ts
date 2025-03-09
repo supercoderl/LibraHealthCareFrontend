@@ -18,8 +18,8 @@ import { Physician } from "../../../../types";
     >
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Position</th>
+                <th>{{ "app.management.name" | i18n }}</th>
+                <th>{{ "app.management.position" | i18n }}</th>
             </tr>
         </thead>
         <tbody>

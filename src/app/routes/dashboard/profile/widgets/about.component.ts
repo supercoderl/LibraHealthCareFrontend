@@ -9,7 +9,7 @@ import { SharedModule } from "../../../../shared";
     ],
     template: `
         <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
-            <h4 class="text-xl text-gray-900 font-bold">About</h4>
+            <h4 class="text-xl text-gray-900 font-bold">{{ "app.dashboard.about" | i18n }}</h4>
             <p class="mt-2 text-gray-700">
             A physician's responsibility extends beyond individual care. They are
             integral parts of the healthcare system, advocating for public health,

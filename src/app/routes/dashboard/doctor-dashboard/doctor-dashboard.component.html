@@ -8,21 +8,25 @@
           <div class="text-[#555] p-4">
             <div class="flex items-center flex-wrap">
               <div class="md:w-2/3 flex-auto">
-                <p class="font-medium">Welcome back</p>
+                <p class="font-medium">
+                  {{ "app.welcome" | i18n }}
+                </p>
                 <div class="font-medium text-[#2196f3] text-25 mb-2">
                   {{
                     loading
-                      ? "Loading..."
-                      : "DR. " + (data?.physicianName || "") + "!"
+                      ? ('app.loading' | i18n)
+                      : ('app.doctor' | i18n) + ' ' + (data?.physicianName || '') + '!'
                   }}
                 </div>
                 <p class="font-medium mb-6">
-                  {{ loading ? "Loading..." : data?.position }}
+                  {{ loading ? ('app.loading' | i18n) : data?.position }}
                 </p>
                 <div class="flex justify-center flex-wrap gap-x-4">
                   <div class="mb-5 md:flex-auto">
                     <div class="bg-[#dfdcf6] rounded-[10px] p-4 w-full">
-                      <span class="font-medium">Appointments</span>
+                      <span class="font-medium">{{
+                        "app.appointments" | i18n
+                      }}</span>
                       <div>
                         <h5 *ngIf="!loading" class="mb-0 text-primary">
                           {{ data?.appointmentsCountInWeek || 0 }}
@@ -38,7 +42,9 @@
                   </div>
                   <div class="mb-5 md:flex-auto">
                     <div class="bg-[#ffd4d1] rounded-[10px] p-4 w-full">
-                      <span class="font-medium">Patients Today</span>
+                      <span class="font-medium">{{
+                        "app.dashboard.patient-today" | i18n
+                      }}</span>
                       <div>
                         <h5 *ngIf="!loading" class="mb-0 text-danger">
                           {{ data?.patientsCountToday || 0 }}
@@ -54,7 +60,9 @@
                   </div>
                   <div class="mb-5 md:flex-auto">
                     <div class="bg-[#cdffcf] rounded-[10px] p-4 w-full">
-                      <span class="font-medium">Prescibed Medications</span>
+                      <span class="font-medium">{{
+                        "app.dashboard.prescribed-medications" | i18n
+                      }}</span>
                       <div>
                         <h5 *ngIf="!loading" class="mb-0 text-success">
                           {{ data?.prescribedMedicationsCount || 0 }}
@@ -84,19 +92,19 @@
     </div>
     <div class="flex space-x-4 mb-4 w-full">
       <div class="md:w-2/3">
-        <nz-card nzTitle="Patients Survay">
+        <nz-card [nzTitle]="'app.dashboard.patient-survey' | i18n">
           <patient-survey />
         </nz-card>
       </div>
       <div class="md:w-1/3">
-        <nz-card nzTitle="Appointment Review">
+        <nz-card [nzTitle]="'app.dashboard.appointment-reviews' | i18n">
           <appointment-review />
         </nz-card>
       </div>
     </div>
     <div class="flex space-x-4 mb-4">
       <div class="md:w-2/3">
-        <nz-card nzTitle="Appointments">
+        <nz-card [nzTitle]="'app.appointments' | i18n">
           <appointment
             [loading]="loading"
             [appointments]="data?.appointments || []"
@@ -104,19 +112,19 @@
         </nz-card>
       </div>
       <div class="md:w-1/3">
-        <nz-card nzTitle="Patient Group">
+        <nz-card [nzTitle]="'app.dashboard.patient-groups' | i18n">
           <patient-group />
         </nz-card>
       </div>
     </div>
     <div class="flex space-x-4">
       <div class="md:w-1/3 md:flex-auto">
-        <nz-card nzTitle="Todo List">
+        <nz-card [nzTitle]="'app.dashboard.todo-lists' | i18n">
           <todo-list />
         </nz-card>
       </div>
       <div class="md:w-1/3 md:flex-auto">
-        <nz-card nzTitle="Doctor Status">
+        <nz-card [nzTitle]="'app.dashboard.physician-statuses' | i18n">
           <doctor-status />
         </nz-card>
       </div>
@@ -128,7 +136,7 @@
             class="relative flex w-full text-[#555] py-2.5 px-4 leading-[30px]"
           >
             <h2 class="m-0 text-[#5b626b] text-17 leading-[28px] pr-2.5">
-              Number Of Patients
+              {{ "app.dashboard.number-of-patients" | i18n }}
             </h2>
           </div>
           <div class="text-[#555] p-4">

@@ -9,10 +9,10 @@ import { SharedModule } from "../../../../shared";
     ],
     template: `
         <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
-            <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
+            <h4 class="text-xl text-gray-900 font-bold">{{ "app.dashboard.personal-info" | i18n }}</h4>
             <ul class="mt-2 text-gray-700">
                 <li class="flex border-y py-2 items-center">
-                    <span class="font-bold w-24">Full name:</span>
+                    <span class="font-bold w-24">{{ "app.management.full-name" | i18n }}:</span>
                     <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.fullName }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter your name" class="peer block w-full outline-none bg-transparent" type="text">
@@ -20,7 +20,7 @@ import { SharedModule } from "../../../../shared";
                     </div>
                 </li>
                 <li class="flex border-b py-2">
-                    <span class="font-bold w-24">Position:</span>
+                    <span class="font-bold w-24">{{ "app.management.position" | i18n }}:</span>
                     <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.position }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter position" class="peer block w-full outline-none bg-transparent" type="text">
@@ -28,7 +28,7 @@ import { SharedModule } from "../../../../shared";
                     </div>
                 </li>
                 <li class="flex border-b py-2">
-                    <span class="font-bold w-24">Hiring Date:</span>
+                    <span class="font-bold w-24">{{ "app.management.hiring-date" | i18n }}:</span>
                     <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.hiringDate | date : "yyyy-MM-dd" : "UTC+0" }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter date" class="peer block w-full outline-none bg-transparent" type="text">
@@ -36,7 +36,7 @@ import { SharedModule } from "../../../../shared";
                     </div>
                 </li>
                 <li class="flex border-b py-2">
-                    <span class="font-bold w-24">Mobile:</span>
+                    <span class="font-bold w-24">{{ "app.management.mobile" | i18n }}:</span>
                     <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.mobile }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter mobile phone" class="peer block w-full outline-none bg-transparent" type="text">
@@ -44,7 +44,7 @@ import { SharedModule } from "../../../../shared";
                     </div>
                 </li>
                 <li class="flex border-b py-2">
-                    <span class="font-bold w-24">Email:</span>
+                    <span class="font-bold w-24">{{ "app.email" | i18n }}:</span>
                     <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.email }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter email" class="peer block w-full outline-none bg-transparent" type="text">
@@ -52,7 +52,7 @@ import { SharedModule } from "../../../../shared";
                     </div>
                 </li>
                 <li class="flex border-b py-2" *ngIf="profile?.role === 'nurse'">
-                    <span class="font-bold w-24">Address:</span>
+                    <span class="font-bold w-24">{{ "app.management.address" | i18n }}:</span>
                     <span *ngIf="!isEditing" class="text-gray-700">{{ profile?.address }}</span>
                     <div class="relative" *ngIf="isEditing">
                         <input placeholder="Enter address" class="peer block w-full outline-none bg-transparent" type="text">
@@ -60,7 +60,7 @@ import { SharedModule } from "../../../../shared";
                     </div>
                 </li>
                 <li class="flex items-center border-b py-2 space-x-2">
-                    <span class="font-bold w-24">Elsewhere:</span>
+                    <span class="font-bold w-24">{{ "app.management.else-where" | i18n }}:</span>
                     <a href="#" title="Facebook">
                     <svg
                         class="w-5 h-5"

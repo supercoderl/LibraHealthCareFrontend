@@ -31,7 +31,7 @@ import { SharedModule } from "../../../../../shared";
         <div
           class="py-[12px] px-4 uppercase text-[12px] font-[600] tracking-wide text-[#1b2e4b] border-b-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] mb-[5px]"
         >
-          Notifications
+        {{ "app.notifications" | i18n }}
         </div>
         <a
           href=""
@@ -121,7 +121,7 @@ import { SharedModule } from "../../../../../shared";
           class="mt-5px border-t-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] p-[10px] text-center tracking-wide uppercase"
         >
           <a href="javascript:void(0)" class="text-[#8392a5] transition-all duration-300"
-            >View all Notifications</a
+            >{{ "app.notification.view-all" | i18n }}</a
           >
         </div>
       </div>

@@ -36,7 +36,7 @@ import { FormBuilder, Validators } from "@angular/forms";
                 [class.translate-y-900]="!isOpen"
             >
                 <div class="sticky top-0 bg-primary flex items-center justify-between px-3 py-2 rounded-t-2xl">
-                    <h4 class="text-16 text-white m-0">Chat support</h4>
+                    <h4 class="text-16 text-white m-0">{{ 'app.chat-support' | i18n }}</h4>
                     <a (click)="toggleClose()">
                         <span 
                             nz-icon 
@@ -99,7 +99,7 @@ import { FormBuilder, Validators } from "@angular/forms";
                                 <circle cx="14.5" cy="17.5" r="1.5" fill="#ffffff"/>
                                 <circle cx="19.5" cy="17.5" r="1.5" fill="#ffffff"/>
                             </svg>
-                            Start chat
+                            {{ 'app.start-chat' | i18n }}
                         </button>
                     </div>
 

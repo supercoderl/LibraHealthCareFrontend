@@ -24,10 +24,10 @@ import { BOXES } from "../../../../constants";
                             <div class="px-7.5 relative" [id]="box.id.toString()">
                                 <div class="clear-both pt-10"></div>
                                 <header class="-mb-0.5 block clear-both">
-                                    <div class="mb-3.5 text-18 clear-both">{{box.title}}</div>
+                                    <div class="mb-3.5 text-18 clear-both">{{box.title | i18n}}</div>
                                 </header>
                                 <div>
-                                    <p class="m-0">{{box.description}}</p>
+                                    <p class="m-0">{{box.description | i18n}}</p>
                                 </div>
                                 <div class="clear-both pt-5"></div>
                                 <a 
@@ -35,7 +35,7 @@ import { BOXES } from "../../../../constants";
                                     href="#" 
                                     class="bg-transparent border-2 border-solid border-white text-white mr-4 inline-block text-12 py-3.25 px-6.5 uppercase cursor-pointer font-bold relative transition-all duration-500"
                                 >
-                                    <span class="text-white inline-block">{{box.buttonText}}</span>
+                                    <span class="text-white inline-block">{{box.buttonText ? (box.buttonText | i18n) : ''}}</span>
                                 </a>
                                 <div 
                                     *ngIf="box.type === 'input'"
@@ -58,7 +58,6 @@ import { BOXES } from "../../../../constants";
     `
 })
 
-export class HomeBox 
-{ 
+export class HomeBox {
     boxes: Box[] = BOXES;
 }

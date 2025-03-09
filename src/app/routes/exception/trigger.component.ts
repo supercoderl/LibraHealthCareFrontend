@@ -3,6 +3,7 @@ import { DA_SERVICE_TOKEN } from "@delon/auth";
 import { _HttpClient } from "@delon/theme";
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzCardModule } from "ng-zorro-antd/card";
+import { SharedModule } from "../../shared";
 
 @Component({
     selector: 'exception-trigger',
@@ -12,12 +13,12 @@ import { NzCardModule } from "ng-zorro-antd/card";
         @for (t of types; track $index) {
           <button (click)="go(t)" nz-button nzDanger>触发{{ t }}</button>
         }
-        <button nz-button nzType="link" (click)="refresh()">Làm mới mã</button>
+        <button nz-button nzType="link" (click)="refresh()">{{ "exception.refreshCode" | i18n }}</button>
       </nz-card>
     </div>
     `,
     standalone: true,
-    imports: [NzCardModule, NzButtonModule]
+    imports: [NzCardModule, NzButtonModule, SharedModule]
 })
 
 export class ExceptionTriggerComponent {

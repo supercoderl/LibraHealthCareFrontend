@@ -18,12 +18,12 @@ import { Medication } from "../../../../types";
     >
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Brand</th>
-          <th>Type</th>
-          <th>Unit</th>
-          <th>Price</th>
-          <th>Stock</th>
+          <th>{{ "app.management.name" | i18n }}</th>
+          <th>{{ "app.management.brand" | i18n }}</th>
+          <th>{{ "app.management.type" | i18n }}</th>
+          <th>{{ "app.management.unit" | i18n }}</th>
+          <th>{{ "app.management.price" | i18n }}</th>
+          <th>{{ "app.management.stock" | i18n }}</th>
         </tr>
       </thead>
       <tbody>

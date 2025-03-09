@@ -14,10 +14,10 @@ import { Question } from "../../../../types";
             [ngClass]="stage === currentStage ? '-translate-x-1/2 md:translate-x-0 opacity-100' : 'translate-x-max opacity-0'"
         >
             <h2 class="uppercase mb-1.25 text-primary text-18 text-center">
-                Check your symtoms
+                {{ "app.diagnosis.symtom.title" | i18n }}
             </h2>
             <h3 class="font-normal text-13 text-secondary mb-5 text-center">
-                Choose what feels right to you
+                {{ "app.diagnosis.symtom.subTitle" | i18n }}
             </h3>
 
             <!-- Begin Total Number of Donors in Year 1 Field -->
@@ -44,7 +44,7 @@ import { Question } from "../../../../types";
                                     d="M24 44c11.047 0 20-8.953 20-20S35.047 4 24 4 4 12.953 4 24s8.953 20 20 20m0-4c8.836 0 16-7.164 16-16S32.836 8 24 8 8 15.164 8 24s7.164 16 16 16m0 0"
                                     ></path>
                                 </svg>
-                                <span class="text-secondary hidden md:block">What does it mean?</span>
+                                <span class="text-secondary hidden md:block">{{ "app.diagnosis.symtom.mean" | i18n }}?</span>
                             </button>
                         </div>
                         <div class="gap-2 flex flex-[0_1_0%] flex-col">
@@ -91,7 +91,7 @@ import { Question } from "../../../../types";
                 data-page="2"
                 name="previous"
                 class="float-left w-25 font-bold text-primary border-none rounded-px cursor-pointer py-2.5 px-1.25 my-2.5 mt-6 mx-auto transition-all duration-300 block"
-                value="Previous"
+                [value]="'operation.previous' | i18n"
                 (click)="onPreviousClick()"
             />
             <input
@@ -100,7 +100,7 @@ import { Question } from "../../../../types";
                 data-page="2"
                 name="next"
                 class="float-right w-25 bg-primary font-bold text-white border-none rounded-px cursor-pointer py-2.5 px-1.25 my-2.5 mx-auto transition-all duration-300 block"
-                value="Next"
+                [value]="'operation.next' | i18n"
                 (click)="stage === finalStage ? onSubmitClick() : onNextClick()"
             />
         </fieldset>
@@ -115,7 +115,7 @@ import { Question } from "../../../../types";
 export class DiagnosisSymtom {
     @Input()
     questions!: Question[];
-    
+
     @Input()
     stage!: number;
 
@@ -134,7 +134,7 @@ export class DiagnosisSymtom {
     @Input()
     isSelected!: (questionId: number, answer: number) => boolean;
 
-    @Input() 
+    @Input()
     currentStage!: number;
 
     @Input()

@@ -9,9 +9,9 @@ import { SharedModule } from "../../../../shared";
     ],
     template: `
         <div class="bg-[rgba(0,_0,_0,_0)_none_repeat_scroll_0_0] md:mt-17.8 mb-7.5 md:px-6.2 md:pb-27.5">
-          <h2 class="text-[rgb(7,_16,_65)] text-28 md:text-36 font-semibold mb-8.8 text-left">HEAD OFFICE</h2>
+          <h2 class="text-[rgb(7,_16,_65)] text-28 md:text-36 font-semibold mb-8.8 text-left">{{ "app.contact.information.title" | i18n }}</h2>
           <div class="p-0">
-            <h2 class="text-20 m-0 font-semibold text-[#555]">Libra Hospital</h2>
+            <h2 class="text-20 m-0 font-semibold text-[#555]">{{ "app.contact.information.name" | i18n }}</h2>
             <ul class="m-0 p-0">
                 <li class="my-4 text-16">
                     <span nz-icon nzType="environment" nzTheme="outline"></span>

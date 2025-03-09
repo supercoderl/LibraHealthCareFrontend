@@ -18,9 +18,9 @@ import { Appointment } from "../../../../types";
     >
       <thead>
         <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Examination Room</th>
+          <th>{{ "app.management.start-time" | i18n }}</th>
+          <th>{{ "app.management.end-time" | i18n }}</th>
+          <th>{{ "app.management.examination-room" | i18n }}</th>
         </tr>
       </thead>
       <tbody>

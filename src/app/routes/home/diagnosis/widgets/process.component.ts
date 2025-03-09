@@ -14,13 +14,13 @@ import { SharedModule } from "../../../../shared";
                     class="relative pb-10 before:inline-block before:content-[''] before:border-l-0.75 before:absolute before:-left-7 before:h-full before:w-full after:absolute after:top-0 after:-left-9.8 after:w-6.2 after:h-6.2 after:leading-6.5 after:border after:border-solid after:border-primary after:rounded-full after:block after:text-center after:mx-auto after:mb-2.5"
                     [ngClass]="stage >= totalSymtomStage ? 'before:border-primary after:bg-primary after:text-white' : stage >= 1 ? 'after:bg-primary after:text-white' : 'after:bg-white'"
                 >
-                    <a href="#">Symtoms</a>
+                    <a href="#">{{ "app.symtoms" | i18n }}</a>
                 </li>
                 <li 
                     class="relative before:inline-block before:content-[''] before:border-l-0.75 before:absolute before:-left-7 before:h-full before:w-full after:absolute after:top-0 after:-left-9.8 after:w-6.2 after:h-6.2 after:leading-6.5 after:border after:border-solid after:border-primary after:rounded-full after:block after:text-center after:mx-auto after:mb-2.5"
                     [ngClass]="stage == totalSymtomStage ? 'after:bg-primary after:text-white' : 'after:bg-white'"
                 >
-                    <a href="#">Result</a>
+                    <a href="#">{{ "app.result" | i18n }}</a>
                 </li>
             </ul>
         </div>

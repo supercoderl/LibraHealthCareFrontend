@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared';
 import { GlobalFooterModule } from '@delon/abc/global-footer';
 import { ThemeBtnComponent } from '@delon/theme/theme-btn';
@@ -6,8 +6,9 @@ import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { HeaderI18nComponent } from '../main/widgets/i18n.component';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { TypeWriterService } from '../../shared/utils/type.writer';
+import { I18NService } from '../../core';
 
 @Component({
   selector: 'layout-auth',
@@ -21,7 +22,7 @@ import { TypeWriterService } from '../../shared/utils/type.writer';
           <div class="md:ml-1/40">
             <div class="card relative flex flex-col bg-white rounded-[0.125rem]">
               <div class="px-6 py-12 md:p-12 flex-auto">
-                <h2 class="mb-6 text-6 font-semibold mt-0 text-center">Welcome to Health Care</h2>
+                <h2 class="mb-6 text-6 font-semibold mt-0 text-center">{{ "app.login.welcome" | i18n }}</h2>
                 <router-outlet />
               </div>
             </div>
@@ -33,7 +34,7 @@ import { TypeWriterService } from '../../shared/utils/type.writer';
               {{value$ | async}}
               <span class="typewriter ml-2 border-r-[0.15em] border-solid border-secondary"></span>
             </h2>
-            <p class="mb-8 font-semibold text-primary">Join the community of over 300 clients who trust and love our care.</p>
+            <p class="mb-8 font-semibold text-primary">{{ "app.login.sub-text" | i18n }}</p>
             <ul class="pl-0">
               <li class="mb-[1.5rem]">
                 <div class="flex items-center">
@@ -43,8 +44,7 @@ import { TypeWriterService } from '../../shared/utils/type.writer';
 
                   <div class="flex-1 mt-0">
                     <p class="text-[0.825rem] font-semibold leading-6">
-                      Your health is special, and so is our approach. <br />
-                      We provide personalized care that sets us apart from everything else.
+                      {{ "app.login.text-1" | i18n }}
                     </p>
                   </div>
                 </div>
@@ -58,7 +58,7 @@ import { TypeWriterService } from '../../shared/utils/type.writer';
 
                   <div class="flex-1 mt-0">
                     <p class="text-[0.825rem] font-semibold leading-6">
-                      They say, "Health is wealth" – but more importantly, it's a lifestyle we help you embrace.
+                      {{ "app.login.text-2" | i18n }}
                     </p>
                   </div>
                 </div>
@@ -72,15 +72,19 @@ import { TypeWriterService } from '../../shared/utils/type.writer';
 
                   <div class="flex-1 mt-0">
                     <p class="text-[0.825rem] font-semibold leading-6">
-                      If only there was a solution for all your healthcare needs... <br/>
-                      <i>Wait a second – there is! It’s right here, with us.</i>
+                      {{ "app.login.text-3" | i18n }}
                     </p>
                   </div>
                 </div>
               </li>
             </ul>
 
-            <button type="submit" class="min-w-[9.25rem] font-semibold text-[0.875rem] text-center p-[0.675rem] rounded-sm text-white bg-primary border-[1px] border-solid border-primary uppercase transition duration-500 learn-btn hover:bg-secondary hover:border-secondary">Learn more</button>
+            <button 
+              type="submit" 
+              class="min-w-[9.25rem] font-semibold text-[0.875rem] text-center p-[0.675rem] rounded-sm text-white bg-primary border-[1px] border-solid border-primary uppercase transition duration-500 learn-btn hover:bg-secondary hover:border-secondary"
+            >
+              {{ "app.learn-more" | i18n }}
+            </button>
           </div>
         </div>
       </div>
@@ -88,7 +92,7 @@ import { TypeWriterService } from '../../shared/utils/type.writer';
   `,
   styleUrl: './auth.component.scss'
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements AfterViewInit {
   private tokenService = inject(DA_SERVICE_TOKEN);
   value$: Observable<string> | null = null;
 
@@ -106,10 +110,16 @@ export class AuthComponent implements OnInit {
     }
   ];
 
-  
+  constructor(private i18nService: I18NService) {
+    console.log(this.i18nService.translate('app.sentence'));
+  }
 
-  ngOnInit(): void {
-    const sentence = "Achieve your best health and embrace the journey.";
-    this.value$ = TypeWriterService.loopEffect(sentence);
+  ngAfterViewInit(): void {
+    console.log('Current i18n data:', this.i18nService['_data']);
+
+    this.i18nService.change.pipe(take(1)).subscribe(() => {
+      const sentence = this.i18nService.fanyi('app.sentence');
+      this.value$ = TypeWriterService.loopEffect(sentence);
+    });
   }
 }

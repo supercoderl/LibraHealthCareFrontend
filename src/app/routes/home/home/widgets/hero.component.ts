@@ -25,13 +25,12 @@ import { SharedModule } from "../../../../shared";
                     <div class="">
                         <!-- Title -->
                         <h2 class="visible md:text-56 text-28.8 font-extrabold -leading-px md:mb-5 text-green">
-                            Comprehensive Healthcare Solutions
+                            {{ "app.home.hero.title" | i18n }}
                         </h2>
 
                         <!-- Text -->
                         <p class="visible pr-1/20 md:text-20 text-justify md:mb-8.8 text-4 mb-10 text-gray-500" data-animation="fadeInUp" data-animation-delay="400">
-                            We provide advanced healthcare solutions to help you and your family live healthier lives every day. 
-                            Our team of experienced professionals is always ready to support you on your journey to better health.
+                            {{ "app.home.hero.description" | i18n }}
                         </p>
                     </div>
                 </div>	<!-- END HERO TEXT --> 

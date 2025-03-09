@@ -45,8 +45,8 @@ import { Router } from "@angular/router";
           class="p-0 flex items-center text-[#1b2e4b] rounded-[0.25rem] transition-all duration-300 w-full whitespace-nowrap bg-transparent border-0"
         >
           <span nz-icon nzType="edit" nzTheme="outline" class="mr-3"></span>
-          Edit Profile</a
-        >
+          {{ "app.profile.edit" | i18n }}
+        </a>
         <div
           class="my-[15px] h-0 overflow-hidden opacity-1 border-t-[1px] border-solid border-[rgba(0,_0,_0,_0.175)]"
         ></div>
@@ -59,19 +59,19 @@ import { Router } from "@angular/router";
             nzTheme="outline"
             class="mr-3"
           ></span>
-          Help Center</a
-        >
+          {{ "app.profile.help-center" | i18n }}
+        </a>
         <a
           href=""
           class="p-0 mt-[10px] flex items-center text-[#1b2e4b] rounded-[0.25rem] transition-all duration-300 w-full whitespace-nowrap bg-transparent border-0"
           ><span nz-icon nzType="setting" nzTheme="outline" class="mr-3"></span>
-          Account Settings
+          {{ "app.profile.setting" | i18n }}
         </a>
         <a
           (click)="handleLogout()"
           class="p-0 mt-[10px] flex items-center text-[#1b2e4b] rounded-[0.25rem] transition-all duration-300 w-full whitespace-nowrap bg-transparent border-0"
           ><span nz-icon nzType="logout" nzTheme="outline" class="mr-3"></span>
-          Sign Out
+          {{ "app.profile.sign-out" | i18n }}
         </a>
       </div>
       <!-- dropdown-menu -->

@@ -12,7 +12,7 @@ import { SharedModule } from "../../../../../shared";
         <h2
           class="pb-4 relative text-white mb-4 text-20 font-bold capitalize before:content-[''] before:absolute before:bottom-0 before:left-0 before:bg-white before:w-7.8 before:h-0.5"
         >
-          Services
+            {{ "app.footer.services" | i18n }}
         </h2>
         <ul class="m-0 p-0">
           <li class="mb-4 relative mb-2.5" *ngFor="let service of services">
@@ -20,7 +20,7 @@ import { SharedModule } from "../../../../../shared";
                 [routerLink]="service.url"
                 class="font-medium text-16 text-white transition-all duration-500"
             >
-                {{service.title}}
+                {{service.title | i18n}}
             </a>
           </li>
         </ul>
@@ -31,24 +31,24 @@ import { SharedModule } from "../../../../../shared";
 export class ServiceClientFooter {
     services = [
         {
-            title: 'Primary Care',
+            title: 'app.footer.primary-care',
             url: '#'
         },
         {
-            title: 'Preventive Health Checkups',
+            title: 'app.footer.preventive-health-checkups',
             url: '#'
         },
         {
-            title: 'Chronic Disease Management',
+            title: 'app.footer.chronic-disease-management',
             url: '#'
         },
         {
-            title: 'Pediatric Care',
+            title: 'app.footer.pediatric-care',
             url: '#'
         },
         {
-            title: 'Mental Health Counseling',
-            url: ''
+            title: 'app.footer.mental-health-counseling',
+            url: '#'
         }
     ]
 }

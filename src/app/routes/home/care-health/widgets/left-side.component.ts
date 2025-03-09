@@ -17,13 +17,13 @@ import { Post } from "../../../../types";
             <h3
               class="text-20 leading-6.5 text-[#303745] font-medium capitalize relative before:content-[''] before:absolute before:bg-primary before:h-0.5 before:w-10 before:left-0 before:-bottom-3 before:block"
             >
-              Search
+            {{ "app.search" | i18n }}
             </h3>
           </div>
           <div class="mb-11.2 relative">
             <input
               type="search"
-              placeholder="Search..."
+              [placeholder]="'app.search' | i18n"
               name="s"
               class="border border-solid border-[#ddd] text-[#444444] py-2 px-4.2 w-full rounded-5 relative outline-none"
               value=""
@@ -40,7 +40,7 @@ import { Post } from "../../../../types";
             <h3
               class="text-20 leading-6.5 text-[#303745] font-medium capitalize relative before:content-[''] before:absolute before:bg-primary before:h-0.5 before:w-10 before:left-0 before:-bottom-3 before:block"
             >
-              Categories
+            {{ "app.categories" | i18n }}
             </h3>
           </div>
           <div class="mb-7.5">
@@ -58,7 +58,7 @@ import { Post } from "../../../../types";
               <h3
                 class="mb-12.5 text-20 leading-6.5 text-[#303745] font-medium capitalize relative before:content-[''] before:absolute before:bg-primary before:h-0.5 before:w-10 before:left-0 before:-bottom-3 before:block"
               >
-                Recent Posts
+              {{ "app.careHealth.title" | i18n }}
               </h3>
             </div>
   
@@ -84,7 +84,7 @@ import { Post } from "../../../../types";
             <h3
               class="text-20 leading-6.5 text-[#303745] font-medium capitalize relative before:content-[''] before:absolute before:bg-primary before:h-0.5 before:w-10 before:left-0 before:-bottom-3 before:block"
             >
-              Tags
+            {{ "app.tags" | i18n }}
             </h3>
           </div>
           <div>

@@ -3,16 +3,32 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import ngEn from '@angular/common/locales/en';
 import ngZh from '@angular/common/locales/zh';
 import ngZhTw from '@angular/common/locales/zh-Hant';
-import { en_US as zorroEnUS, zh_CN as zorroZhCN, zh_TW as zorroZhTW, NzI18nService } from 'ng-zorro-antd/i18n';
-import { enUS as dfEn, zhCN as dfZhCn, zhTW as dfZhTw } from 'date-fns/locale';
+import ngFr from '@angular/common/locales/fr';
+import ngDe from '@angular/common/locales/de';
 import { 
-  _HttpClient, 
-  AlainI18nBaseService, 
-  DelonLocaleService, 
+  en_US as zorroEnUS, 
+  zh_CN as zorroZhCN, 
+  zh_TW as zorroZhTW,
+  fr_FR as zorroFrFr,
+  de_DE as zorroDeDe,
+  NzI18nService 
+} from 'ng-zorro-antd/i18n';
+import { 
+  enUS as dfEn, 
+  zhCN as dfZhCn, 
+  zhTW as dfZhTw,
+  fr as dfFr,
+  de as dfDe,
+} from 'date-fns/locale';
+import {
+  _HttpClient,
+  AlainI18nBaseService,
+  DelonLocaleService,
   SettingsService,
   en_US as delonEnUs,
   zh_CN as delonZhCn,
-  zh_TW as delonZhTw
+  zh_TW as delonZhTw,
+  fr_FR as delonFrFr,
 } from '@delon/theme';
 import { Platform } from '@angular/cdk/platform';
 import { AlainConfigService } from '@delon/util/config';
@@ -53,7 +69,23 @@ const LANGS: { [key: string]: LangConfigData } = {
     date: dfEn,
     abbr: '🇬🇧',
     delon: delonEnUs
-  }
+  },
+  'fr-FR': {
+    text: 'French',
+    ng: ngFr,
+    zorro: zorroFrFr,
+    date: dfFr,
+    abbr: '🇫🇷',
+    delon: delonFrFr
+  },
+  'de-DE': {
+    text: 'German',
+    ng: ngDe,
+    zorro: zorroDeDe,
+    date: dfDe,
+    abbr: '🇩🇪',
+    delon: delonEnUs
+  },
 };
 
 @Injectable({
@@ -67,26 +99,25 @@ export class I18NService extends AlainI18nBaseService {
   private readonly platform = inject(Platform);
 
   protected override _defaultLang: string = DEFAULT;
+
   private _langs = Object.keys(LANGS).map(code => {
     const item = LANGS[code];
     return { code, text: item.text, abbr: item.abbr };
-  }) 
+  })
 
-  constructor(cogSrv: AlainConfigService) 
-  {
+  constructor(cogSrv: AlainConfigService) {
     super(cogSrv);
-    
+
     const defaultLang = this.getDefaultLang();
     this._defaultLang = this._langs.findIndex(w => w.code === defaultLang) === -1 ? DEFAULT : defaultLang;
-  } 
+  }
 
   private getDefaultLang(): string {
-    if(!this.platform.isBrowser) {
+    if (!this.platform.isBrowser) {
       return DEFAULT;
     }
 
-    if(this.settings.layout.lang)
-    {
+    if (this.settings.layout.lang) {
       return this.settings.layout.lang;
     }
 
@@ -95,12 +126,16 @@ export class I18NService extends AlainI18nBaseService {
     return arr.length <= 1 ? res : `${arr[0]}-${arr[1].toUpperCase()}`;
   }
 
+  translate(key: string, params?: Record<string, unknown>): string {
+    return this.fanyi(key, params);
+  }
+
   loadLangData(lang: string): Observable<NzSafeAny> {
     return this.http.get(`/api/v1/App/${lang}`);
   }
 
   use(lang: string, data: Record<string, unknown>): void {
-    if(this._currentLang === lang) return;
+    if (this._currentLang === lang) return;
 
     this._data = this.flatData(data, []);
 
@@ -114,7 +149,7 @@ export class I18NService extends AlainI18nBaseService {
     this._change$.next(lang);
   }
 
-  getLangs(): Array<{ code: string, text: string, abbr: string}> {
+  getLangs(): Array<{ code: string, text: string, abbr: string }> {
     return this._langs;
   }
 }

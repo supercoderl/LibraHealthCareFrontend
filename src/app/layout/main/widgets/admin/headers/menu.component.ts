@@ -21,7 +21,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
             nzTheme="outline"
             class="mr-3 md:!hidden"
           ></span>
-          Dashboard
+          {{ "app.dashboard" | i18n }}
         </a>
         <ul
           *ngIf="menuSrv.isMenuActive('dashboard')"
@@ -38,7 +38,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
                 nzTheme="outline"
                 class="!hidden md:!block md:ml-[-4px] md:mr-3"
               ></span>
-              Admin Dashboard
+              {{ "app.dashboard.admin" | i18n }}
             </a>
           </li>
           <li class="nav-sub-item mb-3">
@@ -52,7 +52,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
                 nzTheme="outline"
                 class="!hidden md:!block md:ml-[-4px] md:mr-3"
               ></span>
-              Doctor Dashboard
+              {{ "app.dashboard.physician" | i18n }}
             </a>
           </li>
           <li class="nav-sub-item">
@@ -66,7 +66,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
                 nzTheme="outline"
                 class="!hidden md:!block md:ml-[-4px] md:mr-3"
               ></span>
-              Patient Dashboard
+              {{ "app.dashboard.patient" | i18n }}
             </a>
           </li>
         </ul>
@@ -81,7 +81,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
             nzTheme="outline"
             class="mr-3 md:!hidden"
           ></span>
-          Message Box
+          {{ "app.message-box" | i18n }}
         </a>
       </li>
       <li class="relative mt-[10px] md:mt-0">
@@ -96,7 +96,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
             nzTheme="outline"
             class="mr-3 md:!hidden"
           ></span>
-          Managements
+          {{ "app.managements" | i18n }}
         </a>
         <div
           *ngIf="menuSrv.isMenuActive('pages')"
@@ -113,7 +113,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
                 <li
                   class="text-[10px] font-semibold tracking-wider text-tertiary uppercase block mb-[10px] mt-[15px] md:mt-0"
                 >
-                  {{ item.title }}
+                  {{ item.title | i18n }}
                 </li>
                 <li 
                   class="nav-sub-item mb-3"
@@ -128,7 +128,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
                       nzTheme="outline"
                       class="!hidden md:!block md:mr-3"
                     ></span>
-                    {{ child.title }}
+                    {{ child.title | i18n }}
                   </a>
                 </li>
               </ng-container>
@@ -148,7 +148,7 @@ import { ADMIN_MENUS } from "../../../../../constants";
             nzTheme="outline"
             class="mr-3 md:!hidden"
           ></span>
-          Components
+          {{ "app.components" | i18n }}
         </a>
       </li>
     </ul>

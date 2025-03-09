@@ -15,6 +15,7 @@ import { SearchBarAdmin } from "./widgets/admin/headers/search-bar-component";
 import { SignalrService } from "../../services/signalr.service";
 import { DA_SERVICE_TOKEN } from "@delon/auth";
 import { Message } from "../../types";
+import { HeaderI18nComponent } from "./widgets/i18n.component";
 
 @Component({
     selector: 'layout-admin-main',
@@ -24,6 +25,7 @@ import { Message } from "../../types";
         SharedModule,
         RouterOutlet,
         I18nPipe,
+        HeaderI18nComponent,
         LayoutDefaultModule,
         SettingDrawerModule,
         NavbarMenu,

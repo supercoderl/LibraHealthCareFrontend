@@ -81,13 +81,13 @@ import { NzModalService } from "ng-zorro-antd/modal";
                                 nz-menu-item
                                 (click)="showConfirm(true)"
                               >
-                                Leave the chat
+                              {{ "app.chat.leave" | i18n }}
                               </li>
                               <li 
                                 nz-menu-item
                                 (click)="showConfirm(false)"
                               >
-                                Clear message
+                              {{ "app.chat.clear" | i18n }}
                               </li>
                             </ul>
                           </nz-dropdown-menu>
@@ -177,7 +177,7 @@ import { NzModalService } from "ng-zorro-antd/modal";
                         class="border-0 bg-[#3867d6] py-[0.375rem] px-[5px] text-white rounded-[0.25rem] w-[24%] ml-[1%] focus:outline-0"
                         (click)="sendMessage()"
                     >
-                      <i class="mr-[5px]" aria-hidden="true"></i> Send
+                      <i class="mr-[5px]" aria-hidden="true"></i> {{ "app.send" | i18n }}
                     </button>
                   </form>
                 </div>

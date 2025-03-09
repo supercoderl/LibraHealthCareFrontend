@@ -4,7 +4,7 @@
   <div
     class="max-w-xl p-8 text-center text-gray-800 bg-white shadow-xl lg:max-w-3xl rounded-3xl lg:p-12"
   >
-    <h3 class="text-2xl">Thanks for signing up for Libra Health Care!</h3>
+    <h3 class="text-2xl">{{ "app.verify.title" | i18n }}</h3>
     <div class="flex justify-center">
       <svg
         version="1.1"
@@ -73,7 +73,7 @@
       </svg>
     </div>
 
-    <p>We're happy you're here. Let's get your email address verified:</p>
+    <p>{{ "app.verify.notice" | i18n }}:</p>
     <div class="mt-4">
       <div id="otp" class="flex flex-row justify-center text-center px-2 mb-5">
         <input
@@ -114,11 +114,10 @@
         />
       </div>
       <button class="px-4 py-2 text-white bg-primary rounded">
-        Submit to Verify Email
+        {{ "app.verify.submit" | i18n }}
       </button>
       <p class="mt-4 text-sm">
-        If you’re having trouble clicking the "Verify Email Address" button,
-        contact us at
+        {{ "app.verify.troubleshoot" | i18n }}
         <a
           href="mailto:support@librahealthcare.com"
           class="text-tertiary underline"

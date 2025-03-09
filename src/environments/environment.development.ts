@@ -2,7 +2,7 @@ export const environment = {
     production: true,
     useHash: false,
     api: {
-        baseUrl: 'https://librahealthcare.somee.com',
+        baseUrl: 'https://localhost:7261',
         refreshTokenEnabled: true,
         refreshTokenType: 'auth-refresh'
     }

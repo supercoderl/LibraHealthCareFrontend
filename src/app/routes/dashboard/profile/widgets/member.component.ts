@@ -9,7 +9,7 @@ import { SharedModule } from "../../../../shared";
     ],
     template: `
         <div class="flex items-center justify-between">
-            <h4 class="text-xl text-gray-900 font-bold">Team members (5)</h4>
+            <h4 class="text-xl text-gray-900 font-bold">{{ "app.dashboard.team-members" | i18n: { count: 5 } }}</h4>
             <a href="#" title="View All">
                 <svg
                 xmlns="http://www.w3.org/2000/svg"

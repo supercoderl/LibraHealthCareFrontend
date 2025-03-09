@@ -16,7 +16,7 @@ import { SharedModule } from "../../../../../shared";
             routerLink="/"
             title="Make an Appointment"
             class="text-white transition-all duration-500"
-            >Make an Appointment</a
+            >{{ "app.header.make-appointment" | i18n }}</a
           ></span
         >
       </div>

@@ -12,7 +12,7 @@ import { SharedModule } from "../../../.././../shared";
         <input
           type="search"
           class="border-0 outline-none bg-transparent p-0 text-[#1b2e4b]"
-          placeholder="Search calendar"
+          [placeholder]="'app.search' | i18n"
         />
       </div>
       <button nz-button nzType="primary">

@@ -4,12 +4,12 @@ import { Service } from "../../../../types";
 import { SERVICES } from "../../../../constants";
 
 @Component({
-    selector: 'about',
-    standalone: true,
-    imports: [
-        SharedModule
-    ],
-    template: `
+	selector: 'about',
+	standalone: true,
+	imports: [
+		SharedModule
+	],
+	template: `
     <section class="bg-center bg-no-repeat bg-cover py-7.5 md:py-15 relative bg-section">
 		<div class="max-w-1320 md:flex mx-auto relative" data-aos="fade-right">
 			<div class="w-full md:w-w3/10 relative flex">
@@ -17,9 +17,9 @@ import { SERVICES } from "../../../../constants";
 					<div class="mb-5 w-full">
 				        <div class="pb-2.5 px-4 md:pl-2.5">		
                             <div class="text-left mb-5.5">	
-                                <span class="text-primary text-16 mb-3 block">Why Choose Us</span>
-                                <h2 class="font-bold text-2xl">What’s Our Speciality</h2>        
-        				        <p class="w-4/5 mb-5 text-gray-500">On the other hand we denounce with righteous indignation</p>
+                                <span class="text-primary text-16 mb-3 block">{{ "app.home.about.title" | i18n }}</span>
+                                <h2 class="font-bold text-2xl">{{ "app.home.about.subTitle" | i18n }}</h2>        
+        				        <p class="w-4/5 mb-5 text-gray-500">{{ "app.home.about.description" | i18n }}</p>
 		                </div>		        
                     </div>
 				</div>
@@ -39,8 +39,8 @@ import { SERVICES } from "../../../../constants";
 											    <img loading="lazy" decoding="async" width="64" height="64" [src]="service.img" class="attachment-thumbnail size-thumbnail" alt="">						
                                             </div>
 	                                        <div class="ml-12 flex-1">
-		                                        <h3 class="mb-2.5 font-bold text-22 text-primary">{{service.title}}</h3>
-		                                        <p class="m-0 text-gray-500">{{service.description}}</p>
+		                                        <h3 class="mb-2.5 font-bold text-22 text-primary">{{service.title | i18n}}</h3>
+		                                        <p class="m-0 text-gray-500">{{service.description | i18n}}</p>
 	                                        </div>
                                         </div>		                                        
                                     </div>
@@ -63,8 +63,8 @@ import { SERVICES } from "../../../../constants";
 											    <img loading="lazy" decoding="async" width="60" height="60" [src]="service.img" class="attachment-thumbnail size-thumbnail" alt="">						
                                             </div>
 	                                        <div class="ml-12 flex-1">
-		                                        <h3 class="mb-2.5 font-bold text-22 text-primary">{{service.title}}</h3>
-		                                        <p class="m-0 text-gray-500">{{service.description}}</p>
+		                                        <h3 class="mb-2.5 font-bold text-22 text-primary">{{service.title | i18n}}</h3>
+		                                        <p class="m-0 text-gray-500">{{service.description | i18n}}</p>
 	                                        </div>
                                         </div>		
                                     </div>
@@ -98,7 +98,6 @@ import { SERVICES } from "../../../../constants";
     `
 })
 
-export class HomeAbout 
-{ 
+export class HomeAbout {
 	services: Service[] = SERVICES;
 }

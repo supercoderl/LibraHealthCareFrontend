@@ -29,7 +29,7 @@ import { CountUpDirective } from "../../../../shared/utils/counter.directive";
                                 [duration]="duration"
                             >
                             </h5>                
-                            <p class="text-white m-0 text-16.8">{{value.title}}</p>                              
+                            <p class="text-white m-0 text-16.8">{{ value.title | i18n }}</p>                              
                         </div>
                     </div>
                 </div>
@@ -39,13 +39,12 @@ import { CountUpDirective } from "../../../../shared/utils/counter.directive";
     `
 })
 
-export class HomeStatistic 
-{
+export class HomeStatistic {
     values = [
-        { title: 'Happy Patients', value: 9632, icon: 'heart' },
-        { title: 'Qualified Doctors', value: 178, icon: 'user' },
-        { title: 'Clinic Rooms', value: 864, icon: 'usb' },
-        { title: 'Local Partners', value: 473, icon: 'transaction' }
+        { title: 'app.home.happy-patients', value: 9632, icon: 'heart' },
+        { title: 'app.home.qualified-doctors', value: 178, icon: 'user' },
+        { title: 'app.home.clinic-rooms', value: 864, icon: 'usb' },
+        { title: 'app.home.local-partners', value: 473, icon: 'transaction' }
     ];
 
     duration: number = 8000;

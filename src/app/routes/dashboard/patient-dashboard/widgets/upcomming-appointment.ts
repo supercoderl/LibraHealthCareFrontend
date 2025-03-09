@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../shared';
 
 interface ItemData {
-    name: string;
-    age: number;
-    address: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 @Component({
-    selector: 'upcomming-appointment-table',
-    standalone: true,
-    imports: [
-        SharedModule
-    ],
-    template: `
+  selector: 'upcomming-appointment-table',
+  standalone: true,
+  imports: [
+    SharedModule
+  ],
+  template: `
     <nz-table 
         #headerTable 
         [nzData]="listOfData" 
@@ -21,7 +21,7 @@ interface ItemData {
     >
       <thead>
         <tr>
-          <th>Name</th>
+          <th>{{ 'app.management.name' | i18n }}</th>
           <th nzWidth="100px">Age</th>
           <th>Address</th>
         </tr>
@@ -39,17 +39,17 @@ interface ItemData {
   `
 })
 export class UpcommingAppointmentTable implements OnInit {
-    listOfData: ItemData[] = [];
+  listOfData: ItemData[] = [];
 
-    ngOnInit(): void {
-        const data: ItemData[] = [];
-        for (let i = 0; i < 6; i++) {
-            data.push({
-                name: `Edward King ${i}`,
-                age: 32,
-                address: `London, Park Lane no. ${i}`
-            });
-        }
-        this.listOfData = data;
+  ngOnInit(): void {
+    const data: ItemData[] = [];
+    for (let i = 0; i < 6; i++) {
+      data.push({
+        name: `Edward King ${i}`,
+        age: 32,
+        address: `London, Park Lane no. ${i}`
+      });
     }
+    this.listOfData = data;
+  }
 }

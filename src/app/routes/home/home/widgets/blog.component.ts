@@ -15,8 +15,8 @@ import { HOME_POSTS } from "../../../../constants";
                 <!-- section title -->
                 <div class="relative mb-7.5 md:mb-17">
                     <div class="pb-0 text-center">
-                        <h3 class="text-[#33d687] uppercase leading-6 font-bold mb-1 inline-block">BLOGS & NEWS</h3>
-                        <h2 class="text-2xl md:text-10.8 leading-12.8 font-semibold tracking-0 mb-3 uppercase">Follow our news</h2>
+                        <h3 class="text-[#33d687] uppercase leading-6 font-bold mb-1 inline-block">{{ "app.home.blog.title" | i18n }}</h3>
+                        <h2 class="text-2xl md:text-10.8 leading-12.8 font-semibold tracking-0 mb-3 uppercase">{{ "app.home.blog.subTitle" | i18n }}</h2>
                     </div>
                 </div><!-- section title end -->
                 <div class="flex flex-wrap md:-mx-4">

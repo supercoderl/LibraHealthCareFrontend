@@ -11,7 +11,7 @@
     <nz-form-control [nzErrorTip]="mailErrorTip">
       <label class="text-[1rem] text-[#1e2022]">Email</label>
       <nz-input-group nzSize="large" nzPrefixIcon="user" class="mt-[0.5rem]">
-        <input nz-input formControlName="email" placeholder="Email" />
+        <input nz-input formControlName="email" [placeholder]="'app.email' | i18n" />
       </nz-input-group>
       <ng-template #mailErrorTip let-i>
         @if(i.errors?.required) {
@@ -24,15 +24,19 @@
   </nz-form-item>
   <nz-form-item class="mb-[1rem]">
     <nz-form-control [nzErrorTip]="'validation.username.required' | i18n">
-      <label class="text-[1rem] text-[#1e2022]">Username</label>
+      <label class="text-[1rem] text-[#1e2022]">{{
+        "app.login.username" | i18n
+      }}</label>
       <nz-input-group nzSize="large" nzPrefixIcon="user" class="mt-[0.5rem]">
-        <input nz-input formControlName="username" placeholder="Username" />
+        <input nz-input formControlName="username" [placeholder]="'app.management.username' | i18n" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item class="mb-[1rem]">
     <nz-form-control [nzErrorTip]="'validation.password.required' | i18n">
-      <label class="text-[1rem] text-[#1e2022]">Password</label>
+      <label class="text-[1rem] text-[#1e2022]">{{
+        "app.login.password" | i18n
+      }}</label>
       <nz-input-group
         nzSize="large"
         nzPrefixIcon="lock"
@@ -49,7 +53,7 @@
           nz-input
           type="password"
           formControlName="password"
-          placeholder="Enter your password"
+          [placeholder]=" 'input.password' | i18n "
         />
       </nz-input-group>
       <ng-template #pwdCdkTpl>
@@ -96,7 +100,7 @@
 </form>
 
 <p ngClass="text-center mb-0 text-[0.875rem] font-[400]">
-  Already have an account?
+  {{ "app.register.already-have-account" | i18n }}
   <a
     ngClass="font-[600] text-[0.875rem] transition-all	duration-300 no-underline bg-transparent text-primary hover:text-secondary"
     routerLink="/auth/login"

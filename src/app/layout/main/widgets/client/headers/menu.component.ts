@@ -38,7 +38,7 @@ import { HEADER_MENU_CLIENT } from "../../../../../constants";
               (click)="menuSrv.toggleMenu(menu.id.toString())"
               class="py-3 md:py-2.5 pr-7.5 pl-2.5 text-normalGray relative md:leading-12.5 leading-10.5 md:inline block md:w-auto w-full md:border-0 border-b border-solid border-borderMenu text-16 md:text-14"
             >
-              {{menu.title}}
+              {{menu.title | i18n}}
             </a>
 
             <ul
@@ -57,7 +57,7 @@ import { HEADER_MENU_CLIENT } from "../../../../../constants";
                   [id]="menuChild.id"
                   class="relative text-normalLightGray text-left block leading-5.5 py-2 px-4 text-15 spacing-normal transition-all duration-500"
                 >
-                  {{menuChild.title}}
+                  {{menuChild.title | i18n}}
                 </a
                 >
               </li>

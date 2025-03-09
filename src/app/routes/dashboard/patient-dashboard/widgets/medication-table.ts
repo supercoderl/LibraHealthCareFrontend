@@ -9,7 +9,7 @@ import { MedicalRecord } from "../../../../types";
         SharedModule
     ],
     template: `
-        <nz-card nzTitle="Medications">
+        <nz-card [nzTitle]="'app.medications' | i18n">
             <nz-table
                 #rowSelectionTable
                 [nzData]="medicalRecords"
@@ -19,8 +19,8 @@ import { MedicalRecord } from "../../../../types";
             >
                 <thead>
                     <tr>
-                        <th>Heart Beat</th>
-                        <th>Condition</th>
+                        <th>{{ "app.management.heartBeat" | i18n }}</th>
+                        <th>{{ "app.management.condition" | i18n }}</th>
                     </tr>
                 </thead>
                 <tbody>

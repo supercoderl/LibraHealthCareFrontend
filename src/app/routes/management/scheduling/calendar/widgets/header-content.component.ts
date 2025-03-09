@@ -2,8 +2,8 @@ import { Component } from "@angular/core";
 import { SharedModule } from "../../../../../shared";
 
 @Component({
-    selector: 'calendar-header-content',
-    template: `
+  selector: 'calendar-header-content',
+  template: `
     <div
         class="h-[55px] mb-0 flex justify-between border-b-[1px] border-solid border-[rgba(72,_94,_144,_0.16)] px-4 text-center"
       >
@@ -21,7 +21,7 @@ import { SharedModule } from "../../../../../shared";
             nzType="default"
             class="ml-[9px] px-4 text-[rgba(27,_46,_75,_0.7)] !hidden md:!block"
           >
-            Today
+            {{ "app.today" | i18n }}
           </button>
         </div>
         <div class="flex items-center">
@@ -36,35 +36,35 @@ import { SharedModule } from "../../../../../shared";
               nzType="default"
               class="px-4 text-[rgba(27,_46,_75,_0.7)]"
             >
-              Month
+              {{"app.month" | i18n}}
             </button>
             <button
               nz-button
               nzType="default"
               class="px-4 !bg-[#f5f6fa] !border-[#c0ccda] !text-[#1b2e4b]"
             >
-              Week
+              {{"app.week" | i18n}}
             </button>
             <button
               nz-button
               nzType="default"
               class="px-4 text-[rgba(27,_46,_75,_0.7)]"
             >
-              Day
+              {{"app.day" | i18n}}
             </button>
             <button
               nz-button
               nzType="default"
               class="px-4 text-[rgba(27,_46,_75,_0.7)]"
             >
-              List
+              {{"menu.list" | i18n}}
             </button>
           </div>
         </div>
       </div>
     `,
-    standalone: true,
-    imports: [SharedModule]
+  standalone: true,
+  imports: [SharedModule]
 })
 
 export class CalendarHeaderContent { }

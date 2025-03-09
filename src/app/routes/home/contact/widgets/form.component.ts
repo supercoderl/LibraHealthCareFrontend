@@ -9,7 +9,7 @@ import { SharedModule } from "../../../../shared";
     ],
     template: `
         <div class="bg-[rgba(0,_0,_0,_0)_none_repeat_scroll_0_0] mt-17.8 mb-7.5 md:px-6.2 md:pb-27.5">
-          <h2 class="text-[rgb(7,_16,_65)] text-28 md:text-36 font-semibold mb-8.8 text-left">CONTACT FORM</h2>
+          <h2 class="text-[rgb(7,_16,_65)] text-28 md:text-36 font-semibold mb-8.8 text-left">{{ "app.contactForm" | i18n }}</h2>
           <form method="POST">
             <fieldset class="b-0 m-0 p-0">
               <div class="w-full relative">
@@ -109,7 +109,7 @@ import { SharedModule } from "../../../../shared";
                         class="bg-primary text-white font-semibold py-2.5 px-10 transition-all duration-300" 
                         type="submit"
                     >
-                        SEND
+                    {{ "app.send" | i18n }}
                     </button>
                 </div>
               </div>

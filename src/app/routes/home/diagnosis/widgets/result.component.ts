@@ -13,10 +13,13 @@ import { Disease } from "../../../../types";
             class="symtom-field bg-white border-0 rounded-3 border-t-2.2 border-solid border-primary w-9/20 md:w-4/5 md:ml-1/40 absolute left-1/2 md:left-auto"
         >
             <h2 class="uppercase mb-1.25 text-primary text-24 text-center">
-                Your diagnostic result
+                {{ "app.diagnosis.result.title" | i18n }}
             </h2>
-            <h3 class="font-normal text-15 text-secondary mb-5 text-center">
-                It is possible that you are suffering from <strong>{{result?.name}}</strong>, see below          
+            <h3 
+                class="font-normal text-15 text-secondary mb-5 text-center"
+                [innerHTML]=""
+            >
+                {{ "app.diagnosis.result.description" | i18n: { name: result?.name } }}    
             </h3>
             <div>
                 <div class="md:mb-6 flex flex-row-reverse shadow-[0_2px_6px_0_rgba(51,_61,_72,_0.1)]">
@@ -33,7 +36,7 @@ import { Disease } from "../../../../types";
                     <div class="md:px-8 md:pb-8 md:pt-4 flex-[3]">
                         <div class="mt-3">
                             <h2 class="mb-2">
-                                Summary of this disease
+                            {{ "app.diagnosis.result.summary" | i18n }}
                             </h2>
                             <ul class="flex flex-col gap-1 p-0 m-0">
                                 <li class="flex items-start gap-3 justify-start">
@@ -51,10 +54,10 @@ import { Disease } from "../../../../types";
                     </div>
                 </div>
                 <div class="md:px-8 md:pb-8 md:pt-4 shadow-[0_2px_6px_0_rgba(51,_61,_72,_0.1)]">
-                    <h3 class="text-[#1f262c] m-0">Help us learn and improve</h3>
+                    <h3 class="text-[#1f262c] m-0">{{ "app.home.healpUsLearnAndImprove" | i18n }}</h3>
                     <div>
                         <h3 class="md:my-3 text-[#1f262c] text-xl">
-                            What kind of care are you planning to get now?
+                        {{ "app.home.whatKindOfCareAreYouPlanningToGetNow" | i18n }}
                         </h3>
                         <button 
                             class="bg-transparent text-primary px-5 py-2 mt-3 mr-3 border border-solid border-[#1471c966] rounded-sm"
@@ -63,7 +66,7 @@ import { Disease } from "../../../../types";
                             {{treatment}}
                         </button>
                         <button class="bg-transparent text-primary px-5 py-2 mt-3 mr-3 border border-solid border-[#1471c966] rounded-sm">
-                            Not sure
+                        {{ "app.notSure" | i18n }}
                         </button>
                     </div>
                     <button class="text-start whitepsace-normal mt-4 flex items-center gap-1 text-primary">
@@ -71,18 +74,18 @@ import { Disease } from "../../../../types";
                             <path d="M26 14v4h-4v-4zm0 20V22h-4v12zm0 0"></path>
                             <path fill-rule="evenodd" d="M24 44c11.047 0 20-8.953 20-20S35.047 4 24 4 4 12.953 4 24s8.953 20 20 20m0-4c8.836 0 16-7.164 16-16S32.836 8 24 8 8 15.164 8 24s7.164 16 16 16m0 0"></path>
                         </svg> 
-                        Why am I being asked this?
+                        {{ "app.diagnosis.result.ask" | i18n }}
                     </button>
                 </div>
                 <div class="md:p-12">
                     <div>
                         <button class="px-8 py-3 mb-3 w-full relative bg-primary text-white">
                             <div></div>
-                            <span class="opacity-1">Download PDF report</span>
+                            <span class="opacity-1">{{ "app.diagnosis.result.downloadPDF" | i18n }}</span>
                         </button>
                         <button class="px-8 py-3 w-full relative text-primary">
                             <div></div>
-                            <span class="opacity-1">Reset the test</span>
+                            <span class="opacity-1">{{ "app.diagnosis.result.reset" | i18n }}</span>
                         </button>
                     </div>
                 </div>

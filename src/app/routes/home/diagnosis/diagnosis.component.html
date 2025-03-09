@@ -1,10 +1,10 @@
 <div *ngIf="!showModal; else loginAlert">
   <div class="mt-30 mx-auto mb-8.8 text-center">
     <h1 class="m-0 p-0 text-28 md:text-36 text-[#333333] pb-1.25">
-      Make a diagnosis
+      {{ "app.diagnosis.title" | i18n }}
     </h1>
     <div class="text-[#999999] mt-1.25 text-10">
-      Follow the instructions and fill in all information to conduct the survey
+      {{ "app.diagnosis.description" | i18n }}
     </div>
   </div>
 

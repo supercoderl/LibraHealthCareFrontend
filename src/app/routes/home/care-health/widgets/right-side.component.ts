@@ -86,7 +86,7 @@ import { POSTS } from "../../../../constants";
                         nzTheme="outline"
                         class="text-xs"
                       ></span>
-                      <span class="text-xs">{{post.comments?.length ?? 0}} comments</span>
+                      <span class="text-xs">{{post.comments?.length ?? 0}} {{ "app.careHealth.numberOfComments" | i18n }}</span>
                     </div>
                   </div>
                   <h3
@@ -107,7 +107,7 @@ import { POSTS } from "../../../../constants";
                   <a
                     href="/blogs/news/give-your-beauty-of-skin-an-new-glow"
                     class="transition-all duration-300 mb-1.5 mt-[1.5rem] text-16 inline-flex justify-center items-center border-0 px-12 cursor-pointer text-[rgb(247,_242,_239)] whitespace-nowrap appearance-none bg-[rgb(60,_56,_54)] capitalize pt-1.5 pb-2"
-                    >Read More</a
+                    >{{ "app.readMore" | i18n }}</a
                   >
                 </div>
               </div>

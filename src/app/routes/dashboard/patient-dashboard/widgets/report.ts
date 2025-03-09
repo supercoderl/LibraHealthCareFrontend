@@ -8,7 +8,7 @@ import { SharedModule } from "../../../../shared";
         SharedModule
     ],
     template: `
-        <nz-card nzTitle="Reports/Documents">
+        <nz-card [nzTitle]="'app.dashboard.report-document' | i18n">
             <ul class="p-0">
                 <li class="flex items-center mb-3 p-3 border border-dashed border-[#bfc9d4] rounded-[6px]">
                     <div class="flex">

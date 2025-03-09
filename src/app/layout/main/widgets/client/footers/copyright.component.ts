@@ -2,16 +2,16 @@ import { Component } from "@angular/core";
 import { SharedModule } from "../../../../../shared";
 
 @Component({
-    selector: 'footer-copyright',
-    standalone: true,
-    imports: [
-        SharedModule
-    ],
-    template: `
+  selector: 'footer-copyright',
+  standalone: true,
+  imports: [
+    SharedModule
+  ],
+  template: `
     <div class="py-4 flex flex-col md:flex-row gap-4 md:gap-0 items-center justify-between">
         <div class="">
           <p class="mb-0 text-16 font-medium text-white">
-            Copyright © 2024 Supercoderle. All Rights Reserved
+            {{ "app.footer.copyright" | i18n }}
           </p>
         </div>
         <div class="">
@@ -20,14 +20,14 @@ import { SharedModule } from "../../../../../shared";
               <a
                 href="/react/template/pages/privacy-policy"
                 class="text-16 text-white font-medium"
-                >Privacy Policy</a
+                >{{ "app.footer.copyright" | i18n }}</a
               >
             </li>
             <li class="inline-block mr-4">
               <a
                 href="/react/template/pages/terms"
                 class="text-16 text-white font-medium"
-                >Terms and Conditions</a
+                >{{ "app.footer.term" | i18n }}</a
               >
             </li>
           </ul>

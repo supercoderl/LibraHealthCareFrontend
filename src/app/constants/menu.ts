@@ -3,15 +3,15 @@ import { AdminMenu } from "../types";
 export const ADMIN_MENUS: AdminMenu[] = [
     {
         id: 1,
-        title: 'Appointment',
+        title: 'app.appointments',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/appointment/list',
                 icon: 'audit'
             },
             {
-                title: 'Schedule',
+                title: 'menu.schedule',
                 link: "/management/schedule/calendar",
                 icon: 'calendar'
             }
@@ -20,10 +20,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 2,
-        title: 'Block',
+        title: 'app.blocks',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/block/list',
                 icon: 'block'
             }
@@ -32,25 +32,25 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 3,
-        title: 'Physician',
+        title: 'app.physicians',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/physician/list',
                 icon: 'fork'
             },
             {
-                title: 'Affiliations',
+                title: 'app.affiliations',
                 link: '/management/physician/affiliations',
                 icon: 'link'
             },
             {
-                title: 'Trainings',
+                title: 'app.trainings',
                 link: '/management/physician/trainings',
                 icon: 'key'
             },
             {
-                title: 'Experiences',
+                title: 'app.experiences',
                 link: '/management/physician/experiences',
                 icon: 'medicine-box'
             }
@@ -59,10 +59,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 4,
-        title: 'Supplier',
+        title: 'app.suppliers',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/supplier/list',
                 icon: 'gold'
             }
@@ -71,10 +71,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 5,
-        title: 'Department',
+        title: 'app.departments',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/department/list',
                 icon: 'team'
             }
@@ -83,15 +83,15 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 6,
-        title: 'Medication',
+        title: 'app.medications',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/medication/list',
                 icon: 'thunderbolt'
             },
             {
-                title: 'Prescriptions',
+                title: 'app.prescriptions',
                 link: '/management/medication/prescriptions',
                 icon: 'exception'
             }
@@ -100,10 +100,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 7,
-        title: 'Procedure',
+        title: 'app.procedures',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/procedure/list',
                 icon: 'share-alt'
             }
@@ -112,10 +112,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 8,
-        title: 'Treatment',
+        title: 'app.treatments',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/treatment/list',
                 icon: 'compass'
             }
@@ -124,10 +124,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 9,
-        title: 'Question',
+        title: 'app.questions',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/question/list',
                 icon: 'question-circle'
             }
@@ -136,15 +136,15 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 10,
-        title: 'Nurse',
+        title: 'app.nurses',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/nurse/list',
                 icon: 'experiment'
             },
             {
-                title: 'On Calls',
+                title: 'app.on-calls',
                 link: '/management/nurse/onCalls',
                 icon: 'phone'
             }
@@ -153,15 +153,15 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 11,
-        title: 'Patient',
+        title: 'app.patients',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/patient/list',
                 icon: 'fire'
             },
             {
-                title: 'Medical Records',
+                title: 'app.medical-records',
                 link: '/management/patient/medicalRecords',
                 icon: 'reconciliation'
             }
@@ -170,15 +170,15 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 12,
-        title: 'Role',
+        title: 'app.roles',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/role/list',
                 icon: 'holder'
             },
             {
-                title: 'Permissions',
+                title: 'app.permissions',
                 link: '/management/role/permissions',
                 icon: 'solution'
             }
@@ -187,10 +187,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 13,
-        title: 'User',
+        title: 'app.users',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/user/list',
                 icon: 'user'
             }
@@ -199,10 +199,10 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 14,
-        title: 'Symtom',
+        title: 'app.symtoms',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/symtom/list',
                 icon: 'bug'
             }
@@ -211,15 +211,15 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 15,
-        title: 'Disease',
+        title: 'app.diseases',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/disease/list',
                 icon: 'crown'
             },
             {
-                title: 'Diagnoses',
+                title: 'app.diagnoses',
                 link: '/management/disease/diagnoses',
                 icon: 'insert-row-below'
             }
@@ -228,15 +228,15 @@ export const ADMIN_MENUS: AdminMenu[] = [
     },
     {
         id: 16,
-        title: 'Room',
+        title: 'app.rooms',
         children: [
             {
-                title: 'List',
+                title: 'menu.list',
                 link: '/management/room/list',
                 icon: 'gateway'
             },
             {
-                title: 'Stays',
+                title: 'app.stays',
                 link: '/management/room/stays',
                 icon: 'customer-service'
             },
