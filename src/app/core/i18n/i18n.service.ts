@@ -214,6 +214,7 @@ export class I18NService extends AlainI18nBaseService {
     this.nzI18nService.setLocale(item.zorro);
     this.nzI18nService.setDateLocale(item.date);
     this.delonLocaleService.setLocale(item.delon);
+
     this._currentLang = lang;
 
     this._change$.next(lang);

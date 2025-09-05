@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SharedModule } from '../../shared';
 import { GlobalFooterModule } from '@delon/abc/global-footer';
 import { ThemeBtnComponent } from '@delon/theme/theme-btn';
@@ -6,14 +6,12 @@ import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { HeaderI18nComponent } from '../main/widgets/i18n.component';
-import { Observable, take } from 'rxjs';
-import { TypeWriterService } from '../../shared/utils/type.writer';
-import { I18NService } from '../../core';
+import { TypeWriterPipe } from '../../shared/utils/type.writer';
 
 @Component({
   selector: 'layout-auth',
   standalone: true,
-  imports: [SharedModule, GlobalFooterModule, ThemeBtnComponent, RouterOutlet, NzIconModule, HeaderI18nComponent],
+  imports: [SharedModule, GlobalFooterModule, ThemeBtnComponent, RouterOutlet, NzIconModule, HeaderI18nComponent, TypeWriterPipe],
   template: `
     <div class="main flex min-h-screen bg-no-repeat bg-center bg-cover flex-col">
       <!-- <header-i18n showLangText="false" class="langs" /> -->
@@ -30,8 +28,8 @@ import { I18NService } from '../../core';
 
           <div class="ml-2/25 hidden md:block">
             <h2 
-              class="tw text-8 mb-4 font-semibold tracking-[0.1em] h-24">
-              {{value$ | async}}
+              class="tw text-2xl mb-4 font-semibold tracking-[0.1em] h-24">
+              {{'app.sentence' | i18n | typeWriter | async}}
               <span class="typewriter ml-2 border-r-[0.15em] border-solid border-secondary"></span>
             </h2>
             <p class="mb-8 font-semibold text-primary">{{ "app.login.sub-text" | i18n }}</p>
@@ -92,9 +90,8 @@ import { I18NService } from '../../core';
   `,
   styleUrl: './auth.component.scss'
 })
-export class AuthComponent implements AfterViewInit {
+export class AuthComponent {
   private tokenService = inject(DA_SERVICE_TOKEN);
-  value$: Observable<string> | null = null;
 
   links = [
     {
@@ -109,17 +106,4 @@ export class AuthComponent implements AfterViewInit {
       href: ''
     }
   ];
-
-  constructor(private i18nService: I18NService) {
-    console.log(this.i18nService.translate('app.sentence'));
-  }
-
-  ngAfterViewInit(): void {
-    console.log('Current i18n data:', this.i18nService['_data']);
-
-    this.i18nService.change.pipe(take(1)).subscribe(() => {
-      const sentence = this.i18nService.fanyi('app.sentence');
-      this.value$ = TypeWriterService.loopEffect(sentence);
-    });
-  }
 }

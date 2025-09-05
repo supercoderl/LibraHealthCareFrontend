@@ -3,7 +3,7 @@ import { APP_INITIALIZER, inject, Injectable, Provider } from '@angular/core';
 import { ACLService } from '@delon/acl';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { I18NService } from '../i18n/i18n.service';
-import { catchError, map, Observable, zip } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, zip } from 'rxjs';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN } from '@delon/auth';
 import { NotyfService } from '../../services';
@@ -13,7 +13,7 @@ export function provideStartup(): Provider[] {
     StartupService,
     {
       provide: APP_INITIALIZER,
-      useFactory: (startupService: StartupService) => () => startupService.load(),
+      useFactory: (startupService: StartupService) => () => firstValueFrom(startupService.load()),
       deps: [StartupService],
       multi: true
     }
@@ -51,6 +51,7 @@ export class StartupService {
         // this.menuService.add(appData.menu);
         this.titleService.default = '';
         this.titleService.suffix = appData.app.name;
+        return void 0;
       })
     );
   }

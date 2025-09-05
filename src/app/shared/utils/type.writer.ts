@@ -1,7 +1,19 @@
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { concat, delay, ignoreElements, interval, map, Observable, of, take } from 'rxjs';
 
+@Pipe({ name: 'typeWriter', standalone: true })
+export class TypeWriterPipe implements PipeTransform {
+    constructor(private typeWriter: TypeWriterService) { }
+    transform(value: string): Observable<string> {
+        return this.typeWriter.loopEffect(value);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class TypeWriterService {
-    static type = ({ word, speed, backwards = false }: { word: string, speed: number, backwards?: boolean }): Observable<any> => {
+    type = ({ word, speed, backwards = false }: { word: string, speed: number, backwards?: boolean }): Observable<any> => {
         return interval(speed).pipe(
             map(x =>
                 backwards ? word.substring(0, word.length - x - 1) : word.substring(0, x + 1)
@@ -10,7 +22,7 @@ export class TypeWriterService {
         );
     }
 
-    static typeEffect = (word: string) =>
+    typeEffect = (word: string) =>
         concat(
             this.type({ word, speed: 100 }), // type forwards
             of("").pipe(
@@ -24,7 +36,7 @@ export class TypeWriterService {
             ) // pause
         );
 
-    static loopEffect = (word: string): Observable<string> => {
+    public loopEffect = (word: string): Observable<string> => {
         return new Observable<string>((subscriber) => {
             const loop = () => {
                 this.typeEffect(word).subscribe({

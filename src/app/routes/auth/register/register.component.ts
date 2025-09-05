@@ -5,6 +5,7 @@ import { _HttpClient, I18nPipe } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { finalize } from 'rxjs';
 import { SharedModule } from '../../../shared';
+import { NotyfService } from '../../../services';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ export class RegisterComponent {
   private readonly router = inject(Router);
   private readonly http = inject(_HttpClient);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly notifyService = inject(NotyfService);
 
   // #region fields
 
@@ -72,11 +74,24 @@ export class RegisterComponent {
     const data = this.form.value;
     this.loading = true;
     this.cdr.detectChanges();
-    this.http.post('/api/v1/User', {}).pipe(finalize(() => {
+    this.http.post('/api/v1/User', {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      isActive: true,
+    }).pipe(finalize(() => {
       this.loading = false;
       this.cdr.detectChanges();
-    })).subscribe(() => {
-
+    })).subscribe({
+      next: res => {
+        //Clear routing reuse information
+        this.notifyService.success("Registered successfully");
+        this.form.reset();
+      },
+      error: err => {
+        this.error = err?.error?.errors[0] ?? '';
+        this.cdr.detectChanges();
+      }
     });
   }
 }
